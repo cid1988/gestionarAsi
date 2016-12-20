@@ -1,0 +1,16 @@
+<div ng-controller="ORMCalendarioTemarioCtrl" class="card" ng-class="{'animated fadeInDown': instancia}" ng-if="instancia"
+style="padding-bottom:14px;padding-top: 10px;">
+    <div class="card-actions pull-right" ng-if=hasPermission('orm.edicionReunion') style="margin: 0">
+        <a ng-click="editarTemario()" type="button" class="btn btn-link" style="padding-left: 0px; padding-right: 0px;" title="Editar Temario">
+            <i class="icon-edit"></i></a>
+        <a href="/orm/temarios/{{instancia._id}}/vuelta" type="button" class="btn btn-link" style="padding-left: 0px;" title="Cargar vuelta de Temario">
+            <i class="icon-external-link"></i></a>
+    </div>
+    <h3 class="card-heading simple" style="font-size: 19px;">Temario</h3>
+    <div class="card-body">
+        <div class="control-group">
+            <a type="button" href="/orm/temarios/{{instancia._id}}/blanco" onClick="window.open(this.href, this.target, 'width=520,height=650'); return false;" style="margin-bottom: 10px" target="_blank" class="btn btn-block">Ver Temario</a>
+            <a type="button" href="/orm/temarios/{{instancia._id}}/print" style="margin-bottom: 10px" class="btn btn-block">Imprimir</a>
+        </div>
+    </div>
+</div>

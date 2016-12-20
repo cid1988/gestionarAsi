@@ -1,0 +1,66 @@
+<style>
+    .table {
+        border: 0;
+    }
+    .table th, .table td {
+        padding: 8px;
+        line-height: 20px;
+        text-align: left;
+        vertical-align: middle;
+        border: 0;
+    }
+    .table th {
+        background-color: #dddddd !important;
+    }
+</style>
+<div ng-controller="ORMAlarmasCtrl">
+    <audio id="sonido"><source src="/views/orm/alarma/beep.mp3"></source></audio>
+    <div class="card" style="overflow-y: hidden; overflow-x: hidden;position: absolute;top: 70px;bottom: 12px;right: 420px;left: 20px;margin-top: 0px;margin-bottom: 0px;">
+        <div class="card-body" style="margin-top: 0px;">
+            <button type="button" ng-show="alerta" style="margin-bottom: 10px;font-size: 50px;height: 290px;" class="btn btn-large btn-block" ng-class="color">
+            <i class="icon-star pull-right" ng-hide="alerta.agenda == '55cb5fad7c7e3a740910b0f9'" style="margin-right: 0px; position: fixed; right: 500px;color: gold;"></i>
+            {{faltan}}<br>
+            <span style="font-size: 42px;" ng-hide="alerta.agenda == '55cb5fad7c7e3a740910b0f9'">{{reunionPorId(alerta.reunion).nombre}}</span>
+            <span style="font-size: 42px;" ng-show="alerta.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta.titulo}}</span><br>
+            <span style="font-size: 30px;" ng-hide="alerta.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta.ubicacion.nombre}}</span>
+            <span style="font-size: 30px;" ng-show="alerta.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta.lugar}}</span></button>
+            <button type="button" ng-show="alerta2" style="margin-bottom: 10px;font-size: 50px;height: 290px;" class="btn btn-large btn-block" ng-class="color2">
+            <i class="icon-star pull-right" ng-hide="alerta2.agenda == '55cb5fad7c7e3a740910b0f9'" style="margin-right: 0px; position: fixed; right: 500px;color: gold;"></i>
+            {{faltan2}}<br>
+            <span style="font-size: 42px;" ng-hide="alerta2.agenda == '55cb5fad7c7e3a740910b0f9'">{{reunionPorId(alerta2.reunion).nombre}}</span>
+            <span style="font-size: 42px;" ng-show="alerta2.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta2.titulo}}</span><br>
+            <span style="font-size: 30px;" ng-hide="alerta2.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta2.ubicacion.nombre}}</span>
+            <span style="font-size: 30px;" ng-show="alerta2.agenda == '55cb5fad7c7e3a740910b0f9'">{{alerta2.lugar}}</span></button>
+        </div>
+    </div>
+    <div class="card" style="overflow-y: hidden; overflow-x: hidden;position: absolute;top: 70px;bottom: 12px;right: 10px;width: 400px;margin-top: 0px;margin-bottom: 0px;">
+        <h2 class="card-heading simple">Alarmas GOSISINF</h2>
+        <div class="card-body">
+            <h1 style="margin-bottom: 0px;"><center>{{aFecha(fecha)}}</center></h1>
+            <h1 style="font-size: 60px;font-weight: 600;"><center><b>{{aHora(fecha)}}</b></center></h1>
+            <hr>
+            <div style="width:100%;height:190px;overflow: hidden">
+                <h3 style="margin-bottom: 0px; margin-top: 0px;">Próximas Reuniones ORM:</h3>
+                <div ng-repeat="i in instancias | orderBy:'desdeDate'" ng-hide="i.agenda == '55cb5fad7c7e3a740910b0f9'">
+                    <div>
+                        <a class="btn btn-link" style="text-align: left;padding-right: 0px; width: 100%; overflow: hidden;">
+                            {{i.fecha}} - {{i.desdeHora}} - {{reunionPorId(i.reunion).nombre}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="width:100%;height:200px;overflow: hidden">
+                <h3 style="margin-bottom: 0px;">Otras Reuniones:</h3>
+                <div ng-repeat="i in instancias | orderBy:'desdeDate'" ng-show="i.agenda == '55cb5fad7c7e3a740910b0f9'">
+                    <div>
+                        <a class="btn btn-link" style="text-align: left;padding-right: 0px; width: 100%; overflow: hidden;">
+                            {{i.fecha}} - {{i.desdeHora}} - {{i.titulo}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,6 @@
+<span class="contacto-mini">
+    <span class="texto">
+        <strong>{{contactoPorId(c.contactoId).apellidos}}, {{contactoPorId(c.contactoId).nombre}} <{{buscarCorreo('Email oficial', contactoPorId(c.contactoId))}}></strong>
+    </span>
+    <a ng-click="quitar(c)" class="close-button btn btn-mini btn-link" type="button"><i class="icon-remove"></i></a>
+</span>

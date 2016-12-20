@@ -1,0 +1,87 @@
+<div ng-controller="ORMReunionLlamadosEditableCtrl as controller">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="card span12" style="padding-bottom: 10px;margin-top: 5px;padding-top: 5px;margin-bottom: 5px;">
+                <h3 class="card-heading simple">Reunión 
+                    <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento</span>
+                    <span ng-if="reunion.tipo == 'transversales'">Transversal</span>
+                    <span ng-if="reunion.tipo == 'especificas'">Especifica</span>
+                    <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento</span>
+                    <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto</span>
+                    <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación</span>
+                    <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo</span>
+                    <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales</span>
+                    <span ng-if="reunion.tipo == 'eventuales'">Eventual</span>: {{reunion.nombre}}
+                    <a class="btn pull-right" ng-click="edit()" ng-if="!controller.editando"><i class="icon-edit"></i>&nbsp;Editar</a>
+                    <a class="btn pull-right" ng-click="save()" ng-if="controller.editando"><i class="icon-hdd"></i>&nbsp;Guardar</a></h3>
+            </div>
+            <div class="card span12" style="padding-left: 20px;padding-bottom: 20px;margin-left: 0px;">
+                <h3>Lista de Llamados</h3>
+                <table class="table tablaPrint table-bordered" style="background-color: white;margin-bottom: 0px;">
+                    <thead>
+                        <tr>
+                            <th>APELLIDO / Nombre:</th>
+                            <th>Cargo:</th>
+                            <th>Organismo:</th>
+                            <th>Telefonos:</th>
+                            <th>Contactado:</th>
+                            <th>Observaciones:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr ng-repeat="p in vistaLlamados">
+                                <td>{{p.c.apellidos|uppercase}}, {{p.c.nombre}}</td>
+                                <td>{{p.c.cargo}}</td>
+                                <td>{{jurisdiccionPorId(p.c.organigrama).sigla}}</td>
+                                <td><span ng-repeat="t in p.c.telefonos">
+                                    {{t.nombre}}: {{buscarTelefono(t.nombre, p.c)}}<br></span>
+                                    <span ng-repeat="r in p.c.roles">
+                                        <span ng-if=r.checkedTelefono>
+                                            {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br>
+                                            <span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{buscarTelefono(d.nombre, contactoPorId(r.valor))}}<br></span>
+                                        </span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <select ng-disabled="!controller.editando" ui-select2 type="text" ng-model="p.p.contactado" style="width: 70px">
+                                        <option ng-disabled="true">{{p.p.contactado}}</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea ng-disabled="!controller.editando" placeholder="Observaciones..." ng-model="p.p.observaciones" style="width: 300px; height: 120px;" />
+                                </td>
+                            </tr>
+                            <tr ng-repeat="p in vistaMaestro">
+                                <td>{{p.c.apellidos|uppercase}}, {{p.c.nombre}}</td>
+                                <td>{{p.c.cargo}}</td>
+                                <td>{{jurisdiccionPorId(p.c.organigrama).sigla}}</td>
+                                <td><span ng-repeat="t in p.c.telefonos">
+                                    {{t.nombre}}: {{buscarTelefono(t.nombre, p.c)}}<br></span>
+                                    <span ng-repeat="r in p.c.roles">
+                                        <span ng-if=r.checkedTelefono>
+                                            {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br>
+                                            <span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{buscarTelefono(d.nombre, contactoPorId(r.valor))}}<br></span>
+                                        </span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <select ng-disabled="!controller.editando" ui-select2 type="text" ng-model="p.p.contactado" style="width: 70px">
+                                        <option ng-disabled="true">{{p.p.contactado}}</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea ng-disabled="!controller.editando" placeholder="Observaciones..." ng-model="p.p.observaciones" style="width: 300px; height: 120px;" />
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

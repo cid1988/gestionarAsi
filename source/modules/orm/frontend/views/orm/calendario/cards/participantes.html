@@ -1,0 +1,37 @@
+<div ng-controller="ORMParticipantesInstanciaCtrl" ng-show="instancia"
+class="card animated fadeInDown" edit-model="live" changes-watch="participantes" ng-model="instancia" style="padding-bottom: 14px">
+    <div class="card-actions pull-right" style="margin:0" ng-show="editando">
+        <a data-tooltip="Deshacer" ng-disabled="!changes" class="btn btn-link" ng-click="returnToOriginal()">
+            <i class="icon-undo icon-white"></i>
+        </a>
+        <a data-tooltip="Aplicar" ng-disabled="!changes" class="btn btn-link" ng-click="applyChanges();guardarCambios()">
+            <i class="icon-ok icon-white"></i>
+        </a>
+    </div>
+    <h3 class="card-heading simple">Participantes</h3>
+    <div class="card-body" ng-style="{'padding-bottom': !editando && '10px' || ''}">
+        <div ng-repeat="(pId, p) in live.participantes | orderBy:orderByStar" style="clear:both; width: 100%">
+            <div class="pull-right">
+                <span ng-hide="editando" style="white-space: nowrap">{{tiposAsistenciaPorKey[p.asistencia].nombre}}</span>
+                <span ng-show="editando">
+                    <select ui-select2 type="text" ng-model="p.asistencia" style="width:130px">
+                        <option ng-repeat="(k, v) in tiposAsistenciaPorKey" value="{{k}}">{{v.nombre}}</option>
+                    </select>
+                </span>
+            </div>
+            <div ng-init="contacto=contactosPorId[pId]">
+                <i ng-click="editando && (p.star = !p.star)" ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+                <img style="width: 25px; height: 25px" ng-show="contacto.foto" ng-src="/api/upload/{{contacto.foto}}"
+                class="img-circle" ng-class="{'gray-border': p.star}"/>
+                <button style="padding: 0;" ng-click="verContacto(contacto._id)" type="button"
+                class="btn btn-link">{{contacto.nombre}} {{contacto.apellido}}</button>
+            </div>
+        </div>
+        <div class="input-append" style="display: block;width: 100%;margin-top: 14px" ng-show="editando">
+            <select ui-select2 ng-change="agregarParticipante()" style="width:100%" type="text" ng-model="buscador" placeholder="Agregar a...">
+                <option value=""></option>
+                <option ng-repeat="c in contactos | filter:noRelacionado" value="{{c._id}}">{{c.nombre}} {{c.apellido}}</option>
+            </select>
+        </div>
+    </div>
+</div>

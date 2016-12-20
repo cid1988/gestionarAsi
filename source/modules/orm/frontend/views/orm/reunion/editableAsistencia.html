@@ -1,0 +1,237 @@
+<div ng-controller="ORMReunionAsistenciaEditableCtrl as controller">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="card span12" style="padding-bottom: 10px;margin-top: 5px;padding-top: 5px;margin-bottom: 5px;">
+                <h3 class="card-heading simple">Reunión 
+                    <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento</span>
+                    <span ng-if="reunion.tipo == 'transversales'">Transversal</span>
+                    <span ng-if="reunion.tipo == 'especificas'">Especifica</span>
+                    <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento</span>
+                    <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto</span>
+                    <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación</span>
+                    <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo</span>
+                    <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales</span>
+                    <span ng-if="reunion.tipo == 'eventuales'">Eventual</span>: {{reunion.nombre}}
+                    <a class="btn pull-right" ng-click="edit()" ng-if="!controller.editando"><i class="icon-edit"></i>&nbsp;Editar</a>
+                    <a class="btn pull-right" ng-click="save()" ng-if="controller.editando"><i class="icon-hdd"></i>&nbsp;Guardar</a></h3>
+                <div class="card-body" style="margin-top: 10px;">
+                    
+                    <span class="span3" style="display: inline-block;margin-left: 4px;"> Lugar<br /> 
+                        <input type="text" ng-disabled=true class="input-block-level" ng-model="instancia.ubicacion.nombre" />
+                    </span>
+                    <span class="span2" style="display: inline-block;margin-left: 4px;"> Fecha<br /> 
+                        <input type="text" ng-disabled=true class="input-block-level" ng-model="instancia.fecha" />
+                    </span>
+                    <span class="span1" style="display: inline-block;margin-left: 4px;"> Hora Inicio<br /> 
+                        <input type="text" ng-disabled=true class="input-block-level" ng-model="instancia.desdeHora" />
+                    </span>
+                    <span class="span1" style="display: inline-block;margin-left: 4px;"> Hora Fin<br /> 
+                        <input type="text" ng-disabled=true class="input-block-level" ng-model="instancia.hastaHora" />
+                    </span>
+                    
+                    <span class="span2" style="display: inline-block;margin-left: 4px;"> Hora Inicio Real<br /> 
+                        <input type="text" ng-disabled="!controller.editando" placeholder="hh:mm" class="input-block-level" ng-model="instancia.desdeHoraReal" />
+                    </span>
+                    <span class="span2" style="display: inline-block;margin-left: 4px;"> Hora Fin Real<br /> 
+                        <input type="text" ng-disabled="!controller.editando" placeholder="hh:mm" class="input-block-level" ng-model="instancia.hastaHoraReal" />
+                    </span>
+                    <span class="span2" style="display: inline-block;margin-left: 4px;"> Temas No Tratados<br /> 
+                        <input type="number" ng-disabled="!controller.editando" placeholder="Nro" class="input-block-level" ng-model="instancia.temasNoTratados" />
+                    </span>
+                    <div class="control-group span2" style="margin-left: 0px; margin-bottom: 10px; margin-right: 7px;">
+                        <label style="margin-bottom: 0px;">Calidad de Temario </label>
+                        <select class="input-block-level" ng-disabled="!controller.editando" ui-select2 type="text" ng-model="instancia.calidadTemario" placeholder="">
+                            <option value=""></option>
+                            <option value="Buena">Buena</option>
+                            <option value="Mala">Mala</option>
+                        </select>
+                    </div>
+                    <div class="control-group span2" style="margin-left: 0px; margin-bottom: 10px; margin-right: 7px;">
+                        <label style="margin-bottom: 0px;">Sistema de Gestión </label>
+                        <select class="input-block-level" ng-disabled="!controller.editando" ui-select2 type="text" ng-model="instancia.sistemaGestion" placeholder="">
+                            <option value=""></option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <span class="span3" style="display: inline-block;margin-left: 0px;" ng-if="!controller.editando"> Asistente Tablero<br /> 
+                        <input type="text" ng-disabled="!controller.editando" class="input-block-level" value="{{contactoPorId(instancia.asistenteTablero).apellidos}} {{contactoPorId(instancia.asistenteTablero).nombre}}" />
+                    </span>
+                    <div class="control-group span3" ng-if="controller.editando" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Asistente Tablero</label>
+                        <select class="input-block-level" ng-disabled="!controller.editando" ui-select2 type="text" ng-model="instancia.asistenteTablero" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(instancia.asistenteTablero).apellidos}} {{contactoPorId(instancia.asistenteTablero).nombre}}</option>
+                        </select>
+                    </div>
+                    <span class="span3" style="display: inline-block;margin-left: 4px;" ng-if="!controller.editando"> Asistente Minuta<br /> 
+                        <input type="text" ng-disabled="!controller.editando" class="input-block-level" value="{{contactoPorId(instancia.asistenteMinuta).apellidos}} {{contactoPorId(instancia.asistenteMinuta).nombre}}" />
+                    </span>
+                    <div class="control-group span3" ng-if="controller.editando" style="margin-left: 4px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Asistente Minuta</label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="instancia.asistenteMinuta" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(instancia.asistenteMinuta).apellidos}} {{contactoPorId(instancia.asistenteMinuta).nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="control-group span2" style="margin-left: 4px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px;width: 245px;">
+                        <label style="margin-bottom: 0px;"> Funcionarios</label>
+                        <!--<button ng-class="{'btn-info active': instancia.mm}" ng-click="instancia.mm = !instancia.mm" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">MM</button>-->
+                        <button ng-class="{'btn-info active': instancia.hrl}" ng-click="instancia.hrl = !instancia.hrl" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">HRL</button>
+                        <button ng-class="{'btn-info active': instancia.fm}" ng-click="instancia.fm = !instancia.fm" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">FM</button>
+                        <button ng-class="{'btn-info active': instancia.ds}" ng-click="instancia.ds = !instancia.ds" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">DS</button>
+                        <button ng-class="{'btn-info active': instancia.fb}" ng-click="instancia.fb = !instancia.fb" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">FB</button>
+                        <button ng-class="{'btn-info active': instancia.mb}" ng-click="instancia.mb = !instancia.mb" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">MB</button>
+                        <button ng-class="{'btn-info active': instancia.cp}" ng-click="instancia.cp = !instancia.cp" ng-disabled="!controller.editando" type="button" class="btn" style="padding-left: 4px; padding-right: 4px;">CP</button>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div class="card span12" style="padding-left: 20px;padding-bottom: 20px;margin-left: 0px;">
+                <h3 class="card-heading simple" style="padding-left: 0px; font-size:14px;padding-right: 0px;height: 45px;margin-bottom: 10px;">
+                <ul class="nav nav-pills">
+                    <li ng-class="{'active': tab == 'participantes'}">
+                        <a ng-click="tab='participantes'" href="#" data-toggle="tab">Participantes</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'maestro'}">
+                        <a ng-click="tab='maestro'" href="#" data-toggle="tab">Maestro</a>
+                    </li>
+                </ul></h3>
+                <div ng-if="tab == 'participantes'" class="card-body">
+                    <em ng-if="!instancia.asistencia.length">No hay participantes definidos</em>
+                    <table class="table participantes" ng-if="instancia.asistencia.length">
+                        <thead>
+                            <tr>
+                                <div class="span3" style="display: table-cell;margin-left: 0px;" ng-if="instancia.asistencia.length">Nombre</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistencia.length">Cargo</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistencia.length">Jurisdiccion</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistencia.length">Email Oficial</div>
+                                <div class="span1" style="display: table-cell" ng-if="instancia.asistencia.length">Confirmación</div>
+                                <div class="span1" style="display: table-cell" ng-if="instancia.asistencia.length">Asistencia</div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="controller.vistaAsistencia.responsable.length">
+                                <th colspan="3">
+                                    Responsables
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.responsable" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.jefeGabinete.length">
+                                <th colspan="3">
+                                    Jefe de Gabinete
+                                </th>
+                            </tr>
+                    
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.jefeGabinete" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.ejecutivo.length">
+                                <th colspan="3">
+                                    Ejecutivos
+                                </th>
+                            </tr>
+                    
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.ejecutivo" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.participante.length">
+                                <th colspan="3">
+                                    Participantes
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.participante" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.legislador.length">
+                                <th colspan="3">
+                                    Legislador
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.legislador" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.privada.length">
+                                <th colspan="3">
+                                    Privada
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.privada" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.gestion.length">
+                                <th colspan="3">
+                                    Gestión
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.gestion" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.exclusivo.length">
+                                <th colspan="3">
+                                    Eventuales
+                                </th>
+                            </tr>
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.exclusivo" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                    
+                            <tr ng-if="controller.vistaAsistencia.otros.length">
+                                <th colspan="3">
+                                    Otros
+                                </th>
+                            </tr>
+                    
+                            <tr class="no-border" ng-repeat="p in controller.vistaAsistencia.otros" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-actions" ng-if="controller.editando" style="padding-left: 0px;">
+                        <select ui-select2 type="text" ng-model="controller.buscador">
+                            <option value=""></option>
+                            <option ng-repeat="c in contactos | filter:controller.puedeAgregar" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+                        </select>
+                        <a ng-click="agregarParticipante(controller.buscador)" ng-disabled="!controller.buscador && controller.editando" type="button"
+                        class="btn" ng-class="{'btn-success': controller.buscador}">Agregar</a>
+                        
+                        <a class="btn" ng-click="controller.crearContacto()">
+                            <i class="icon-plus"></i>&nbsp;Crear nuevo contacto
+                        </a>
+                    </div>
+                </div>
+                <div ng-if="tab == 'maestro'" class="card-body">
+                    <em ng-if="!instancia.asistenciaMaestro.length">No hay participantes definidos</em>
+                    <table class="table participantes" ng-if="instancia.asistenciaMaestro.length">
+                        <thead>
+                            <tr>
+                                <div class="span3" style="display: table-cell;margin-left: 0px;" ng-if="instancia.asistenciaMaestro.length">Nombre</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistenciaMaestro.length">Cargo</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistenciaMaestro.length">Jurisdiccion</div>
+                                <div class="span2" style="display: table-cell" ng-if="instancia.asistenciaMaestro.length">Email Oficial</div>
+                                <div class="span1" style="display: table-cell" ng-if="instancia.asistenciaMaestro.length">Confirmación</div>
+                                <div class="span1" style="display: table-cell" ng-if="instancia.asistenciaMaestro.length">Asistencia</div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="no-border" ng-repeat="p in vistaMaestro" ng-include="'/views/orm/reunion/filaAsistencia.html'">
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="card-actions" ng-if="controller.editando" style="padding-left: 0px;">
+                        <select ui-select2 type="text" ng-model="controller.buscador2">
+                            <option value=""></option>
+                            <option ng-repeat="c in contactos | filter:controller.puedeAgregar" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+                        </select>
+                        <a ng-click="agregarParticipanteMaestro(controller.buscador2)" ng-disabled="!controller.buscador2 && controller.editando" type="button" class="btn" ng-class="{'btn-success': controller.buscador2}">Agregar</a>
+                        
+                        <a class="btn" ng-click="controller.crearContacto()">
+                            <i class="icon-plus"></i>&nbsp;Crear nuevo contacto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="card animated fadeInDown">
+    <h3 class="card-heading simple">
+        <span style="white-space: nowrap">
+            <span style="margin-bottom: 0;background-color: {{reunion.color}}; width: 1em; height: 1em; display: inline-block; ">&nbsp;</span>&nbsp;
+            <span>{{reunion.nombre}}</span>
+        </span>
+    </h3>
+    <div class="card-body">
+        <div class="control-group">
+            <h4 class="pull-right">{{horaDesde}} a {{horaHasta}}</h4>
+            <h3>{{fechaDesde}}<h3>
+        </div>
+
+        <div class="control-group">
+            <div ng-switch on="instancia.cita.version">
+                <button ng-switch-default type="button" style="margin-bottom: 10px" class="btn btn-block disabled" disabled="disabled">Nunca enviado</button>
+                <button ng-switch-when="propuesta" type="button" style="margin-bottom: 10px" class="btn btn-block btn-info disabled" disabled="disabled">Cita enviada</button>
+                <button ng-switch-when="final" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Cita enviada</button>
+                <button ng-switch-when="recordatorio" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Recordatorio enviado</button>
+                <button ng-switch-when="modificacion" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Modificacion enviada</button>
+                <button ng-switch-when="reserva" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Reserva de fecha enviada</button>
+                <button ng-switch-when="cancelado" type="button" style="margin-bottom: 10px" class="btn btn-block btn-danger disabled" disabled="disabled">Cita cancelada</button>
+            </div>
+            <button ng-if="((reunion.tipo == 'especificas') || (reunion.tipo == 'transversales'))" type="button" style="margin-bottom: 10px" ng-click="prepararCita()" class="btn btn-block">Cita</button>
+            <button ng-if="hasPermission('orm.envioTemario')" type="button" style="margin-bottom: 10px" ng-click="modificarCita()" class="btn btn-block">Modificacion</button>
+            <button ng-if="hasPermission('orm.envioTemario')" type="button" style="margin-bottom: 10px" ng-click="recordarCita()" class="btn btn-block">Recordatorio</button>
+            <button ng-if="((reunion.tipo == 'especificas') || (reunion.tipo == 'transversales'))" type="button" style="margin-bottom: 10px" ng-click="reservaFecha()" class="btn btn-block">Reserva fecha de Reunión</button>
+            <button ng-if="hasPermission('orm.envioTemario')" type="button" style="margin-bottom: 10px" ng-click="cancelar()" class="btn btn-block btn-danger">Cancelación</button>
+        </div>
+    </div>
+</div>

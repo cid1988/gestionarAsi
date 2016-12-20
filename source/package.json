@@ -1,0 +1,47 @@
+{
+  "name": "tablero",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "asyncjs": "0.0.9",
+    "compression": "^1.6.0",
+    "connect-mongo": "^0.4.1",
+    "cookie": "^0.1.2",
+    "crypto-js": "3.1.5",
+    "emailjs": "~0.3.6",
+    "express": "3.0.3",
+    "express-csv": "^0.6.0",
+    "gm": "^1.17.0",
+    "html-to-text": "0.0.7",
+    "http-proxy": "^1.7.3",
+    "icalendar": "~0.6.5",
+    "iconv": "~2.0.7",
+    "is-running": "^1.0.5",
+    "jsDAV": "~0.3.2",
+    "jsondiffpatch": "^0.1.24",
+    "mbtiles": "~0.3.2",
+    "moment": "^2.8.4",
+    "mongodb": "^1.4.23",
+    "monq": "^0.3.1",
+    "mssql": "~0.3.4",
+    "mysql": "~2.0.0-alpha9",
+    "nconf": "^0.7.1",
+    "password-hash": "^1.2.2",
+    "q": "^1.1.2",
+    "request": "~2.42.0",
+    "soap": "^0.6.0",
+    "socket.io": "^1.2.1",
+    "temp": "^0.8.1",
+    "uuid": "~1.4.1",
+    "xml2js": "0.4.9",
+    "xmldom": "~0.1.19",
+    "xpath": "0.0.7"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

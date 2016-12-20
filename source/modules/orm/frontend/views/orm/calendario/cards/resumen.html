@@ -1,0 +1,17 @@
+<div class="card animated fadeInUp">
+    <table>
+        <tbody>
+            <tr ng-repeat="(pId, p) in instancia.participantes | sort:'star'" ng-controller="ORMParticipanteInstanciaCtrl">
+                <td style="width: 100%">
+                    <i ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+                    <img style="width: 25px; height: 25px" ng-show="contacto.foto" ng-src="/api/upload/{{contacto.foto}}"
+                    class="img-circle">
+                    <button style="padding: 0;" ng-click="verContacto()" type="button" class="btn btn-link ng-binding">{{contacto.nombre}} {{contacto.apellido}}</button>
+                </td>
+                <td>
+                    <span style="white-space: nowrap">{{tiposAsistenciaPorKey[p.asistencia].nombre}}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

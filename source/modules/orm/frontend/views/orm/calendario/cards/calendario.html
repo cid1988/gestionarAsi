@@ -1,0 +1,43 @@
+<div class="card" id="contieneCalendario" style="margin-bottom: 10px;position: absolute;width: 59%;bottom: 10px;top: 55px;">
+    <div class="card-actions pull-right" style="margin: 0px 20px 0  0 ; padding: 0">
+        <a class="btn pull-right" ng-click="volver()" ng-show="instancia" ><i class="icon-arrow-left"></i> Volver</a>
+        <div class="controls" style="min-width: 190px; display: inline-block; margin-bottom: 7px; margin-right: 10px">
+            <select ui-select2="tipoReunionSelect2" style="width:100%" type="text" ng-model="filtro.tipo" placeholder="">
+                <option value="">Todas</option>
+                <option ng-if=permiso("seguimiento") value="seguimiento">Seguimiento</option>
+                <option ng-if=permiso("transversales") value="transversales">Transversales</option>
+                <option ng-if=permiso("especificas") value="especificas">Específicas</option>
+                <option ng-if=permiso("planeamiento") value="planeamiento">Planeamiento</option>
+                <option ng-if=permiso("presupuesto") value="presupuesto">Presupuesto</option>
+                <option ng-if=permiso("coordinacion") value="coordinacion">Coordinación</option>
+                <option ng-if=permiso("planLargoPlazo") value="planLargoPlazo">Plan Largo Plazo</option>
+                <option ng-if=permiso("proyectosEspeciales") value="proyectosEspeciales">Proyectos Especiales</option>
+                <option ng-if=permiso("eventuales") value="eventuales">Eventuales</option>
+            </select>
+        </div>
+
+        <a ng-click="programaFechaEspecial(false)" type="button" class="btn btn-link" ng-show="editando"><i class="icon-plus"></i> Recordatorio</a>
+        <div class="btn-group" ng-show="editando">
+            <a ng-click="revertToOriginal();cancelarReprogramacion()"
+            type="button" class="btn btn-link" ng-disabled="!huboReporogramacion()">
+                <i class="icon-undo"></i>
+            </a>
+            <a ng-click="applyChanges();guardarReporogramacion()" 
+            type="button" class="btn btn-link" ng-disabled="!huboReporogramacion()">
+                <i class="icon-ok icon-white"></i>
+            </a>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Calendario de gestión</h3>
+    <div style="margin-left: 20px; margin-right: 20px; margin-top: 5px" class="calendar"
+    fullcalendar calendar-object="calendar" ng-model="calendar"></div>
+    <div style="margin-left: 20px; margin-bottom: 10px; margin-top: 5px">
+        <span ng-if=permiso(reunionResaltada.tipo) style="background-color: {{reunionResaltada && colorReunion(reunionResaltada)}}; width: 20px; height: 20px; display: inline-block">&nbsp;</span>
+        <span ng-if=permiso(reunionResaltada.tipo)>{{reunionResaltada.nombre}}</span>&nbsp;
+        <div class="pull-right">
+            <img ng-repeat="pId in instanciaResaltada.participantes | keysArray:star" ng-init="p = instanciaResaltada.participantes[pId]" class="img-circle" ng-show="contactosPorId[pId].foto" ng-class="{'gray-border': p.star}"
+            style="width: 25px; height: 25px" ng-src="/api/upload/{{contactosPorId[pId].foto}}"
+            />
+        </div>
+    </div>
+</div>

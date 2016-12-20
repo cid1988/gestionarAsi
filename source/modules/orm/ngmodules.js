@@ -1,0 +1,1 @@
+exports = module.exports = ['bag2.orm-reunion', "bag2.orm.temario", "bag2.orm.calendario", "bag2.orm.mi-agenda", 'bag2.orm.calendario', 'bag2.orm.cita', 'bag2.orm-nuevo-contacto-modal', 'bag2.groupBy', 'bag2.fullcalendar', 'bag2.orm-reportes', 'bag2.orm.minuta'];

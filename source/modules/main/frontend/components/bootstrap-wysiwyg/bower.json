@@ -1,0 +1,9 @@
+{
+  "name": "bootstrap-wysiwyg",
+  "version": "0.0.0",
+  "commit": "6f808e50efd3929d13068dca364ad9cdd1316952",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mindmup/bootstrap-wysiwyg/"
+  }
+}

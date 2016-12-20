@@ -1,0 +1,78 @@
+<style type="text/css">
+    .wysihtml5-sandbox {
+        border: 0 !important;
+        padding: 0 !important;
+    }
+    
+    ul.wysihtml5-toolbar li a[title="Insert image"] { display: none; }
+    ul.wysihtml5-toolbar li a[title="Insert link"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h1"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h2"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h3"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h5"] { display: none; }
+
+    .temario {
+        font-size: 16px !important;
+        font-family: Arial !important;
+        line-height: 90% !important;
+    }
+
+    .temario ul {
+        line-height: 18px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-left: 15px;
+    }
+
+    .temario h6 {
+        font-size:14px !important;
+        line-height: 12px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .temario  li {
+        line-height: 20px;
+    }
+    
+    .wysihtml5-toolbar:nth-child(n+2) 
+    {
+        display: none;
+    }
+
+</style>
+
+
+<div class="card animated fadeInDown" ng-controller="ORMNotaMinutaCtrl" style="min-height: 672px;">
+    <div class="card-actions pull-right" style="padding: 0; margin: 0; margin-right: 20px" ng-show="editando">
+        <div class="btn-group">
+         <a ng-click="cancelarCambios()"
+            type="button" class="btn btn-link" ng-disabled="!cambios">
+                <i class="icon-undo"></i>
+            </a>
+            <a ng-click="guardarNota()"
+            type="button" class="btn btn-link" ng-disabled="!cambios">
+                <i class="icon-ok icon-white"></i> Guardar
+            </a>
+        </div>
+    </div>
+
+    <h3 class="card-heading simple no-print">
+        Minuta de Reunión 
+        <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento </span>
+        <span ng-if="reunion.tipo == 'transversales'">Transversal </span>
+        <span ng-if="reunion.tipo == 'especificas'">Especifica </span>
+        <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento </span>
+        <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto </span>
+        <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación </span>
+        <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo </span>
+        <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales </span>
+        <span ng-if="reunion.tipo == 'eventuales'">Eventual </span>
+    </h3>
+    <br>
+    <div style="margin-left: 20px; margin-right: 20px;">
+
+        <textarea user-input-emits="html-changed" ng-show="editando" placeholder="Esta minuta está vacía" rich-text-editor rows="4" style=" width: 100%; height: 500px" ng-model="html"></textarea>
+        <div ng-hide="editando" style="min-height: 500px;margin-top: 10px;margin-right: 5px;margin-left: 0px;" class="temario" compile="minuta.html"></div>
+    </div>
+</div>

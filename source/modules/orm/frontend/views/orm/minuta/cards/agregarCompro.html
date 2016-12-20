@@ -1,0 +1,46 @@
+<div class="card animated fadeInDown" ng-if="mostrarAgregar">
+    <h3 class="card-heading simple">Agregar Compromiso
+        <div class="btn-group pull-right" data-toggle="buttons-radio" style="margin-left: 0px; margin-bottom: 10px; margin-right: 0px;">
+            <button class="btn" ng-class="(tipo=='POA') && 'active btn-info'" ng-click="tipo='POA'">POA</button>
+            <button class="btn" ng-class="(tipo=='Tema') && 'active btn-info'" ng-click="tipo='Tema'">Tema</button>
+            <button class="btn" ng-class="(tipo=='Titulo') && 'active btn-info'" ng-click="tipo='Titulo'">Título</button>
+        </div>
+    </h3>
+    <div class="card-body" style="padding-bottom: 50px;">
+        <div class="control-group span7" ng-show="tipo=='POA'" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+            <label style="margin-bottom: 1px;">Proyecto POA:</label>
+            <select style="width: 100%" ui-select2 type="text" ng-model="data.proyecto" ng-options="i._id as i.nombre for i in proyectos | orderBy:'nombre'">
+                <option ng-disabled="true" value="">{{data.proyecto.nombre}}</option>
+            </select>
+        </div>
+        <div class="control-group span7" ng-show="tipo=='Tema'" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+            <label style="margin-bottom: 1px;">Tema:</label>
+            <select style="width: 100%" ui-select2 type="text" ng-model="data.tema" ng-options="i._id as i.nombre for i in temas | orderBy:'nombre' | filter: mostrarTema">
+                <option ng-disabled="true" value="">{{data.tema.nombre}}</option>
+            </select>
+        </div>
+        <span class="span7" style="display: inline-block;margin-left: 0px;" ng-show="tipo=='Titulo'"> Título:<br /> 
+            <input style="width: 95%" type="text" placeholder="Si no existe tema" ng-model="data.titulo" />
+        </span>
+        <span style="display: inline-block; margin-left: 10px;"> Fecha:<br /> 
+            <input class="span2" type="text" date placeholder="Fecha" ng-model="data.fecha" style="width: 138px;" />
+        </span>
+        <a class="btn btn-large btn-link" ng-click="switchStar(data)" title="Compromiso Importante" href="" style="margin-bottom: 0px;padding-top: 0px;padding-bottom: 10px;padding-left: 15px;padding-right: 15px;"><i ng-class="{'icon-star': data.importante, 'icon-star-empty': !data.importante}"></i></a>
+        <div class="control-group span10" style="display:inline-block; margin-left: 0px; margin-bottom: 0px; margin-right: 0px;">
+            <label class="pull-left" style="display:inline-block;margin-bottom: 1px;margin-right: 14px;">Responsables:</label>
+            <select style="display:inline-block;" style="width: 100%" ui-select2 type="text" ng-model="responsable" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                <option ng-disabled="true" value="">{{responsable.apellidos}} {{responsable.nombre}}</option>
+            </select>
+            <a href="#" class="btn" style="display:inline-block;" ng-click="data.responsables.push(responsable); responsable=''">Agregar</a>
+        </div>
+        <div class="span7" ng-repeat="o in data.responsables" style="margin-top: 0px; margin-bottom: 0px;margin-left: 110px;padding-top: 5px;">
+            - {{contactoPorId(o).apellidos}} {{contactoPorId(o).nombre}}
+            <a href="#" ng-click="eliminarElemento(data.responsables,o)" style="padding-left: 0px;padding-right: 0px;"><i class="icon-trash"></i></a>
+        </div>
+        <span style="display: inline-block;margin-top:10px;">Tarea:<br /> 
+            <textarea style="height:80px; width:530px" type="text" ng-model="data.tarea" placeholder="Tarea comprometida" />
+        </span>
+        <a href="#" ng-click="noMostrarAgregar()" class="btn pull-right">Cancelar</a>
+        <a href="#" class="btn pull-right btn-info" ng-click="agregarCompromiso(true, data)">Agregar compromiso</a>
+    </div>
+</div>

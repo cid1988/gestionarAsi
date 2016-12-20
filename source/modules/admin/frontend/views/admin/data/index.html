@@ -1,0 +1,42 @@
+<div ng-controller="DataManagementCtrl">
+    <alert ng-repeat="a in exports" class="fade in out" ng-repeat="alert in alerts"
+    type="alert.type" close="close()">
+        <a href="{{download}}" target="_blank" ng-show="!done" class="btn btn-info pull-right">
+    <i class="icon-download icon-white"></i>&nbsp;Descargar última exportación</a>
+    </alert>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span4 well">
+                <h3>Importar</h3>
+                <div style="width: 100%" fine-uploader destination="'/api/files/upload/'"
+                placeholder="'Subir datos'"
+                uploaded="files.uploaded" extensions="'bag'"></div>
+                <div ng-repeat="a in importData.apps" style="display: block">
+                    <a ng-click="a.restore = !a.restore" ng-class="{true:'active btn-success'}[a.restore]"
+                    class="btn" style="width:120px; text-align: center">
+                    <span ng-show="a.restore">Incluir</span>
+            		<span ng-hide="a.restore">No incluir</span>
+        	    </a>{{a.name}}</div>
+                <div class="row-fluid" ng-show="importData">
+                    <div class="span4 well">
+                        <button type="button" ng-click="import()" ng-disabled="working" class="btn btn-info">
+                            <i class="icon-play icon-white"></i>&nbsp;Importar datos</button>
+                    </div>
+                </div>
+            </div>
+            <div class="span4 well">
+                <h3>Exportar</h3>
+                <div ng-repeat="a in apps" style="display: block; clear: both">
+                    <a ng-click="a.backup = !a.backup" ng-class="{true:'active btn-success'}[a.backup]"
+                    class="btn" style="width:120px; text-align: center">
+                    <span ng-show="a.backup"><i class="icon-ok icon-white"></i>&nbsp;Incluír</span>
+            		<span ng-hide="a.backup">&nbsp;Excluír</span>
+        	    </a>&nbsp;{{a.name}}</div>
+                <div style="margin-top:10px; display: block; clear: both">
+                    <button type="button" ng-click="export()" ng-disabled="working" class="btn btn-info">
+                        <i class="icon-play icon-white"></i>&nbsp;Exportar datos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

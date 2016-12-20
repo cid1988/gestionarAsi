@@ -1,0 +1,89 @@
+<style type="text/css">
+.wysihtml5-sandbox {
+    border: 0 !important;
+    padding: 0 !important;
+}
+ul.wysihtml5-toolbar {
+    display: none;
+}
+
+.table-no-border tbody > tr:first-child > td, .table-no-border tbody > tr:first-child >th {
+    border: none !important;
+}
+.table th {
+    vertical-align: middle !important;
+}
+ .ui-state-highlight { 
+/*    width: 120px;
+    height: 20px;*/
+    min-height: 31px;
+    display: inline-block;
+ }
+</style>
+
+<div class="card animated" ng-controller="ORMEnvioInvitacionReunionCtrl">
+    <div class="card-actions pull-right" style="margin-top: 0; padding-top: 0">
+        <div class="btn-group">
+            <!-- <a ng-click="cancelarEnvio()" ng-disabled="enviando"
+            type="button" class="btn btn-link">
+                <i class="icon-remove"></i>
+            </a> -->
+            <a ng-hide="enviando" ng-click="enviar()"
+            type="button" class="btn btn-link" ng-disabled="!puedeEnviar()">
+                <i class="icon-envelope"></i>
+            </a>
+            <a ng-show="enviando"
+            type="button" class="btn btn-link" ng-disabled="!puedeEnviar()">
+                <i class="icon-spinner icon-spin icon-large"></i>
+            </a>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Enviar invitaciones</h3>
+    <div class="card-body">
+        <table class="table table-condensed table-no-border">
+            <tr>
+                <th>Para:</th>
+                <td style="width: 100%; min-height: 31px" ui-sortable="{placeholder: 'ui-state-highlight', forcePlaceholderSize: true}" ng-model="invitacion.para">
+                    <span style="display: inline-block" ng-include src="'/views/orm/mi-agenda/contactoMini.html'" ng-repeat="pId in invitacion.para" >
+                    </span>
+                </td>
+                <td>
+                    <select ui-select2 ng-change="agregarParticipantePara()" style="width:140px"
+                    type="text" ng-model="buscadorPara" placeholder="Agregar a...">
+                        <option value=""></option>
+                        <option ng-repeat="c in contactos" value="{{c._id}}">{{c.nombre}} {{c.apellido}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>CC:</th>
+                <td style="width: 100%; min-height: 31px" ui-sortable="{placeholder: 'ui-state-highlight', forcePlaceholderSize: true}" ng-model="invitacion.cc">
+                    <span style="display: inline-block" ng-include src="'/views/orm/mi-agenda/contactoMini.html'" ng-repeat="pId in invitacion.cc" >
+                    </span>
+                </td>
+                <td>
+                    <select ui-select2 ng-change="agregarParticipanteCC()" style="width:140px"
+                    type="text" ng-model="buscadorCC" placeholder="Agregar a...">
+                        <option value=""></option>
+                        <option ng-repeat="c in contactos" value="{{c._id}}">{{c.nombre}} {{c.apellido}}</option>
+                    </select>
+                </td>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Asunto:
+            </th>
+            <td colspan="2">
+                <input placeholder="{{asuntoDefault}}" type="text" style="display: block; width: 100%;box-shadow: none;margin-bottom: 0;border: 0;" ng-model="invitacion.asunto"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div>
+                  <textarea  placeholder="Puede escribir un mensaje o comentario en el email de envío" rich-text-editor rows="4"  style="width: 100%; height: 200px" ng-model="invitacion.mensaje"></textarea>
+                </div>
+            </td>
+        </tr>
+    </table>    
+</div>

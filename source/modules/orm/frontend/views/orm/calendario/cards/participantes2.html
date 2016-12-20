@@ -1,0 +1,14 @@
+<div ng-controller="ORMCalendarioTabEventoCtrl" class="card" ng-class="{'animated fadeInDown': instancia}" ng-if="instancia"
+style="padding-bottom:14px;padding-top: 14px;margin-top: 0px;">
+    <div class="card-actions pull-right" ng-if=hasPermission('orm.edicionReunion') style="margin: 0">
+        <a type="button" href="/orm/reuniones/{{instancia._id}}/editableAsistencia" class="btn btn-link" title="Cargar Asistencia">
+            <i class="icon-external-link"></i></a>
+    </div>
+    <div class="card-actions pull-right" ng-if="(cantidadExclusivos(instancia.reunion) > 0)" style="margin-right: 0px; margin-top: 10px;"><a href="/orm/reuniones/{{instancia.reunion}}" style="color:#404040;" data-toggle="tooltip" title="Participantes eventuales de una reunion"> ({{cantidadExclusivos(instancia.reunion)}}E)</a></div>
+    <h3 class="card-heading simple" style="font-size: 19px;">Participantes</h3>
+    <div class="card-body">
+        <div class="control-group">
+            <a href="/orm/reuniones/{{instancia._id}}/asistencia" type="button" style="margin-bottom: 10px" class="btn btn-block">Imprimir</a>
+        </div>
+    </div>
+</div>

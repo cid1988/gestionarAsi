@@ -1,0 +1,47 @@
+<div ng-controller="ORMParticipantesReunionCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Participantes</h3>
+    </div>
+    <div class="modal-body" style="max-height: inherit; overflow-y: visible">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Asistencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in participantes">
+                    <th style="text-align: left" class="span2">
+                    <span  class="label">Default</span>
+                        <i ng-click="editando && (p.star = !p.star)" style="margin-right: 10px"
+                        ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+                        <img style="width: 30px; height: 30px; margin-right: 10px" ng-show="contacto.foto"
+                        ng-src="/api/upload/{{contacto.foto}}" class="img-circle" />&nbsp;
+                        <button style="padding: 0;" ng-click="verContacto()" type="button" class="btn btn-link">{{contacto.apellido}}, {{contacto.nombre}}</button></th>
+                    <td>
+                        <select ui-select2 ng-disabled="!editando" type="text" ng-model="p.datosInstancia.asistencia">
+                            <option ng-repeat="(k, v) in tiposAsistenciaPorKey" value="{{k}}">{{v.nombre}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select ui-select2 ng-disabled="!editando" type="text" ng-model="p.datosInstancia.rol"
+                        style="width: 140px">
+                            <option ng-repeat="r in roles" value="{{r.key}}">{{r.nombre}}</option>
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer" ng-show="editando">
+        <button type="button" class="btn" ng-click="hide()">Cancelar</button>
+        <button class="btn btn-primary" ng-click="aceptar();hide()">Guardar cambios</button>
+    </div>
+    <div class="modal-footer" ng-hide="editando">
+        <button type="button" class="btn" ng-click="hide()">Volver</button>
+    </div>
+</div>

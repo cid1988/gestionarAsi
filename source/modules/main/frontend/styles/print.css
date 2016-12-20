@@ -1,0 +1,15 @@
+.no-print,.navbar {
+    display: none;
+}
+
+#view>.well {
+border: 0;
+}
+
+.card {
+border: 0;
+}
+
+.only-print {
+    display: block !important;
+}

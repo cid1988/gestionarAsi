@@ -1,0 +1,8 @@
+<ul class="breadcrumb" ng-hide="true">
+    <li><a href="/"><i class="icon-home"></i>&nbsp;Inicio</a></li>
+    <li ng-repeat="b in breadcrumb">
+        <a href="{{b.url}}">{{b.title}}</a>
+        <span class="divider">/</span>
+    </li>
+    <span>{{currentPage.title}}</span>
+</ul>

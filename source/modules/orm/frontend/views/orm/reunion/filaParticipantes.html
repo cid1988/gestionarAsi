@@ -1,0 +1,30 @@
+<!--Lista de participantes-->
+<div class="row">
+    <div class="span3" style="display: table-cell; margin-left:30px">
+        <i ng-click="switchStar(p.p)" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+        <button style="padding: 0;" ng-click="verContacto()" type="button"
+        class="btn btn-link">{{p.c.apellidos}}, {{p.c.nombre}}</button>
+    </div>
+    <div class="span2" style="display: table-cell">{{p.c.cargo}}</div>
+    <div class="span2" style="display: table-cell">{{jurisdiccionPorId(p.c.organigrama).sigla}}</div>
+    <div class="span2" style="display: table-cell">{{buscarCorreo('Email oficial', p.c)}}</div>
+    <div style="float: right">
+        <select ng-disabled="!editando" ui-select2 type="text" ng-model="p.p.clasificacion" style="width: 140px">
+            <option value="responsable">Responsable</option>
+            <option value="jefeGabinete">Jefe de Gabinete</option>
+            <option value="ejecutivo">Ejecutivo</option>
+            <option value="participante">Participante</option>
+            <option value="legislador">Legislador</option>
+            <option value="privada">Privada</option>
+            <option value="gestion">Gestión</option>
+            <option value="exclusivo">Eventual</option>
+            <option value="otros">Otro</option>
+        </select>
+        <a class="btn btn-link" ng-click="eliminarParticipante(p.p)" style="padding-left: 0px; padding-right: 0px;" ng-show="editando">
+            <i class="icon-trash"></i>
+        </a>
+        <a class="btn btn-link" ng-click="subir(p.p)" style="padding-left: 0px; padding-right: 0px;" ng-show="editando">
+            <i class="icon-chevron-up"></i>
+        </a>
+    </div>
+</div>

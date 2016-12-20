@@ -1,0 +1,43 @@
+<style>
+.resaltar {
+	background-color: #F5F7BE;
+}
+</style>
+
+<div ng-controller="ORMTiposReunionCtrl as self" ng-show="!instancia">
+    <div class="modal-header" style="padding-bottom: 10px;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <h3 class="card-heading simple">Series de reuniones
+        <div class="pull-right" style="margin: 0; padding: 0">
+            <input placeholder="Buscar por Nombre..." type="text" class="span2" ng-model="filtro.nombre"/>
+        </div>
+        <div class="pull-right" style="margin-top: 2px; padding: 0; font-size: 14px !important;">
+            <select ui-select2="tipoReunionSelect2" class="span2" style="margin-top: 4px;" type="text" ng-model="filtro.tipo" placeholder="">
+                <option value="">Todas</option>
+                <option value="seguimiento">Seguimiento</option>
+                <option value="transversales">Transversales</option>
+                <option value="especificas">Específicas</option>
+                <option value="planeamiento">Planeamiento</option>
+                <option value="presupuesto">Presupuesto</option>
+                <option value="coordinacion">Coordinación</option>
+                <option value="planLargoPlazo">Plan Largo Plazo</option>
+                <option value="proyectosEspeciales">Proyectos Especiales</option>
+                <option value="eventuales">Eventuales</option>
+            </select>
+        </div>
+    </h3>
+    <div class="card-body" style="margin-bottom: 14px;padding-right: 13px;">
+    <div style="overflow-y: scroll; overflow-x: hidden; height: 462px;">
+        <div ng-repeat="r in reuniones | filter:filtro | orderBy:['-tipo','nombre']">
+            <button ng-show="r.apagado && !(r.nombre == 'Maestro')" class="btn pull-right" ng-class="r.apagado && 'active'" ng-click="prender(r)"> Apagado </button>
+            <button ng-hide="r.apagado || (r.nombre == 'Maestro')" class="btn pull-right" ng-class="!r.apagado && 'active btn-info'" ng-click="apagar(r)"> Prendido </button>
+            <a class="btn btn-link" ng-hide="(r.nombre == 'Maestro')" href="/orm/reuniones/{{r._id}}" style="text-align: left;padding-right: 0px;">
+                <span ng-class="{'resaltar': estaResaltado(r)}" style="background-color: {{colorReunion(r)}}; display: inline-block; width: 10px; height: 10px; display: inline-block"></span>&nbsp;
+                {{r.nombre}}
+            </a>
+        </div>
+        <span ng-hide="reuniones.length">No hay tipos de reuniones definidas aún</span>
+    </div>
+    </div>
+</div>

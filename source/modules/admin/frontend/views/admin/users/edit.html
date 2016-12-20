@@ -1,0 +1,104 @@
+<div ng-controller="EditUserCtrl as self">
+    <style type="text/css">
+        #repetidor{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -ms-user-select:none;
+            display:inline-block;
+            list-style-type:none;
+            background-color: rgba(239, 239, 239, 0.87);
+            border-radius: 5px;
+            margin-bottom:25px;
+            padding-left:10px;
+            width:48%
+        }
+        #repetidor>div>div>div{
+            margin-top:0.2em;
+            border-radius: 5px;
+            width: 50%;
+            padding-bottom:10px;
+            display:inline-block;
+        }
+        #repetidor>div>strong{
+            margin-left: 10px;
+            display: block;
+            width: 97%;
+            margin-bottom: 10px;
+            font-size: 16.5px;
+            line-height: 35px;
+            color: #444444;
+            border: 0;
+            border-bottom: 1px solid #e5e5e5;
+            cursor:pointer;
+        }
+        #repetidor>div>div>div>a{
+            width:90%;
+        }
+        #repetidor:hover{
+            background-color: #E8E8EC;
+            box-shadow: 10px 10px 15px #DEDEDF;
+        }
+        .btn{
+            height: inherit;
+        }
+        input:not(.select2-input){
+            margin:0 10px !important;
+        }
+    </style>
+    <div class="card">
+        <div class="card-actions pull-right" style="margin: 0; padding: 0">
+            <div class="controls">
+                <button type="button" class="btn btn-link" ng-click="variable=!variable"><span ng-show="!variable">Desplegar todos</span><span ng-hide="!variable">Ocultar todos</span></button>
+                <select ui-select2 type="text" ng-model="filtro.group" title="Grupo">
+                    <option value="">Todos</option>
+                    <option ng-repeat="i in self.allPermissions | orderBy: 'group' | filter:seRepite" value="{{i.group}}">{{i.group}}<option>
+                </select>
+                <button type="button" class="btn btn-link pull-right" ng-click="save()" style="margin-right:15px"><i class="icon-ok"></i></button>
+                <input autofocus placeholder="Buscar permiso..." type="text" class="span2" ng-model="filtro.name" ng-keyup="tocaron($event)"/>
+            </div>
+        </div>
+        <h3 class="card-heading simple">Modificar Permisos de: {{user.username}}</h3>
+        <div class="card-body">
+            <form ng-submit="save()">
+                <div class="container-fluid" ng-controller="AddPermissionCtrl as apc">
+                    <div class="row" style="margin-bottom: 10px;" > 
+                    
+                        <div id="repetidor" class="accordion" id="accordion2" ng-repeat-start="(key,value) in self.allPermissions | orderBy:'group' | filter:filtro | groupBy: 'group'">
+                            <div ng-click="variable=!variable">
+                                <strong>{{key}} </strong>
+                            </div>
+                            <div ng-show="variable">
+                                <h4>Roles</h4>
+                                <div>
+                                    <div ng-repeat="r in value | filter:filtroRol | orderBy: 'name'">
+                                        <a ng-click="cambiarRol(r.roles,r.prioridad)" title="{{r.name}}" ng-class="{true:'active btn-success', false: 'btn-danger'}[tienePermisoRol(r.roles)]" class="btn">Rol
+                                            <span ng-show="comprobarPermisos(r.roles)">{{segundaParte(r.name)}}</span>
+                                            <span ng-show="!comprobarPermisos(r.roles)">{{segundaParte(r.name)}}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr>
+
+
+                                <h4>Permisos</h4>
+                                <div>
+                                    <div ng-repeat="permiso in value | filter:filtroPermiso | orderBy: 'name'">
+                                        <a ng-click="cambiarPermiso(usuario, permiso.key)" title="{{permiso.name}}" ng-class="{true:'active btn-success', false: 'btn-danger'}[tienePermiso(usuario, permiso.key)]" class="btn">
+                                    		<span ng-show="tienePermiso(usuario, permiso.key)">{{segundaParte(permiso.name)}}</span>
+                            				<span ng-show="!tienePermiso(usuario, permiso.key)">{{segundaParte(permiso.name)}}</span>
+                        			    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat-end ng-if="p.templateUrl && tienePermiso(usuario, p.key)">
+                            <div ng-include src="$parent.p.templateUrl"></div>
+                        </div>
+                    </div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Guardar" style="width:100%"/>
+            </form>
+        </div>
+    </div>
+</div>

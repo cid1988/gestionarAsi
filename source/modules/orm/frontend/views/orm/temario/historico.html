@@ -1,0 +1,50 @@
+
+<div class="card" ng-controller="ORMHistoricoCtrl">
+    <h3 class="card-heading simple">Archivo Histórico</h3>
+    <div class="card-body">
+        <div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="span8" style="display: table-cell"><a href="#" style="display: inline-block; color:#404040;">Jurisdicciones:</a></div>
+            </div>
+        </div>
+        <hr style="margin-top: 0px; margin-bottom: 10px;">
+        <div class="row" ng-repeat="i in tablaJurisdicciones | orderBy:myValueFunction" style="padding-bottom: 5px;margin-left:30px">
+            <a class="btn btn-link" data-toggle="collapse" data-target="#primeros_{{i}}">
+                {{jurisdiccionPorId(i).nombreCompleto}}
+            </a>
+            <div id="primeros_{{i}}" class="collapse">
+                <div ng-repeat="r in reuniones | filter:{jurisdiccion:i} | orderBy:'tipo'" style="padding-bottom: 0px;margin-left: 100px;">
+                    <a class="btn btn-link" data-toggle="collapse" data-target="#segundos_{{r._id}}">
+                        <span ng-if="r.tipo == 'seguimiento'">Seguimiento</span>
+                        <span ng-if="r.tipo == 'transversales'">Transversal</span>
+                        <span ng-if="r.tipo == 'especificas'">Especifica</span>
+                        <span ng-if="r.tipo == 'planeamiento'">Planeamiento</span>
+                        <span ng-if="r.tipo == 'presupuesto'">Presupuesto</span>
+                        <span ng-if="r.tipo == 'coordinacion'">Coordinación</span>
+                        <span ng-if="r.tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+                        <span ng-if="r.tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+                        <span ng-if="r.tipo == 'eventuales'">Eventual</span> - {{r.nombre}}
+                    </a>
+                    <div id="segundos_{{r._id}}" class="collapse">
+                        <div ng-repeat="i in instancias | filter:{reunion:r._id} | orderBy:'-desdeDate'" style="padding-bottom: 0px;margin-left: 100px;">
+                            <a class="btn btn-link">
+                                  {{i.fecha}}
+                            </a>
+                            <div style="float: right;margin-right: 100px;">
+                                <div class="btn-group">
+                                    <a type="button" class="btn no-print" href="/orm/temarios/{{i._id}}/print" style="padding-left: 20px;padding-right: 20px;">Temario</a>
+                                    <a type="button" class="btn no-print" href="/orm/temarios/{{i._id}}" style="padding-left: 20px;padding-right: 20px;">Temas: {{temasTemario(i._id)}}</a>
+                                    <a type="button" class="btn no-print" href="/orm/minutas/{{i._id}}/print" style="padding-left: 20px;padding-right: 20px;">Minuta</a>
+                                    <a type="button" class="btn no-print" href="/orm/reuniones/{{i._id}}/minuta" style="padding-left: 20px;padding-right: 20px;">Compromisos: {{compromisosCant(i._id)}}</a>
+                                    <a type="button" class="btn no-print" href="/orm/reuniones/{{i._id}}/editableAsistencia" style="padding-left: 20px;padding-right: 20px;">Participantes</a>
+                                    <a type="button" class="btn no-print" href="/orm/reuniones/{{i._id}}/editableLlamados" style="padding-left: 20px;padding-right: 20px;">Llamados</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid" ng-show="!tablaJurisdicciones.length">No hay ninguna jurisdiccion.</div>
+    </div>
+</div>

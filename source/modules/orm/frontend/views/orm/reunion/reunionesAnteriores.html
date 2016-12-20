@@ -1,0 +1,25 @@
+<div ng-controller="ORMReunionesAnterioresCtrl" style="overflow-y: hidden">
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Comentarios</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="r in reunionesPasadas" ng-controller="ORMAccionesReunionCtrl">
+                <th>
+                      <button ng-click="verEnCalendario()" type="button" class="btn btn-link">
+                        <i class="icon-calendar">&nbsp;{{r.fecha}}</i>
+                    </button>
+      </th>
+                <td>{{r.desdeHora}}</td>
+                <td>{{r.hastaHora}}</td>
+                <td>{{r.comentarios}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

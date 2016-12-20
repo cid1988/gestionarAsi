@@ -1,0 +1,41 @@
+<div ng-controller="ORMUbicacionReunionCtrl" ng-show="instancia" class="card animated fadeInDown"
+edit-model="live" changes-watch="ubicacion" ng-model="instancia" style="padding-top: 10px;">
+    <div class="card-actions pull-right" style="margin: 0" ng-hide="editando">
+        <a type="button" class="btn btn-link" ng-click="ubicacion()">
+            <i class="icon-external-link"></i></a>
+    </div>
+    <div class="card-actions pull-right" style="margin:0" ng-show="editando">
+        <a ng-disabled="!changes" class="btn btn-link"
+        ng-click="returnToOriginal()">
+                <i class="icon-undo icon-white"></i>
+            </a>
+        <a ng-disabled="!changes" class="btn btn-link"
+        ng-click="applyChanges();guardarCambios()">
+                <i class="icon-ok icon-white"></i>
+            </a>
+    </div>
+    <h3 class="card-heading simple">Lugar de reunión</h3>
+    <div class="card-body" ng-style="{'padding-bottom': '10px' || ''}">
+        <input ng-disabled="!editando" type="text" placeholder="Nombre del lugar"
+        ng-model="live.ubicacion.nombre" style="padding-right: 0; width: 175px; display: block">
+    </div>
+</div>
+    
+<div id="agregarUbicacion" class="modal hide fade" ng-controller="ORMUbicacionReunionCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Ubicación</h3>
+    </div>
+    <div class="modal-body">
+        <span class="span4" style="display: inline-block;margin-left: 4px;"> Nombre:<br /> 
+            <input type="text" placeholder="Nombre del lugar" ng-model="instancia.ubicacion.nombre" style="padding-right: 0; width: 100%; display: block">
+        </span>
+        <span class="span4" style="display: inline-block;margin-left: 4px;"> Como llegar:<br /> 
+            <textarea placeholder="Como llegar al lugar" ng-model="instancia.ubicacion.comoLlego" style="width: 500px; height: 150px;" />
+        </span>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-info" data-dismiss="modal">Cancelar</a>
+        <a href="#" class="btn btn-danger" data-dismiss="modal" ng-click="ubicacion(true)">Guardar</a>
+    </div>
+</div>

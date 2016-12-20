@@ -1,0 +1,50 @@
+<div class="container-fluid" ng-controller="ORMReunionReportesCompletasCtrl">
+    <div class="card-actions pull-right" style="margin-right: 10px; padding: 0">
+        <select class="input-block-level" style="width:200px" ui-select2 type="text" ng-model="filtro.tipo">
+            <option value="">Todos los Tipos</option>
+            <option value="seguimiento">Seguimiento</option>
+            <option value="transversales">Transversales</option>
+            <option value="especificas">Especificas</option>
+            <option value="planeamiento">Planeamiento</option>
+            <option value="presupuesto">Presupuesto</option>
+            <option value="coordinacion">Coordinación</option>
+            <option value="planLargoPlazo">Plan Largo Plazo</option>
+            <option value="proyectosEspeciales">Proyectos Especiales</option>
+            <option value="eventuales">Eventuales</option>
+        </select>
+    </div>
+    <div class="control-group pull-right" style="display: block;margin-right: 20px;">
+        <div class="controls">
+            <input placeholder="Reunion..." type="text" class="input-block-level search-query" ng-model="filtro.reunion"/>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Reuniones del 2015 Completas
+    </h3>
+    
+    <table border="1" class="table table-bordered">
+        <tr bgcolor= "#FFFFFF">
+            <th><a ng-click="orden = 'reunion'" href="#" style="display: inline-block; color:#404040;">Reunión</a></th>
+            <th><a ng-click="orden = 'desdeDate'" href="#" style="display: inline-block; color:#404040;">Fecha</a></th>
+            <th><a ng-click="orden = ''" href="#" style="display: inline-block; color:#404040;">Participantes</a></th>
+            <th><a ng-click="orden = ''" href="#" style="display: inline-block; color:#404040;">Temario</a></th>
+            <th><a ng-click="orden = ''" href="#" style="display: inline-block; color:#404040;">Minuta</a></th>
+            <th><a href="#" style="display: inline-block; color:#404040;">Compromisos</a></th>
+        </tr>
+        <tr ng-repeat="i in reunionesCompletas | orderBy:orden | filter:filtro" bgcolor= "#FFFFFF">
+            <td><div>{{i.reunion}} ({{i.tipo}})</div></td>
+            <td><div>{{i.fecha}}</div></td>
+            <td><div ng-repeat="h in i.participantes">{{contactoPorId(h).apellidos}}, {{contactoPorId(h).nombre}}<br></div></td>
+            <td><div compile="i.temario"></div></td>
+            <td><div compile="i.minuta"></div></td>
+            <td><div ng-repeat="j in i.compromisos"><div ng-show="j.tema"><b>- {{temaPorId(j.tema).nombre}}:</b> {{j.tarea}} ({{j.fecha}}) - 
+                    <span ng-if="(!j.estado) && (aMilisegundos(j.fecha) > hoy)">Vigente</span>
+                    <span ng-if="(!j.estado) && !(aMilisegundos(j.fecha) > hoy)">Vencido</span>
+                    <span ng-if="(j.estado == 'Cumplido') || (j.estado == 'A Tema')">{{j.estado}}</span></div>
+                <div ng-show="j.titulo"><b>- {{j.titulo}}:</b> {{j.tarea}} ({{j.fecha}}) - 
+                    <span ng-if="(!j.estado) && (aMilisegundos(j.fecha) > hoy)">Vigente</span>
+                    <span ng-if="(!j.estado) && !(aMilisegundos(j.fecha) > hoy)">Vencido</span>
+                    <span ng-if="(j.estado == 'Cumplido') || (j.estado == 'A Tema')">{{j.estado}}</span>
+                </div></div></td>
+        </tr>
+    </table>
+</div>

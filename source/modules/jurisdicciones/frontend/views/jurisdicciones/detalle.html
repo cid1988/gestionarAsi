@@ -1,0 +1,40 @@
+<div ng-controller="VerFuncionarioCtrl">
+
+<div class="well span9 offset2" ng-hide="modificando">
+    <h3>Datos del Funcionario
+        <a class="btn pull-right" ng-click="modificar()" ng-hide="!puedeModificar()"><i class="icon-edit"></i> Modificar</a>
+    </h3>
+    <br />
+    <form class="form-horizontal">
+        <forminput read-only ng-model="jurisdiccion.sigla" placeholder="Sin sigla" title="Sigla" />
+        <forminput read-only ng-model="jurisdiccion.nombre" placeholder="Sin nombre" title="Nombre" />
+        <forminput read-only ng-model="jurisdiccion.responsable.nombre" placeholder="Sin responsable" title="Responsable" />
+        <div class="control-group">
+            <label class="control-label">Dirección:</label>
+            <div class="controls">
+                <input type="text" style="width: 400px" disabled ng-model="jurisdiccion.calle" placeholder="Calle de la jurisdiccion" />
+                <input disabled type="text" style="width: 40px" ng-model="jurisdiccion.altura"/>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="well span9 offset2" ng-show="modificando">
+    <h3>Datos del Funcionario
+        <a class="btn btn-success pull-right" ng-click="guardar()"><i class="icon-ok icon-white"></i> Guardar</a>
+    </h3>
+    <form class="form-horizontal">
+        <forminput ng-model="jurisdiccion.sigla" placeholder="Sin sigla" title="Sigla" required />
+        <forminput ng-model="jurisdiccion.nombre" placeholder="Sin nombre" title="Nombre" required />
+        <formselect required ng-model="jurisdiccion.responsable" source="responsables" placeholder="Seleccionar" title="Responsable" />
+        <div class="control-group">
+            <label class="control-label">Dirección:</label>
+            <div class="controls">
+                <input type="text" style="width: 400px" ng-model="jurisdiccion.calle" placeholder="Calle de la jurisdiccion" />
+                <input type="text" style="width: 40px" ng-model="jurisdiccion.altura"
+                />
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>

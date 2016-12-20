@@ -1,0 +1,21 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="card span6 offset3 animated fadeIn" ng-controller="AppsCtrl" style="padding-bottom: 20px;">
+			<h3 class="card-heading simple">
+				Aplicaciones
+			</h3>
+			<div class="card-body" style="margin-bottom: 20px;margin-left: 20px;">
+				<div ng-repeat="a in apps | orderBy:'name'">
+				    <div class="span6" style="display: inline-block;margin-bottom: 5px;margin-left: 5px;" ng-if="hasPermission(a.permission)">
+					    <a class="btn btn-link" href="{{a.url}}" style="font-size: 14px !important;"><i ng-show="a.icon" style="margin-right: 7px;" class="icon-{{a.icon}}"></i>{{a.name}}</a>
+					</div>
+				</div>
+				<div ng-if="!username">
+				    <div class="span6" style="display: inline-block;margin-bottom: 5px;margin-left: 5px;">
+					    <a class="btn btn-link" href="/salasreuniones/consulta" style="font-size: 14px !important;"><i style="margin-right: 7px;" class="icon-calendar"></i>Salas de Reuniones - Consulta</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

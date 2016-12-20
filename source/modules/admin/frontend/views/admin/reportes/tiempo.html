@@ -1,0 +1,141 @@
+<style>
+    .card-heading{
+        padding-left: 10px; 
+        font-size:14px !important;
+        padding-right: 0;
+        height: 45px;
+        margin-bottom: 10px;
+    }
+    .card>div:not(:first-child):not(:last-child){
+        margin:0 20px 40px 20px;
+    }
+    form{
+        margin-left: 15px;
+    }
+    .juntos{
+        display: inline-block;
+    }
+    form>div{
+        overflow: hidden; 
+        margin-top:5px;
+    }
+    th>a{
+        display: inline-block; 
+        color:#404040;
+    }
+    th:first-child{
+         background-color:#FFFFFF;
+    }
+    .paddLR
+    {
+        padding:0 20px;
+    }
+    h3>ul>li>a{
+        padding:8px !important
+    }
+    a:hover{
+        color:#404040;
+        text-decoration:none;
+    }
+    tr,.puntero{
+        cursor:pointer;
+    }
+    #sinPadding{
+        padding:0;
+    }
+    .activo>div{
+        font-weight: bold;
+        color: #262626;
+        text-decoration: none;
+        background-color: transparent;
+        border-color: #3B3B3B;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        -webkit-transition: border-color 0.218s ease 0s;
+        -moz-transition: border-color 0.218s ease 0s;
+        -o-transition: border-color 0.218s ease 0s;
+        transition: border-color 0.218s ease 0s;
+        padding-bottom:5px;
+        border-bottom: 2px solid #3B3B3B !important;
+    }
+    li>div:hover{
+        padding-bottom:5px;
+        border-bottom: 2px solid #8B8B8B !important;
+    }
+    #selectFiltro{
+        margin-right: 20px !important;
+    }
+    
+</style>
+
+<div class="card" ng-controller="AppPermisosCtrl">
+    <div class="card-actions pull-right" ng-hide="editando || tab == 'permiso'" style="margin-right:15px">
+        <input placeholder="Usuario..." type="text" class="span3" ng-model="filtro.username" style="margin-bottom: 0px;"/>
+    </div>
+    <div id="selectFiltro" class="card-actions pull-right no-print" style="margin: 0; padding: 0" ng-hide="tab == 'tiempo'">
+            <select ui-select2 style="width: 250px;" class="pull-right span3" type="text" ng-model="filtro.permissions" placeholder="">
+                <option value="">Seleccione un permiso...</option>
+                <option ng-repeat="a in permissions" value="{{a}}">{{a}}</option>
+            </select>
+    </div>
+    <h3 class="card-heading simple">
+        <ul id="myTab" class="nav nav-pills">
+            <li ng-class="{'active': tab == 'permiso'}"><a href="#" ng-click="tab='permiso'" data-toggle="tab">Permisos</a></li>
+            <li ng-class="{'active': tab == 'tiempo'}"><a href="#" ng-click="tab='tiempo'" data-toggle="tab">Tiempo de usuario en el sistema</a></li>
+        </ul>
+    </h3>
+    
+    <!-- PERMISOS -->
+    
+    <div ng-if="tab == 'permiso'">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr bgcolor= "#FFFFFF">
+                        <th><a ng-click="orden = 'username'" href="#" style="display: inline-block; color:#404040;">Nombre Aplicación</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- DATOS-->
+                    <tr ng-repeat="a in usuarios | orderBy: 'username' | filter: filtro">
+                        <td><div>{{ a.username }}</div></td>
+                        <!--<td><div ng-repeat="i in a.permissions">{{i}}</div></td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+    </div>
+    
+    
+    <!-- TIEMPO -->
+    
+    <div ng-if="tab == 'tiempo'" ng-controller="ReporteTiempoCtrl">
+        <div class="row" style="padding-bottom: 10px;">
+            <div class="span1" style="display: table-cell"><a href="#" style="display: inline-block; color:#404040;">Usuarios:</a></div>
+        </div>
+        <hr style="margin-top: 0px; margin-bottom: 10px;">
+        <div class="row" ng-repeat="i in users | orderBy:'username' | filter:filtro" style="padding-bottom: 5px;margin-left:30px">
+            <a class="btn btn-link" data-toggle="collapse" data-target="#primeros_{{i._id}}">
+                {{i.username}}
+            </a>
+            <div id="primeros_{{i._id}}" class="collapse">
+                <div class="span10" style="float: right;margin-right: 10px;">
+                    <span class="span2" style="margin-top: 3px; margin-bottom: 3px; margin-right: 10px;">
+                        Inicio:
+                    </span>
+                    <span class="span2" style="margin-top: 3px; margin-bottom: 3px; margin-right: 10px;">
+                        Fin:
+                    </span>
+                    <span class="span1" style="margin-top: 3px; margin-bottom: 3px; margin-right: 10px;">
+                        Tiempo:
+                    </span>
+                    <span class="span1" style="margin-top: 3px; margin-bottom: 3px; margin-right: 10px;">
+                        Ticks:
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid" ng-show="!tablaJurisdicciones.length">No hay ninguna jurisdiccion.</div>
+    </div>
+</div>

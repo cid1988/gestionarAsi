@@ -1,0 +1,48 @@
+<div ng-controller="ORMParticipantesInstanciaCtrl" ng-show="instancia" edit-model="live" changes-watch="participantes" ng-model="instancia">
+    <div class="well">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 100%">Nombre</th>
+                    <th>Asistencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(pId, p) in live.participantes" ng-controller="ORMParticipanteInstanciaCtrl">
+                    <th style="text-align: left" class="span2">
+                        <i ng-click="editando && (p.star = !p.star)" ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+                        <img style="width: 30px; height: 30px;margin-left: 10px" ng-show="contacto.foto"
+                        ng-src="/api/upload/{{contacto.foto}}" class="img-circle" />&nbsp;
+                        <button style="padding: 0;" ng-click="verContacto()" type="button"
+                        class="btn btn-link">{{contacto.apellidos}}, {{contacto.nombre}}</button>
+                    </th>
+                    <td>
+                        <select ui-select2 ng-disabled="!editando" type="text" ng-model="p.asistencia" style="width:150px">
+                            <option ng-repeat="(k, v) in tiposAsistenciaPorKey" value="{{k}}">{{v.nombre}}</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="toolbar" style="margin-top: 20px" ng-show="editando">
+            <div class="btn-group pull-right">
+                <button ng-disabled="!changes" type="button" class="btn" ng-click="returnToOriginal()">
+                    <i class="icon-undo icon-white"></i>
+                </button>
+                <button ng-disabled="!changes" class="btn btn-primary" ng-click="applyChanges();guardarCambios()">
+                    <i class="icon-ok icon-white"></i>
+                </button>
+            </div>
+            <div class="input-append">
+                <select ui-select2 type="text" ng-model="buscador" ng-disabled="!editando">
+                    <option value=""></option>
+                    <option ng-repeat="c in contactos | filter:noRelacionado" value="{{c._id}}">
+                        {{c.nombre}} {{c.apellidos}}</option>
+                </select>
+                <button ng-click="agregarParticipante()" ng-disabled="!buscador" type="button" class="btn">
+                    <i class="icon-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

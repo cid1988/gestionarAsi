@@ -1,0 +1,113 @@
+<script>
+    $(document).ready(function() { $("#e1").select2(); });
+    $(document).ready(function() { $("#e2").select2(); });
+    $(document).ready(function() { $("#e3").select2(); });
+</script>
+
+<div ng-controller="ORMDetalleOrganigrama" class="card" style="padding-bottom: 20px;">
+    <h3 class="card-heading simple"> Detalle repartición
+        <div class="card-actions pull-right" style="margin: 0; padding-right: 0">
+            <a ng-show="editando" ng-click="eliminar(false, e._id)" class="btn btn-link no-underline" ng-if=hasPermission('organigrama.editar')><i class="icon-trash"></i></a>
+            <a ng-show="verDetalle" ng-click="salir()" class="btn btn-link"><i class="icon-thin-arrow-left"></i></a>
+        	<a ng-show="editando" ng-click="cancelar(); editando=false" class="btn btn-link no-underline"><i class="icon-undo"></i></a>
+        	<a ng-show="!editando" href="/organigrama" class="btn btn-link no-underline"><i class="icon-arrow-left"></i></a>
+        	<a ng-show="!editando" ng-click="editar()" class="btn btn-link no-underline" ng-if=hasPermission('organigrama.editar')><i class="icon-edit"></i></a>
+        	<a ng-show="editando" ng-click="guardar(i)" class="btn btn-link no-underline"><i class="icon-ok"></i></a>
+        </div>
+    </h3>
+    
+    <div class="card-body" style="padding-left: 40px;">
+        <div style="display: inline-block"> Nombre largo:<br /> 
+            <input ng-disabled="!editando" style="width:400px; margin-bottom: 1px" type="text" ng-model="organigrama.nombreCompleto" />
+        </div>
+        <div style="display: inline-block; margin-bottom:5px"> Sigla:<br /> 
+            <input ng-disabled="!editando" style="width:200px; margin-bottom: 1px" type="text" ng-model="organigrama.sigla" />
+        </div>
+        <br>
+        <div style="display: inline-block"> Nombre corto de organigrama:<br /> 
+            <input ng-disabled="!editando" style="width:400px; margin-bottom: 1px" type="text" ng-model="organigrama.nombreCortoOrganigrama" />
+        </div>
+        <div style="display: inline-block"> Nombre corto de jurisdicción:<br /> 
+            <input ng-disabled="!editando" style="width:200px; margin-bottom: 1px" type="text" ng-model="organigrama.nombreCortoJurisdiccion" />
+        </div>
+        
+        <h4>Período:</h4>
+        <div class="control-group">
+            <div class="input-prepend display:inline-block">
+                <label style="margin-bottom: -1px">Desde:</label>
+                <input ng-disabled="!editando" date type="text" ng-model="organigrama.periodoDesde"/><i class="icon-calendar"></i>
+                <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title"><i class="icon-calendar"></i></button>
+            </div>
+            <div class="input-append display:inline-block">
+                <label style="margin-bottom: -1px">Hasta:</label>
+                <input ng-disabled="!editando" date type="text" ng-model="organigrama.periodoHasta"/><i class="icon-calendar"></i>
+                <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title"><i class="icon-calendar"></i></button>
+            </div>
+        </div>
+        <span ng-show="!editando" style="display: inline-block" ng-if="!editando">
+            <label style="margin-bottom: 1px">Superior inmediato:</label>
+            <input class="span4" type="text" style="width:430px" ng-disabled="!editando" ng-model="jurisdiccionPorId(organigrama.superiorInmediato).nombreCompleto"/>
+        </span>
+        <div class="input-prepend inline-block" ng-if="editando" style="margin-left: 0px; margin-bottom: 0px; margin-right: 7px; margin-bottom: 10px; display: inline-block">
+            <label style="margin-bottom: -1px;">Superior inmediato:</label>
+            <select class="span4" ui-select2 type="text" style="width:450px" ng-model="organigrama.superiorInmediato" ng-options="i._id as i.nombreCompleto for i in organigramaSuperior | orderBy:'nombreCompleto'">
+                <option value="">{{jurisdiccionPorId(organigrama.superiorInmediato).nombreCompleto}}</option>
+            </select>
+        </div>
+        <hr>
+        <div class="control-group" style="display: inline-block; margin-bottom: 0px">Nivel:<br/> 
+            <select ng-disabled="!editando" id="e1" ng-model="organigrama.nivel">
+                <option ng-disabled="true">{{organigrama.nivel}}</option>
+                <option style="padding-left: 26px; padding-right: 26px" ng-repeat="l in listaNiveles" value="{{l.nombre}}">{{l.nombre}}</option>
+            </select>
+        </div>
+        <div class="control-group" style="display: inline-block;margin-bottom: 8px">Categoria:<br /> 
+            <select ng-disabled="!editando" id="e2" ng-model="organigrama.categoria">
+                <option ng-disabled="true">{{organigrama.categoria}}</option>
+                <option style="padding-left: 26px; padding-right: 26px" ng-repeat="l in listaCategorias" value="{{l.nombre}}">{{l.nombre}}</option>
+            </select>
+        </div>
+        <div style="display: inline-block"> Orden:<br /> 
+            <input ng-disabled="!editando" style="margin-bottom: 1px" type="text" ng-model="organigrama.orden" />
+        </div>
+        <hr>
+        <div style="display: inline-block;">Cantidad Empleados:<br/> 
+            <input ng-disabled="!editando" type="text" ng-model="data.cantidad"/>
+        </div>
+        <div style="display: inline-block;">Presupuesto Empleados:<br /> 
+            <input ng-disabled="!editando" type="text" ng-model="data.presupuesto" />
+        </div>
+        <div style="display: inline-block"> Fecha:<br /> 
+            <input ng-disabled="!editando" type="text" date ng-model="data.fecha" />
+        </div>
+        <a class="btn" ng-click="agregar()" style="margin-bottom: 10px; padding-left: 0px; padding-right: 0px;"><i class="icon-ok"></i></a>
+        <br>
+        <div ng-repeat="i in organigrama.empleados">
+            <div style="display: inline-block;">
+                <input ng-disabled="true" type="text" ng-model="i.cantidad"/>
+            </div>
+            <div style="display: inline-block;">
+                <input ng-disabled="true" type="text" ng-model="i.presupuesto" />
+            </div>
+            <div style="display: inline-block">
+                <input ng-disabled="true" type="text" date ng-model="i.fecha" />
+            </div>
+            <br>
+        </div>
+    </div>
+    
+    <!--Modal eliminar reparticion-->
+    <div id="modalEliminar" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Eliminar repartición</h3>
+        </div>
+        <div class="modal-body">
+            <p>Está a un paso de eliminar la repartición.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-info" data-dismiss="modal">Conservar la repartición</a>
+            <a href="#" class="btn btn-danger" data-dismiss="modal" ng-click="eliminar(true)">Eliminar la repartición</a>
+        </div>
+    </div>
+</div>

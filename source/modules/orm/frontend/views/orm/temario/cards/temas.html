@@ -1,0 +1,15 @@
+<div class="card animated fadeInDown" ng-controller="ORMTemarioTemasCtrl">
+	<div class="card-actions pull-right" style="margin: 0" ng-show="editando">
+		<a ng-disabled="!cambios" class="btn btn-link" ng-click="guardar()"><i class="icon-ok"></i></a>
+	</div>
+    <h3 class="card-heading simple">Temas</h3>
+    <div class="card-body" style="overflow-y: scroll; overflow-x: hidden; height: 350px;">
+        <ul class="temas" ng-model="temario.temas">
+            <li style="display: block; clear: both" ng-repeat="t in temario.temas">
+            	<span>{{temaPorId(t.temaId).nombre}}</span>
+                <button ng-show="t.agregado == 'si'" ng-disabled="!editando" class="btn pull-right" ng-class="(t.agregado == 'si') && 'active btn-info'" ng-click="editado();t.agregado='no'"><i class="icon-ok"></i></button>
+                <button ng-hide="t.agregado == 'si'" ng-disabled="!editando" class="btn pull-right" ng-class="(t.agregado == 'no') && 'active'" ng-click="editado();t.agregado='si'"><i class="icon-remove"></i></button>
+            </li>
+        </ul>
+    </div>
+</div>

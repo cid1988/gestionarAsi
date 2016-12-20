@@ -1,0 +1,19 @@
+<div ng-controller="ORMCalendarioTemarioCtrl" class="well">
+    <div class="toolbar" style="margin-bottom: 16px">
+        <div class="btn-group">
+            <button ng-hide="temario" ng-click="editarTemario()" type="button" class="btn btn-link">
+                <i class="icon-pencil"></i>&nbsp;Crear temario</button>
+            <button ng-show="temario" ng-click="editarTemario()" type="button" class="btn btn-link">
+                <i class="icon-pencil"></i>&nbsp;Editar temario</button>
+        </div>
+        <div class="btn-group pull-right">
+            <button ng-disabled="!temario" type="button" class="btn disabled">
+                <i class="icon-print"></i>&nbsp;Imprimir</button>
+            <button ng-disabled="!temario" type="button"
+            class="btn">
+                <i class="icon-envelope"></i>&nbsp;Enviar</button>
+        </div>
+    </div>
+    <div ng-show="temario" compile="temario.html" style="font-size:x-large; font-family:Arial; line-height: 150%"
+    /></div>
+</div>

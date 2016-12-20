@@ -1,0 +1,64 @@
+<style type="text/css">
+   input{border-radius:4px !important;}
+   input:focus{
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6) !important;
+      border-color: rgba(82, 168, 236, 0.8) !important;
+   }
+   .card-heading{padding-bottom:10px !important;}
+   .card-body{padding:0 !important;}
+   a:hover,a:active,a:visited{color:#404040;}
+   ul{padding:0 !important;}
+   #contenedorTabla{padding-left:14px !important;}
+</style>
+<div ng-controller="ORMContacto" class="card">
+   <div class="card-heading simple container-fluid">
+      <div class="row-fluid">
+         <div class="span10">
+            <button type="button" ng-class="{'btn-inverse': l == letraSeleccionada}" class="btn" ng-click="seleccionarLetra(l)" ng-repeat="l in abecedario">{{l}}</button>
+            <button type="button" title="Todos los contactos" class="btn" ng-class="{'btn-inverse': 'Todos' == letraSeleccionada}" ng-click="seleccionarLetra('Todos')">Todos</button>
+         </div>
+         <div class="span2">
+            <div class="row-fluid">
+               <input type="text" class="input-block-level" placeholder="Buscar por..." ng-model="filtro" autofocus/>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <div class="card-body">
+      <div name="form" class="container-fluid">
+         <div class="row-fluid">
+            <div class="span2">
+               <a href="#" ng-click="(orden=='apellidos')?(orden='-apellidos'):(orden='apellidos')">Nombre</a>
+            </div>
+            <div class="span3">
+               <a href="#" ng-click="orden=valorJurisdiccion">Dependencia</a>
+            </div>
+            <div class="span2">
+               <a href="#" ng-click="(orden=='cargo')?(orden='-cargo'):(orden='cargo')">Cargo</a>
+            </div>
+            <div class="span2" ng-show="!tipoOrdenConmutador">Organismo</div>
+            <div class="span3" >
+               <a href="#" ng-click="orden=valorCorreo">Correo oficial:</a>
+            </div>
+         </div>
+      </div>
+      <div class="container-fluid" id="contenedorTabla">
+         <ul class="nav nav-list row-fluid">
+            <li ng-repeat="c in contactos | orderBy:'apellidos' | orderBy:orden | filter:letra | filter:filtro">
+               <a style="font-size: 12px;padding-top: 8px;padding-bottom: 8px;" href="/contactos/detalle/{{c._id}}">
+                  <div class="span2">{{c.apellidos}}, {{c.nombre}} {{c.segundoNombre || ""}}</div>
+                  <div class="span3">{{c.dependencia.nombreCompleto}}</div>
+                  <div class="span2">{{c.cargo}}</div>
+                  <div class="span2">{{jurisdiccionPorId(c.organigrama).sigla}}</div>
+                  <div class="span3">{{valorCorreo(c)}}</div>
+               </a>
+            </li>
+            <li ng-if="!contactos.length" class="text-center">
+               <em>No hay cargas aún</em>
+            </li>
+         </ul>
+      </div>
+   </div>
+   
+</div>

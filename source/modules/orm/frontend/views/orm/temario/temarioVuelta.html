@@ -1,0 +1,39 @@
+<style>
+    .temas {
+        margin-left: 0;
+    }
+    .temas li {
+        list-style-type: none;
+        border-left: solid #444 4px;
+        padding-left: 8px;
+        margin-bottom: 8px;
+    }
+</style>
+<div ng-controller="ORMTemarioVueltaCtrl">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="span4">
+                    <div ng-include src="'/views/orm/temario/cards/estado.html'"></div>
+                </div>
+                <div class="span8">
+                    <div class="card animated fadeInDown">
+                        <div class="card-actions pull-right" style="margin: 0" ng-show="editando">
+                    		<a ng-disabled="!cambios" class="btn btn-link" ng-click="guardar()"><i class="icon-ok"></i></a>
+                    	</div>
+                        <h3 class="card-heading simple">Temas Tratados</h3>
+                        <div class="card-body" style="overflow-y: scroll; overflow-x: hidden; height: 500px;">
+                            <ul class="temas" ng-model="temario.temas">
+                                <li style="display: block; clear: both" ng-repeat="t in temario.temas" ng-show="t.agregado=='si'">
+                                	<span>{{temaPorId(t.temaId).nombre}}</span>
+                                    <button ng-show="t.tratado == 'si'" ng-disabled="!editando" class="btn pull-right" ng-class="(t.tratado == 'si') && 'active btn-info'" ng-click="editado();t.tratado='no'"><i class="icon-ok"></i></button>
+                                    <button ng-hide="t.tratado == 'si'" ng-disabled="!editando" class="btn pull-right" ng-class="(t.tratado == 'no') && 'active'" ng-click="editado();t.tratado='si'"><i class="icon-remove"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

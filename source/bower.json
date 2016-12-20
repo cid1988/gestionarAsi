@@ -1,0 +1,14 @@
+{
+  "name": "bag2",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "latest",
+    "json3": "latest",
+    "es5-shim": "latest",
+    "angular-resource": "latest",
+    "angular-cookies": "latest",
+    "angular-sanitize": "latest",
+    "angular-ui": "latest",
+    "angular-ui-bootstrap": "latest"
+  }
+}

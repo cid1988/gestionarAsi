@@ -1,0 +1,29 @@
+<div class="container-fluid" ng-controller="ORMContactosReporte">
+    <div class="row-fluid">
+        <h3 class="card-heading simple">Listado de contactos y mails</h3>
+        <table border="1" class="table table-bordered">
+            <tr bgcolor= "#FFFFFF">
+                <th>NOMBRE</th>
+                <th>CORREO OFICIAL / ALTERNATIVO</th>
+            </tr>
+            <tr ng-repeat="c in contactos" bgcolor= "#FFFFFF">
+                <td>
+                    {{c.apellidos}} {{c.nombre}}
+                </td>
+                <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                    <table border="0" class="table table-bordered">
+                        <tr ng-repeat="r in c.correos">
+                            <td width="50%">
+                                <span ng-show="r.nombre == 'Email oficial'">{{r.nombre}}: {{r.valor}}</span>
+                            </td>
+                            <td width="50%">
+                                <span ng-show="r.nombre == 'Email alternativo'" ng-repeat="d in c.correos">&nbsp;&nbsp;&nbsp;&nbsp;<span ng-show="d.nombre == 'Email alternativo'">{{d.nombre}}: {{d.valor}}</span><br></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+        	</tr>
+        </table>
+        <div class="row-fluid" ng-show="!estrellas.length">No hay ningun participante estrella</div>
+    </div>
+</div>

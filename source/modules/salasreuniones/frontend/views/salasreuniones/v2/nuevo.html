@@ -1,0 +1,321 @@
+<style type="text/css">
+	input{
+		border-radius: 4px !important;
+	}
+	input:focus,textarea:focus{
+		/*Borde celeste al hacerles focus */
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6) !important;
+		border-color: rgba(82, 168, 236, 0.8) !important;
+	}
+	.card {
+		width: 900px;
+		margin: 0 auto;
+	}
+</style>
+<div ng-controller="salasReunionesNuevaSalaCrtl" class="card">
+	<div class="card-heading simple">
+		<div class="row-fluid">
+			<div class="span3">
+				Nueva Aula
+			</div>
+		</div>
+	</div>
+	<form ng-submit="guardar()">
+		<div class="container-fluid">
+			<div class="row-fluid" ng-init="sala.observaciones = []">
+				<div class="card-body span4">
+					<div class="control-group">
+						<label class="control-label" for="nombreSala">Nombre</label>
+						<div class="controls">
+							<input type="text" class="input-block-level" id="nombreSala" maxlength="20" autofocus required placeholder="Nombre" ng-model="sala.nombre">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="colorPicker">Color</label>
+						<div class="controls">
+							<input type="color" class="input-block-level" id="colorPicker" tab-index="-1" required ng-model="sala.color">
+						</div>
+						<div class="controls">
+							<div class="row-fluid">
+								<div class="span2" style="text-align: -webkit-center;">
+									<button type="button" style="height:26px; width:26px; border-radius:7px; background-color:#F44336" ng-click="sala.color='#F44336' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #E91E63;" ng-click="sala.color='#E91E63' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #9C27B0;" ng-click="sala.color='#9C27B0' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #673AB7;" ng-click="sala.color='#673AB7' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #2196F3;" ng-click="sala.color='#2196F3' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #00BCD4;" ng-click="sala.color='#00BCD4' "></button>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span2" style="text-align: -webkit-center;">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #009688;" ng-click="sala.color='#009688' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #4CAF50;" ng-click="sala.color='#4CAF50' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #8BC34A;" ng-click="sala.color='#8BC34A' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #CDDC39;" ng-click="sala.color='#CDDC39' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #FFEB3B;" ng-click="sala.color='#FFEB3B' "></button>
+								</div>
+								<div class="span2">
+									<button type="button" style="height:26px;width:26px;border-radius:7px;background-color: #FF9800;" ng-click="sala.color='#FF9800' "></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="capacidadSala">Capacidad Optima</label>
+						<div class="controls">
+							<input type="number" class="input-block-level" id="capacidadSala" placeholder="Capacidad" required ng-model="sala.capacidad">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputMaxCap">Capacidad Adicional</label>
+						<div class="controls" ng-init="sala.capacidadAdicional = 0">
+							<input type="number" class="input-block-level" id="inputMaxCap" min="0" max="{{ sala.capacidad }}" autofocus required placeholder="Capacidad Adicional" ng-model="sala.capacidadAdicional">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPuesto">Puesto Capacitador</label>
+						<div class="controls">
+							<div class="row-fluid">
+								<div class="span6">
+									<input type="number" class="input-block-level" id="inputPuesto" min="0" max="{{ sala.capacidad }}" autofocus required placeholder="Silla" title="Silla" ng-model="sala.capacitadorSilla">
+								</div>
+								<div class="span6" ng-init="sala.capacitadorMesa = ''">
+									<select ng-model="sala.capacitadorMesa" type="text" placeholder="Escritorio/Mesa de Apoyo" title="Escritorio/Mesa de Apoyo" class="input-block-level" required>
+										<option value="" selected>Escritorio/Mesa apoyo</option>
+										<option value="1 ( chica )">1 ( chica )</option>
+										<option value="1 ( mediana )" >1 ( mediana )</option>
+										<option value="1 ( grande )" >1 ( grande )</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputSillas">Sillas</label>
+						<div class="controls">
+							<div class="row-fluid">
+								<div class="span6" ng-init="sala.sillas = 0">
+									<input type="number" class="input-block-level" id="inputSillas" min="0" max="{{ ( sala.capacidad * 2 ) }}" autofocus required placeholder="Sillas" title="Sillas" ng-model="sala.sillas">
+								</div>
+								<div class="span6" ng-init="sala.sillaConPupitre = 0">
+									<input type="number" id="inputConPupitre" class="input-block-level" min="0" max="{{ ( sala.capacidad * 2 ) }}" autofocus required placeholder="Sillas con Pupitre" title="Sillas con Pupitre" ng-model="sala.sillaConPupitre">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body span4">
+					<div class="control-group">
+						<label class="control-label" for="inputCantidadEscritorios">Escritorio / Mesas</label>
+						<div class="controls">
+							<div class="row-fluid">
+								<div class="span6">
+									<input type="number" id="inputCantidadEscritorios" class="input-block-level" min="0" max="{{ ( sala.capacidad * 3 ) }}" autofocus required placeholder="Cantidad Escritorios" title="Cantidad Escritorios" ng-model="sala.cantidadEscritorios">
+								</div>
+								<div class="span6">
+									<select ng-model="sala.escritoriosEnAula" type="text" placeholder="Escritorio/Mesa de Apoyo" title="Escritorio/Mesa de Apoyo" class="input-block-level">
+										<option value="" selected>Escritorio/Mesas</option>
+										<option value="mesas">mesas</option>
+										<option value="escritorios" >escritorios</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="pizzarra">Pizarra</label>
+						<div class="controls" ng-init="sala.estadoPizzarra = 0">
+							<select ng-model="sala.estadoPizzarra" type="number" id="pizzarra" required style="width: 100%;">
+								<option value="0" selected>Óptima</option>
+								<option value="1">Un poco manchada</option>
+								<option value="2">Mal estado</option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="internoSala">Formato de Aula</label>
+						<div class="controls" ng-init="sala.formato = 0">
+							<select ng-model="sala.formato" required style="width: 100%;">
+								<option value="0" selected></option>
+								<option value="1">Disposición en "U"</option>
+								<option value="2">Auditorio</option>
+								<option value="3">Aula</option>
+								<option value="4">Reunión</option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="rotafolio">Rotafolio</label>
+						<div class="controls" ng-init="sala.rotafolioEnSala = 0">
+							<input type="number" min="0"  max = {{sala.capacidad}} class="input-block-level" id="rotafolio" placeholder="Rotafolio" required ng-model="sala.rotafolioEnSala">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="proyector">Proyector</label>
+						<div class="controls" ng-init="sala.estadoProyector=true">
+							<button type="button" ng-click="sala.estadoProyector = !sala.estadoProyector" class="btn input-block-level" ng-class="{ 'btn-success': sala.estadoProyector }">
+								<span ng-show="sala.estadoProyector">Óptimo</span>
+								<span ng-hide="sala.estadoProyector">No óptimo</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="internoSala">Piso</label>
+						<div class="controls" ng-init="sala.piso = '2'">
+							<select ng-model="sala.piso" type="text" required style="width: 100%;">
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="selectTipoAula">Tipo de Aula</label>
+						<div class="controls" id="selectTipoAula" required>
+							<select ng-model="sala.tipoAula" ng-init="sala.tipoAula = 'Tradicional' " required style="width: 100%;">
+								<option value="Tradicional">Tradicional</option>
+								<option value="Taller" selected="">Taller</option>
+								<option value="Informatica">Informatica</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="card-body span4">
+					<div class="control-group">
+						<label class="control-label">Equipo de Sonido</label>
+						<div class="controls" ng-init="sala.equipoSonido=false">
+							<button type="button"  ng-click="sala.equipoSonido = !sala.equipoSonido" class="btn input-block-level" ng-class="{ 'btn-success': sala.equipoSonido }">
+								<span ng-show="sala.equipoSonido">Si</span>
+								<span ng-hide="sala.equipoSonido">No</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >Computadora</label>
+						<div class="controls" ng-init="sala.computadora=false">
+							<button type="button" ng-click="sala.computadora = !sala.computadora" class="btn input-block-level" ng-class="{ 'btn-success': sala.computadora }">
+								<span ng-show="sala.computadora">Si</span>
+								<span ng-hide="sala.computadora">No</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >Pantalla</label>
+						<div class="controls" ng-init="sala.pantalla=false">
+							<button type="button" ng-click="sala.pantalla = !sala.pantalla" class="btn input-block-level" ng-class="{ 'btn-success': sala.pantalla }">
+								<span ng-show="sala.pantalla">Si</span>
+								<span ng-hide="sala.pantalla">No</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >Puntero</label>
+						<div class="controls" ng-init="sala.puntero=false">
+							<button type="button" ng-click="sala.puntero = !sala.puntero" class="btn input-block-level" ng-class="{ 'btn-success': sala.puntero }">
+								<span ng-show="sala.puntero">Si</span>
+								<span ng-hide="sala.puntero">No</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >Pantalla Tommy</label>
+						<div class="controls" ng-init="sala.pantallaTommy=false">
+							<button type="button" ng-click="sala.pantallaTommy = !sala.pantallaTommy" class="btn input-block-level" ng-class="{ 'btn-success': sala.pantallaTommy }">
+								<span ng-show="sala.pantallaTommy">Si</span>
+								<span ng-hide="sala.pantallaTommy">No</span>
+							</button>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" >Imagen de Aula</label>
+						<div style="padding-bottom:10px">
+							<div id="uploader" fine-uploader destination="'/upload/'" placeholder="'Examinar'" uploaded="uploaded" extensions=" 'jpg,jpeg,png' "></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<div class="container-fluid">
+					<div class="row-fluid">
+						<div class="span4 offset4">
+							<button type="submit" class="btn btn-info input-block-level">Crear</button>
+						</div>
+						<div class="span4">
+							<button type="button" class="btn input-block-level" data-toggle="modal" data-target="#modalObservaciones">Observaciones</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- Modal -->
+	<div id="modalObservaciones" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Observaciones</h3>
+			<hr/>
+			<div class="row-fluid">
+				<form ng-submit="guardarObservacion()" class="clearfix" style="margin:0">
+					<div class="span2" ng-init="observacion.fecha = fechaDeHoy()">
+						<input date type="text" class="input-block-level" ng-model="observacion.fecha"/>
+					</div>
+					<div class="span8">
+						<input type="text" maxlength="240" class="input-block-level" placeholder="Descripción de observación" ng-model="observacion.descripcion"></input>
+					</div>
+					<div class="span2">
+						<button type="submit" class="btn btn-info input-block-level">Guardar</button>
+					</div>
+				</form>
+				<span class="help-block"> Las observaciones no se guardaran hasta que presione el botón <b>Crear</b>. </span>
+			</div>
+		  </div>
+  		<div class="modal-body" style="max-height:50vh">
+  			<div class="container-fluid">
+  				<div class="row-fluid">
+  					<table class="table table-stripped">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Descripción</th>
+								<th>Estado</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="obs in sala.observaciones track by $index" title="Usuario que la creo: {{obs.usuario}} el {{obs.fechaCreacion}}">
+								<td>{{obs.fecha}}</td>
+								<td>{{obs.descripcion}}</td>
+								<td>
+									<button type="button" class="btn input-block-level" ng-class="{ 'btn-success': obs.estado }" ng-click=" obs.estado = !obs.estado">
+										<span ng-show="obs.estado"> Resuelta </span>
+										<span ng-hide="obs.estado"> No resuelta </span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+  					</table>
+  				</div>
+  			</div>
+  		</div>
+	</div>
+</div>
+

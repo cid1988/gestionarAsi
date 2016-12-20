@@ -1,0 +1,15 @@
+<div ng-controller="ORMCalendarioMinutaCtrl" class="card" ng-class="{'animated fadeInDown': instancia}" ng-if="instancia"
+style="padding-bottom:14px;padding-top: 10px;">
+    <div class="card-actions pull-right" ng-if=hasPermission('orm.edicionReunion') style="margin: 0">
+        <a ng-click="abrir()" type="button" class="btn btn-link" title="Cargar Minuta y Compromisos">
+            <i class="icon-external-link"></i></a>
+    </div>
+    <h3 class="card-heading simple" style="font-size: 19px;">Minuta y Compr.</h3>
+    <div class="card-body">
+        <a type="button" href="/orm/minutas/{{instancia._id}}/print" style="margin-bottom: 10px" class="btn btn-block">Imprimir</a>
+        <div class="btn-group" style="width: 100%;">
+            <a type="button" href="#" ng-click="imprimirAnterior(instancia)" title="Imprimir minuta y compromisos de la reunion anterior" style="margin-bottom: 10px;width: 71%;padding-left: 0px;padding-right: 0px;" class="btn"><b>Imprimir Anterior</b></a>
+            <a type="button" href="#" ng-click="editarAnterior(instancia)" title="Editar minuta y compromisos de la reunion anterior" style="margin-bottom: 10px;width: 27%;padding-left: 0px;padding-right: 0px;" class="btn"><i class="icon-edit"></i></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div ng-controller="NuevaJurisdiccionCtrl">
+    <div class="well span9  offset2">
+    <a ng-click="guardar()" class="btn btn-success pull-right" type="button"><i class="icon-ok icon-white"></i> Guardar</a>
+    <h3 style="margin-top: 0px;">Nueva</h3>
+    <br />
+        <form class="form-horizontal">
+        
+            <div class="control-group">
+        		<forminput ng-model="jurisdiccion.sigla" placeholder="Sin sigla" title="Sigla" required />
+                <forminput ng-model="jurisdiccion.nombre" placeholder="Sin nombre" title="Nombre" required />
+                <formselect required ng-model="jurisdiccion.responsable" source="responsables" placeholder="Seleccionar" title="Responsable" />
+                <div class="control-group">
+                    <label class="control-label">Dirección:</label>
+                    <div class="controls">
+                        <input type="text" style="width: 400px" ng-model="jurisdiccion.calle" placeholder="Calle de la jurisdiccion" />
+                        <input type="text" style="width: 40px" ng-model="jurisdiccion.altura"/>
+                    </div>
+                </div>
+            </div>
+        
+        	<hr />
+        </form>
+    </div>
+</div>
+

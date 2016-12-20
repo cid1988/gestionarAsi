@@ -1,0 +1,22 @@
+<div class="container-fluid" ng-controller="ORMReunionReportesOtrosCtrl">
+    <div class="row-fluid">
+        <h3 class="card-heading simple">Mails</h3>
+        <div class="card-body">
+            <div ng-repeat="r in mails" style="display: inline-block">
+                <p ng-hide="(buscarCorreo('Email oficial', contactoPorId(r.id)) == '')">&nbsp;{{buscarCorreo('Email oficial', contactoPorId(r.id))}},</p>
+        	</div>
+            <div class="row-fluid" ng-show="!mails.length">No hay ningun mail</div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row-fluid">
+        <h3 class="card-heading simple">Salas</h3>
+        <div class="card-body">
+            <div ng-repeat="r in instancias">
+                {{r.ubicacion.nombre}}
+        	</div>
+            <div class="row-fluid" ng-show="!instancias.length">No hay ningun salon</div>
+        </div>
+    </div>
+</div>

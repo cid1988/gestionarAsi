@@ -1,0 +1,335 @@
+<script type="text/javascript">
+	$(document).ready(function() { $("#e1").select2(); });
+</script>
+<style type="text/css">
+	#nombreSalaReserva{white-space: nowrap;}
+	h4{margin:0;}
+	.paddingCero{padding:0 !important;}
+	.noMargin{margin:0 !important;}
+	legend{margin-bottom:5px !important;}
+	.accordion{margin-bottom:5px !important;}
+	h5{margin:0 !important;}
+	.colorEnCardImg{
+		display: inline-block;
+		width: 46px;
+		height: 46px;
+		margin-right: 15px;
+		vertical-align: top;
+		border: 0;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		border-radius: 50%;
+	}
+	.card-actions{
+		position: absolute;
+	    	background-color: white;
+	    	top: 10px;
+	    	right: 10px;
+	}
+	.imageSimpleBot{padding-bottom:5px !important;}
+	.thTitulo{
+		text-align: -webkit-left;
+		padding: 5px;
+	}
+	.leftText{
+		text-align: left !important;
+	}
+	.paddLeft5{padding-left: 5px}
+</style>
+<div ng-model="instancia" changes-watch="temas,suspendida,comentarios" ng-show="instancia" edit-model="live" ng-controller="SRTabReservaCtrl" class="card animated bounceInDown">
+	<div class="card-heading image simple imageSimpleBot">
+		<div class="colorEnCardImg" style="background-color: {{sala.color}}"></div>
+		<div class="card-actions clearfix pull-right">
+			<button type="button" ng-click="volver()" title="Cerrar" class="btn btn-link"><i class="icon-remove"></i></button>
+			<button type="submit" ng-show="editando && sePuedeGuardar" form="formReunion" class="btn btn-link" title="Guardar"><i class="icon-ok"></i></button>
+			<span>
+				<div class="btn-group">
+					<button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" title="Opciones">
+						<i class="icon-cog"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="left: -125px;">
+						<li>
+							<a tabindex="-1" href="/salasreuniones/{{instancia._id}}/print" title="Imprimir reserva"><i class="icon-print"></i> Imprimir</a>
+						</li>
+					  	<li class="divider"></li>
+					  	<!--
+					  		// TIENEPERMISOS DE BORRAR REUNIONES
+					  		<li ng-show="hasPermission('salasreuniones.borrarReuniones') || instancia.usuario==username">
+					  	-->
+					  	<li ng-show=" hasPermission('salasreuniones.eliminarReuniones')  || instancia.usuario==username">
+							<a tabindex="-1" href="#" ng-click="eliminar()" title="Eliminar unicamente ESTA reunion"><i class="icon-trash"></i> Eliminar</a>
+					 	</li>
+					  	<li ng-show="instancia.idReunionSemanal && ( hasPermission('salasreuniones.eliminarReuniones')  || instancia.usuario==username ) ">
+							<a tabindex="-1" href="#" ng-click="eliminarSemanal(false, instancia.idReunionSemanal)" title="Elimar toda la reserva Semanal"><i class="icon-trash"></i> Eliminar Semanal</a>
+					  	</li>
+					  	<li class="divider" ng-show="instancia.registroCambios"></li>
+					  	<li ng-show="instancia.registroCambios">
+							<a tabindex="-1" href="/salasreuniones/{{instancia._id}}/registro" title="Ver registro de cambios en esta reunion"><i class="icon-list"></i> Ver Registro</a>
+					  	</li>
+					</ul>
+				</div>
+			</span>
+		</div>
+		<div class="card-heading-header">
+         			<h3 id="nombreSalaReserva">
+         				{{sala.nombre}}
+         			</h3>
+         			<span>
+				El <b>{{instancia.fecha}}</b> de <b>{{instancia.desdeHora}}</b> a <b>{{instancia.hastaHora}}</b>
+         			</span>
+      		</div>
+	</div>
+	<div class="card-body">
+		<form class="container-fluid paddingCero"  id="formReunion" ng-submit="guardar()">
+			<div class="row-fluid">
+				<div class="span12 noMargin">
+					<label for="inputTituloReunion">Título de la clase:</label>
+					<input type="text" id="inputTituloReunion" class="input-block-level" placeholder="Título..." ng-disabled="!editando" ng-model="instancia.titulo" maxlength="50" required ng-change="sePuedeGuardar = true"/>
+				</div>
+
+				<div class="span12 noMargin">
+					<label for="inputIDReunion">ID:</label>
+					<input type="number" id="inputIDReunion" class="input-block-level" placeholder="ID..." ng-disabled="!editando" ng-model="instancia.idClase" required ng-change="sePuedeGuardar = true" min="1" max="1000000"/>
+				</div>
+
+				<div class="span6 noMargin">
+					<label for="inputUsuarioReserva">Usuario solicitante:</label>
+					<input type="text" id="inputUsuarioReserva" class="input-block-level" disabled="disabled" ng-model="instancia.usuario">
+				</div>
+
+				<div class="span6">
+					<label for="inputCantidadReserva">Cantidad de asistentes:</label>
+
+					<input type="number" id="inputCantidadReserva" class="input-block-level" placeholder="Cantidad de asistentes..." ng-disabled="!editando" ng-model="instancia.asistentes" min="1" max="{{maximaCantidadUnica}}" required ng-change="sePuedeGuardar = true">
+				</div>
+
+				<div class="span12 noMargin" style="padding-bottom:3px">
+					<label for="selectFormatoReserva">Formato de Clase:</label>
+					<select ng-model="instancia.formato" required style="width: 100%;" ng-disabled="!editando" ng-change="sePuedeGuardar = true">
+						<option value="0"></option>
+						<option value="1">Disposición en "U"</option>
+						<option value="2">Auditorio</option>
+						<option value="3">Aula</option>
+						<option value="4">Reunión</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="card-comments">
+		<div class="comments-collapse-toggle">
+         			<a data-toggle="collapse" data-target="#c1-comments" href="#c1-comments">Tecnologia, Equipamiento, Servicios y Observaciones <i class="icon-angle-down"></i></a>
+      		</div>
+		<div id="c1-comments" class="comments collapse">
+			<div class="media">
+				<table class="table table-condensed">
+					<tbody>
+						<tr>
+							<th colspan="2" class="thTitulo"> Tecnología </th>
+						</tr>
+						<tr>
+							<td>
+								<label class="checkbox leftText">
+									<input ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.telefonoConferencia"> Telefono Conferencia
+								</label>
+							</td>
+							<td class="paddLeft5">
+								<label class="checkbox leftText">
+									<input ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.proyector"> Proyector
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="checkbox leftText">
+									<input  ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.pantalla"> Pantalla
+								</label>
+							</td>
+							<td class="paddLeft5">
+								<label class="checkbox leftText">
+									<input  ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.videoconferencia"> Videoconferencia
+								</label>
+							</td>
+						</tr>
+						<tr ng-if="sala.tv">
+							<td colspan="2">
+								<label class="checkbox leftText">
+									<input ng-change="sePuedeGuardar = true"  type="checkbox" ng-disabled="!editando" ng-model="instancia.lcd"> LCD
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2" class="thTitulo"> Equipamiento </th>
+						</tr>
+						<tr>
+							<td>
+								<label class="checkbox leftText">
+									<input  ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.rotafolio"> Rotafolio
+								</label>
+							</td>
+							<td class="paddLeft5">
+								<label class="checkbox leftText">
+									<input ng-change="sePuedeGuardar = true"  type="checkbox" ng-disabled="!editando" ng-model="instancia.mesaAuxiliar"> Mesa Auxiliar
+								</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label class="checkbox leftText">
+									<input  ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.sillasAdicionales"/> Sillas adicionales
+								</label>
+							</td>
+							<td class="paddLeft5">
+								<input  ng-change="sePuedeGuardar = true" type="number" min="0" ng-show="instancia.sillasAdicionales" class="input-block-level" ng-disabled="!editando" placeholder="Cantidad..." ng-model="instancia.cantSillasAdicionales"/>
+							</td>
+						</tr>
+						<!--
+						<tr>
+							<th colspan="2" class="thTitulo"> Servicios </th>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<label class="checkbox leftText">
+									<input  ng-change="sePuedeGuardar = true" type="checkbox" ng-disabled="!editando" ng-model="instancia.catering"> Catering
+								</label>
+							</td>
+						</tr>
+						-->
+					</tbody>
+				</table>
+				<label for="areaObsReunion"><b>Observaciones</b></label>
+				<textarea ng-change="sePuedeGuardar = true"  id="areaObsReunion" class="input-block-level" placeholder="Observaciones..." ng-disabled="!editando" ng-model="instancia.observaciones" rows="2" style="resize: vertical;"> </textarea>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalAlertar" class="modal hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>{{tituloModal}}</h3>
+		</div>
+		<div class="modal-body">
+			<div compile="contenidoModal">
+
+			</div>
+		</div>
+		<div class="modal-footer clearfix">
+			<div class="pull-right">
+			  	<a href="#" class="btn btn-info" data-dismiss="modal">Aceptar</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<!--MODAL Con datos del dueño de reserva -->
+	<div id="modalContacto" class="modal hide fade" ng-controller="SRTabReservaCtrl">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Datos del dueño de la clase</h3>
+		</div>
+		<div class="modal-body">
+			<b>Nombre: </b>{{contactoPorId(instancia.duenio).apellidos}}, {{contactoPorId(instancia.duenio).nombre}} <br>
+			<b>Correo Oficial: </b>{{valorCorreo(contactoPorId(instancia.duenio))}} <br>
+			<b>Telefono Directo: </b>{{valorTelefono(contactoPorId(instancia.duenio))}} <br>
+			<b>Conmutador: </b>{{valorConmutador(contactoPorId(instancia.duenio))}} <br>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn pull-right" data-dismiss="modal">Cerrar</a>
+		</div>
+	</div>
+	<!-- MODAL para elegir sala-->
+	<div id="modalSala" class="modal hide fade" ng-controller="SRTabReservaCtrl">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Elegir Aula</h3>
+		</div>
+		<div class="modal-body" style="overflow-y: hidden; overflow-x: hidden;">
+			<div class="control-group span5" style="margin-left: 0px; margin-right: 8px; margin-bottom: 10px;">
+				<select ui-select2 class="span4" type="text" ng-model="instancia.sala" ng-show="editando" ng-options="i._id as i.nombre for i in salas | filter:filtroEstado | orderBy:'nombre'">
+				</select>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn pull-right" data-dismiss="modal">Cerrar</a>
+			<a href="#" class="btn pull-right" ng-show="editando" ng-click="guardarSala()" data-dismiss="modal" style="margin-right: 10px;">Guardar</a>
+		</div>
+	</div>
+	<!-- MODAL PARA AGREGAR PARTICIPANTES -->
+	<div id="modalVisitas" class="modal hide fade" ng-controller="SRTabReservaCtrl">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Participantes</h3>
+		</div>
+		<div class="modal-body" style="overflow-y: scroll; overflow-x: hidden; height: 350px;">
+			<div class="control-group span5" style="margin-left: 0px; margin-right: 8px; margin-bottom: 10px;">
+				<select ui-select2 class="span4" type="text" ng-model="data" ng-show="editando" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+				</select>
+				<button class="btn" style="margin-bottom:0px; margin-left: 5px" ng-show="editando" ng-click="agregarParticipante(data)"><i class="icon-plus"></i></button>
+			</div>
+			<div class="control-group span5" ng-repeat="t in instancia.participantes" style="margin-left: 0px; margin-right: 5px;margin-bottom: 0px;">
+				<input class="span4" type="text" ng-disabled="true" value="{{contactoPorId(t.contactoId).apellidos}}, {{contactoPorId(t.contactoId).nombre}}" style="margin-bottom: 0px;" />
+				<a class="btn" href="#" style="margin-left: 0px" ng-model="t.externo" ng-disabled="!editando" ng-class="{'btn-info': t.externo}" ng-click="t.externo=!t.externo">Externo</a>
+				<a href="#" style="margin-left: 10px" ng-show="editando" ng-click="eliminarListaElem(t, instancia.participantes)"><i class="icon-trash"></i></a>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn pull-right" data-dismiss="modal">Cerrar</a>
+			<a href="#" class="btn pull-right" ng-show="editando" ng-click="guardarVisitas()" data-dismiss="modal" style="margin-right: 10px;">Guardar</a>
+		</div>
+	</div>
+	<!-- MODAL para confirmar la eliminacion de una reserva -->
+	<div id="confirmarEliminar" class="modal hide fade" ng-controller="SRTabReservaCtrl">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Eliminar clase</h3>
+		</div>
+		<div class="modal-body">
+			<p>Está a un paso de eliminar la reserva de {{sala.nombre}}</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-info" data-dismiss="modal">Conservar el registro</a>
+			<a href="#" class="btn btn-danger" data-dismiss="modal" ng-click="eliminar(true)">Eliminar reserva</a>
+		</div>
+	</div>
+	<!-- MODAL para confirmar la eliminacion de una reserva semanal -->
+	<div id="confirmarEliminarSemanal" class="modal hide fade" ng-controller="SRTabReservaCtrl">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Eliminar clase semanal</h3>
+		</div>
+		<div class="modal-body">
+			<p>Está a un paso de eliminar la clase semanal completa de {{sala.nombre}}</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-info" data-dismiss="modal">Conservar el registro</a>
+			<a href="#" class="btn btn-danger" data-dismiss="modal" ng-click="eliminarSemanal(true, $parent.reunionSemanalBorrar)">Eliminar reserva</a>
+		</div>
+	</div>
+	<!--MODAL De confirmacion de envio -->
+	<div id="mailEnviado" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Mail Enviado</h3>
+		</div>
+		<div class="modal-body">
+			<p>Mail de "<b>{{tituloDelMail}}</b>" enviado con exito a los siguientes usuarios:</p>
+			<p>
+				<ul>
+					<li ng-repeat="cuenta in paraDelMail track by $index">
+						<b>
+							<span>{{cuenta}}</span>
+							<span ng-switch="$index">
+								<span ng-switch-when="0"> (Dueño)</span>
+								<span ng-switch-default> (Participante)</span>
+							</span>
+						</b>
+					</li>
+				</ul>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-info" data-dismiss="modal">Cerrar</a>
+		</div>
+	</div>
+</div>
+

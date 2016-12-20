@@ -1,0 +1,76 @@
+<style type="text/css">
+.table-no-border tbody > tr:first-child > td, .table-no-border tbody > tr:first-child >th {
+    border: none !important;
+}
+.table th {
+    vertical-align: middle !important;
+}
+
+</style>
+
+<table class="table table-condensed table-no-border">
+    <tr>
+        <th>Para:</th>
+        <td style="width: 100%" ng-model="seleccionadosPara">
+            <div class="btn-group" ng-repeat="c in seleccionadosPara" style="margin-bottom: 5px;margin-left: 0px;margin-right: 5px;">
+                <button class="btn active"><strong>{{contactoPorId(c.contactoId).apellidos}}, {{contactoPorId(c.contactoId).nombre}} <{{buscarCorreo('Email oficial', contactoPorId(c.contactoId))}}></strong></button>
+                <button class="btn active" ng-show="permisoAgregar" ng-click="quitar(c, seleccionadosPara)"><i class="icon-remove"></i></button>
+            </div>
+        </td>
+        <td ng-show="permisoAgregar">
+            <select ui-select2 style="width:240px" ng-click="agregaPara(buscador.para)"
+            type="text" ng-model="buscador.para" placeholder="Agregar a..." >
+                <option value=""></option>
+                <option ng-repeat="c in contactos" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>CC:</th>
+        <td style="width: 100%" ng-model="seleccionadosCc">
+            <div class="btn-group" ng-repeat="c in seleccionadosCc" style="margin-bottom: 5px;margin-left: 0px;margin-right: 5px;">
+                <button class="btn active"><strong>{{contactoPorId(c.contactoId).apellidos}}, {{contactoPorId(c.contactoId).nombre}} <{{buscarCorreo('Email oficial', contactoPorId(c.contactoId))}}></strong></button>
+                <button class="btn active" ng-show="permisoAgregar" ng-click="quitar(c, seleccionadosCc)"><i class="icon-remove"></i></button>
+            </div>
+        </td>
+        <td ng-show="permisoAgregar">
+            <select ui-select2 style="width:240px" ng-click="agregaCC(buscador.cc)"
+            type="text" ng-model="buscador.cc" placeholder="Agregar a..." >
+                <option value=""></option>
+                <option ng-repeat="c in contactos" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>CCO:</th>
+        <td style="width: 100%" ng-model="seleccionadosCco">
+            <div class="btn-group" ng-repeat="c in seleccionadosCco" style="margin-bottom: 5px;margin-left: 0px;margin-right: 5px;">
+                <button class="btn active"><strong>{{contactoPorId(c.contactoId).apellidos}}, {{contactoPorId(c.contactoId).nombre}} <{{buscarCorreo('Email oficial', contactoPorId(c.contactoId))}}></strong></button>
+                <button class="btn active" ng-show="permisoAgregar" ng-click="quitar(c, seleccionadosCco)"><i class="icon-remove"></i></button>
+            </div>
+        </td>
+        <td ng-show="permisoAgregar">
+            <select ui-select2 style="width:240px"  ng-click="agregaCCO(buscador.cco)"
+            type="text" ng-model="buscador.cco" placeholder="Agregar a..." >
+                <option value=""></option>
+                <option ng-repeat="c in contactos" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th>Eventuales:</th>
+        <td style="width: 100%" ng-model="seleccionadosExclusivos">
+            <div class="btn-group" ng-repeat="c in seleccionadosExclusivos" style="margin-bottom: 5px;margin-left: 0px;margin-right: 5px;">
+                <button class="btn active"><strong>{{contactoPorId(c.contactoId).apellidos}}, {{contactoPorId(c.contactoId).nombre}} <{{buscarCorreo('Email oficial', contactoPorId(c.contactoId))}}></strong></button>
+                <button class="btn active" ng-show="permisoAgregar" ng-click="quitar(c, seleccionadosExclusivos)"><i class="icon-remove"></i></button>
+            </div>
+        </td>
+        <td ng-show="permisoAgregar">
+            <select ui-select2 style="width:240px" ng-click="agregaExclusivo(buscador.exclusivo)"
+            type="text" ng-model="buscador.exclusivo" placeholder="Agregar a..." >
+                <option value=""></option>
+                <option ng-repeat="c in contactos" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+            </select>
+        </td>
+    </tr>
+</table>

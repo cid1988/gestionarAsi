@@ -1,0 +1,35 @@
+<div class="control-group">
+    <label>Nombre:</label>
+    <div class="input-append">
+        <input type="text" ng-model="reunion.nombre" ng-disabled="!editando" />
+        <button type="button" class="btn" ng-model="reunion.color" colorpicker
+        ng-disabled="!editando">
+            <span style="display: inline-block; width: 18px; height: 18px; background-color: {{reunion.color}}">&nbsp;</span>
+        </button>
+    </div>
+</div>
+<div class="control-group">
+    <label>Tipo:</label>
+    <select ui-select2 type="text" ng-model="reunion.tipo" ng-disabled="!editando">
+        <option value=""></option>
+        <option ng-repeat="t in tiposReuniones" value="{{t}}">{{nombreTipoReunion(t)}}</option>
+    </select>
+</div>
+<div class="control-group">
+    <label>Frecuencia:</label>
+    <select ui-select2 type="text" ng-model="reunion.frecuencia"
+    ng-disabled="!editando">
+        <option value=""></option>
+        <option ng-repeat="f in frecuencias" value="{{f._id}}">{{f.nombre}}</option>
+    </select>
+</div>
+<div class="control-group">
+    <label>Ubicacion:</label>
+    <input type="text" ng-model="reunion.ubicacion"
+    ng-disabled="!editando" />
+</div>
+<div class="control-group" ng-hide="nueva">
+    <label>Próxima fecha:</label>
+    <input ng-disabled="true" type="text" ng-model="reunion.proximaFecha"
+    />
+</div>

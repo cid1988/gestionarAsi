@@ -1,0 +1,35 @@
+<div class="container-fluid" ng-controller="DashboardCtrl">
+	<div class="row-fluid">
+		<div class="span4">
+			<div ng-repeat="c in cards" ng-animate="'cards'" ng-params="{'data': 'c.data', 'templateUrl': 'c.templateUrl'}" ng-include="templateUrl"></div>
+		</div>
+		<div class="span4">
+			<h2 ng-if="!search"><i class="icon-search"></i></h2>
+			<div class="card" ng-if="search">
+				<h3 class="card-heading simple" ng-if="search.searching">
+					Buscando... ({{search.waitingProviders}})
+				</h3>
+				<h3 class="card-heading simple" ng-if="!search.searching">
+					Listo!
+				</h3>
+				<div class="card-body">
+					<div ng-if="search.results.length">
+						<div style="min-height: 3em" ng-repeat="r in search.results">
+							<span class="label">{{r.kind}}</span> {{r.displayText}}
+							<div class="btn-group pull-right">
+								<a data-tooltip="{{r.actions[0].displayText}}" ng-if="r.actions.length == 1" class="btn btn-link" ng-click="r.actions[0].do()"><i class="icon-external-link"></i></a>
+								
+								<a ng-if="r.actions.length > 1" class="btn btn-link dropdown-toggle"><i class="icon-ellipsis-vertical"></i></a>
+								  <ul class="dropdown-menu">
+								    <li ng-repeat="a in r.actions">
+								      <a href="" ng-click="a.do()">{{a.displayText}}</a>
+								    </li>
+								  </ul>
+							<div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

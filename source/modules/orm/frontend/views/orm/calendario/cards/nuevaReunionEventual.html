@@ -1,0 +1,49 @@
+<div ng-animate="'cards'" class="card" ng-controller="ORMNuevaReunionCardCtrl" ng-form ng-show="mostrarEventual" style="padding-bottom: 65px;margin-top: 0px;">
+	<div class="card-actions pull-right" style="margin: 0">
+		<div class="btn-group">
+			<a ng-click="cancelar()" class="btn btn-link"><i class="icon-remove"></i></a>
+			<a ng-click="guardar()" class="btn btn-link"><i class="icon-ok"></i></a>
+		</div>
+	</div>
+	<h3 class="card-heading simple">Nueva serie de Reunion Eventual</h3>
+    <form>
+	<div class="card-body" style="padding-bottom: 14px">
+	    <div class="control-group" ng-class="{'error': nombreDuplicado}">
+            <span style="display: inline-block;width: 89%;"> Nombre:<br />
+                <input style="width:100%" type="text" ng-model="nuevaReunion.nombre" />
+            </span>
+            <div class="alert" ng-show="nombreDuplicado && nombreDuplicadoCandidatos.length < 10">
+                <p>Por favor verifique que esta reunión no esté duplicada.</p>
+                <ol>
+                    <li ng-repeat="cd in nombreDuplicadoCandidatos">
+                        <a class="btn btn-link" href="/orm/reuniones/{{cd._id}}" target="_blank">{{cd.nombre}} ({{cd.tipo}})</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+		<div class="span1" style="width:35%;margin-left: 0px;">
+			<label>Tipo:</label>
+            <select ui-select2="tipoReunionSelect2" style="width:100%" type="text" ng-model="nuevaReunion.tipo" placeholder="">
+                <option value="">Seleccionar</option>
+                <option ng-if=permiso("eventuales") value="eventuales">Eventuales</option>
+            </select>
+		</div>
+		<div class="span1" style="width:20%;margin-left: 5px;">
+			<label>Orden:</label>
+			<input ng-disabled="!editando" type="text" ng-model="nuevaReunion.orden" class="input-block-level" ng-required />
+		</div>
+		<div class="span1" style="width:35%;margin-left: 5px;">
+            <label>Frecuencia </label>
+            <select ui-select2 type="text" style="width:100%" ng-model="nuevaReunion.frecuencia" placeholder="" ng-required="true">
+                <option></option>
+                    <option value="1semana">Cada una semana</option>
+                    <option value="2semanas">Cada dos semanas</option>
+                    <option value="3semanas">Cada tres semanas</option>
+                    <option value="1mes">Cada un mes</option>
+                    <option value="2meses">Cada dos meses</option>
+                    <option value="aPedido">A pedido</option>
+            </select>
+        </div>
+	</div>
+	</form>
+</div>

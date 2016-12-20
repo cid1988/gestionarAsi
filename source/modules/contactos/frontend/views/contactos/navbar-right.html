@@ -1,0 +1,6 @@
+<div class="btn-group pull-right" style="margin-right: 7px">
+    <a class="btn btn-link" ng-hide="editando" href="/contactos/nuevo" ng-if=hasPermission('contactos.editar')><i class="icon-plus"></i>&nbsp;Nuevo contacto</a>
+    <a class="btn btn-link" ng-hide="editando" style="margin-left: 10px" href="/contactos/reportes"><i class="icon-list-alt"></i>&nbsp;Reportes</a>
+    <a class="btn btn-link" target="_blank" style="margin-left: 10px" href="/api/contactos-csv/download"><i class="icon-download-alt"></i> Descargar CSV</a>
+    <a class="btn btn-link" target="_blank" style="margin-left: 10px" href="/api/orm-vcf/todos"><i class="icon-download-alt"></i> Descargar VCF</a>
+</div>

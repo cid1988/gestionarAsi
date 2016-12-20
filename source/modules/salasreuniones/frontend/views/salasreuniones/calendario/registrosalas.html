@@ -1,0 +1,68 @@
+<style type="text/css">
+    .select2-container .select2-choice span{font-size: 14px;}
+    .tdConBoton>button{
+        border:5px solid;
+        border-radius:10px;
+        padding:5px;
+        overflow:hidden;
+    }
+    .tdConBoton{
+        padding:5px;
+    }
+</style>
+
+<div class="card" ng-controller="SalasRegistroCtrl" ng-init="vistaClasica = true">
+    <h3 class="card-heading simple clearfix">
+        <div class="span3">Registro Aulas</div>
+        <div class="pull-right span1" style="margin-top:-5px">
+                <button type="button" class="btn btn-info" ng-click="vistaClasica = false" ng-show="vistaClasica">Vista Clasica</button>
+                <button type="button" class="btn" ng-click="vistaClasica = true" ng-hide="vistaClasica">Vista Nueva</button>
+        </div>
+        <div class="span3 pull-right">
+            <select ng-model="filtroPiso" autofocus>
+                <option value="">Todas</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </h3>
+
+    <div class="card-body">
+        <div class="clearfix"  style="font-size: x-large; margin-top: 8px; margin-bottom: 8px;" ng-hide="s.apagado">
+            <table>
+                <tbody>
+                    <tr ng-repeat="s in salas | orderBy:'desdeDate' && 'tipo' | filter: filtroSalas" class="principal">
+                        <td style="width:400px;" class="tdConBoton">
+                            <button type="button" style="font-size: 20px;height:75px; width:100%; border-color:{{s.color}}; color:{{s.color}}" class="btn btn-large" ng-hide="vistaClasica">{{s.nombre}}</button>
+                            <button type="button" style="font-size: 20px;height:75px; width:100%; color: white" class="btn btn-large btn-info" ng-show="vistaClasica">{{s.nombre}}</button>
+                        </td>
+                        <td>
+                            <table style="margin-left:20px">
+                                <tr ng-repeat="i in s.reuniones | orderBy:'desdeDate'" class="secundario">
+                                    <td>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="span3">
+                                                    <b>{{i.desdeHora}}hs a {{i.hastaHora}}hs</b>
+                                                </div>
+                                                <div class="span5">
+                                                    {{i.titulo}} ({{contactoPorId(i.duenio).nombre}} {{contactoPorId(i.duenio).apellidos}})
+                                                </div>
+                                                <div class="span2">
+                                                    <i class="icon-phone"></i> {{i.interno}}
+                                                </div>
+                                                <div class="span2">
+                                                    <i class="icon-user"></i> {{i.asistentes}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

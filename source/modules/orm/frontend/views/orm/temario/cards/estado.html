@@ -1,0 +1,24 @@
+<div class="card animated fadeInDown">
+    <h3 class="card-heading simple">
+        <span style="white-space: nowrap">
+            <span style="margin-bottom: 0;background-color: {{colorReunion(reunion) || 'grey'}}; width: 1em; height: 1em; display: inline-block; ">&nbsp;</span>&nbsp;
+            <span>{{reunion.nombre}}</span>
+        </span>
+    </h3>
+    <div class="card-body">
+        <div class="control-group">
+            <h4 class="pull-right">{{horaDesde}} a {{horaHasta}}</h4>
+            <h3>{{fechaDesde}}<h3>
+        </div>
+
+        <div class="control-group">
+            <div ng-switch on="temario.enviado.version">
+                <button ng-switch-default type="button" style="margin-bottom: 10px" class="btn btn-block disabled" disabled="disabled">Nunca enviado</button>
+                <button ng-switch-when="propuesta" type="button" style="margin-bottom: 10px" class="btn btn-block btn-info disabled" disabled="disabled">Propuesta enviada</button>
+                <button ng-switch-when="final" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Final enviado</button>
+                <button ng-switch-when="cancelado" type="button" style="margin-bottom: 10px" class="btn btn-block btn-danger disabled" disabled="disabled">Temario cancelado</button>
+            </div>
+            <button ng-if="((temario.enviado.version == 'propuesta') || (temario.enviado.version == 'final')) && hasPermission('orm.envioTemario')" type="button" style="margin-bottom: 10px" ng-click="cancelar()" class="btn btn-block btn-danger">Enviar Cancelación</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div style="background-color:white;padding: 20px;" ng-controller="ORMReunionDetalleCtrl">
+<h3><a class="btn pull-right no-print" ng-click="imprimir()" ><i class="icon-print"></i> Imprimir</a>
+    <a class="btn pull-right no-print" href="/orm/reuniones/{{reunion._id}}" ><i class="icon-arrow-left"></i> Volver</a>
+    Envio de Citas<br>
+    Reuniones de {{reunion.nombre}}
+    
+</h3>
+<h4>
+    Tipo: 
+        <span ng-if="reunion.tipo == 'seguimiento'">Seguimiento</span>
+        <span ng-if="reunion.tipo == 'transversales'">Transversales</span>
+        <span ng-if="reunion.tipo == 'especificas'">Especificas</span>
+        <span ng-if="reunion.tipo == 'planeamiento'">Planeamiento</span>
+        <span ng-if="reunion.tipo == 'presupuesto'">Presupuesto</span>
+        <span ng-if="reunion.tipo == 'coordinacion'">Coordinación</span>
+        <span ng-if="reunion.tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+        <span ng-if="reunion.tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+        <span ng-if="reunion.tipo == 'eventuales'">Eventuales</span><br>
+    Frecuencia:
+        <span ng-if="reunion.frecuencia == '2meses'">Cada dos meses</span>
+        <span ng-if="reunion.frecuencia == '1mes'">Todos los meses</span>
+        <span ng-if="reunion.frecuencia == '3semanas'">Cada tres semanas</span>
+        <span ng-if="reunion.frecuencia == '2semanas'">Cada dos semanas</span>
+        <span ng-if="reunion.frecuencia == '1semana'">Todas las semanas</span>
+        <span ng-if="reunion.frecuencia == 'aPedido'">A pedido</span><br>
+    Jurisdiccion: {{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}<br>
+</h4>
+
+<br>
+<h4>Para:</h4>
+<p><span ng-repeat="p in reunion.cita.para">{{buscarCorreo('Email oficial', contactoPorId(p.contactoId))}}, </span></p>
+<br>
+<h4>CC:</h4>
+<p><span ng-repeat="p in reunion.cita.cc">{{buscarCorreo('Email oficial', contactoPorId(p.contactoId))}}, </span></p>
+<br>
+<h4>CCO:</h4>
+<p><span ng-repeat="p in reunion.cita.cco">{{buscarCorreo('Email oficial', contactoPorId(p.contactoId))}}, </span></p>
+</div>

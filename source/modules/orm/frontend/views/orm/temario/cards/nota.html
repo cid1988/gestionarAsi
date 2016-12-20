@@ -1,0 +1,114 @@
+<style type="text/css">
+    .wysihtml5-sandbox {
+        border: 0 !important;
+        padding: 0 !important;
+    }
+    
+    ul.wysihtml5-toolbar li a[title="Insert image"] { display: none; }
+    ul.wysihtml5-toolbar li a[title="Insert link"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h1"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h2"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h3"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h5"] { display: none; }
+
+    .temario {
+        font-size:20px !important;
+        font-family:Arial !important;
+        line-height: 150% !important;
+    }
+
+    .temario ul {
+        line-height: 20px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-left: 15px;
+    }
+
+    .temario h6 {
+        font-size:14px !important;
+        line-height: 16px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .temario  li {
+        line-height: 36px;
+    }
+    
+    .wysihtml5-toolbar:nth-child(n+2) 
+    {
+        display: none;
+    }
+
+</style>
+
+
+<div class="card animated fadeInDown" ng-controller="ORMNotaTemarioCtrl" ng-hide="mostrarEnviarTemario">
+    <div class="card-actions pull-right" style="padding: 0; margin: 0; margin-right: 20px" ng-show="editando">
+        <div class="btn-group">
+         <a ng-click="cancelarCambios()"
+            type="button" class="btn btn-link" ng-disabled="!cambios">
+                <i class="icon-undo"></i>
+            </a>
+            <a ng-click="guardarNota()"
+            type="button" class="btn btn-link" ng-disabled="!cambios">
+                <i class="icon-ok icon-white"></i> Guardar
+            </a>
+        </div>
+    </div>
+
+    <h3 class="card-heading simple no-print">
+        Temario de Reunión 
+        <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento </span>
+        <span ng-if="reunion.tipo == 'transversales'">Transversal </span>
+        <span ng-if="reunion.tipo == 'especificas'">Especifica </span>
+        <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento </span>
+        <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto </span>
+        <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación </span>
+        <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo </span>
+        <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales </span>
+        <span ng-if="reunion.tipo == 'eventuales'">Eventual </span>
+    </h3>
+    <div ng-if="temario.prioridades" style="margin-left: 50px;">
+        <h4>Prioridades:</h4>
+        <span class="span5" ng-if="temario.prioridades[0]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[0]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[1]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[1]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[2]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[2]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[3]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[3]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[4]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[4]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[5]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[5]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[6]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[6]).nombre" type="text" />
+        </span>
+        <span class="span5" ng-if="temario.prioridades[7]" style="display: inline-block; margin-left: 20px; margin-bottom: 1px; margin-right:8px">
+            <input ng-disabled="true" class="input-block-level" ng-model="temaPorId(temario.prioridades[7]).nombre" type="text" />
+        </span>
+        <br ng-if="temario.prioridades[4]"><br ng-if="temario.prioridades[4]"><br ng-if="temario.prioridades[6]"><br ng-if="temario.prioridades[6]"><br ng-if="temario.prioridades[2]"><br ng-if="temario.prioridades[2]"><br>
+    </div>
+    <hr>
+    <span class="pull-left span4" style="display: inline-block; margin-right:4px"> Próxima Reunión: <span ng-hide="(temario.proxima_reunion =='A pedido')">Semana del </span> {{temario.proxima_reunion}}
+    </span>
+    <!--<span class="btn-group pull-right" data-toggle="buttons-radio" style="margin-bottom: 10px;margin-right: 20px;">
+        <button class="btn" ng-class="(temario.tipoTemario == 'propuesta') && 'active btn-info'" ng-disabled="!editando" ng-click="temario.tipoTemario='propuesta'">Propuesta</button>
+        <button class="btn" ng-class="(temario.tipoTemario == 'final') && 'active btn-info'" ng-disabled="!editando" ng-click="temario.tipoTemario='final'">Final</button>
+    </span>-->
+    <br><br>
+    <hr>
+    <div style="margin-left: 20px; margin-right: 20px;">
+
+        <textarea user-input-emits="html-changed" ng-show="editando" placeholder="Este temario está vacío" rich-text-editor rows="4" style=" width: 100%; height: 500px" ng-model="html"></textarea>
+        <div ng-hide="editando" style="min-height: 500px;margin-top: 10px;margin-right: 5px;margin-left: 0px;" class="temario" compile="temario.html"></div>
+    </div>
+</div>

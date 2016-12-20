@@ -1,0 +1,54 @@
+<style type="text/css">
+    .participantes td {
+        line-height: 30px;
+        vertical-align: middle;
+    }
+    .no-border td {
+        border: 0 none transparent;
+    }
+</style>
+
+<!--Roles de los paticipantes-->
+<em ng-if="!vistaLlamados.length">No hay llamados definidos</em>
+<table class="table participantes" ng-if="vistaLlamados.length">
+    <thead>
+        <div>
+            <div class="span3" style="display: table-cell;margin-left: 0px;" ng-if="vistaLlamados.length">Nombre</div>
+            <div class="span2" style="display: table-cell" ng-if="vistaLlamados.length">Cargo</div>
+            <div class="span3" style="display: table-cell" ng-if="vistaLlamados.length">Jurisdiccion</div>
+            <div class="span4" style="display: table-cell" ng-if="vistaLlamados.length">Email Oficial
+            <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/llamadosPrint" ng-hide="editando" ng-if="vistaLlamados.length" style="padding-left: 0px; padding-right: 0px;">
+                <i class="icon-print"></i>
+            </a></div>
+        </div>
+    </thead>
+    <tbody>
+        <div class="no-border" ng-repeat="p in vistaLlamados">
+            <div class="span3" style="display: table-cell;">
+                <button style="padding: 0;" type="button" class="btn btn-link">{{p.c.apellidos}}, {{p.c.nombre}}</button>
+            </div>
+            <div class="span2" style="display: table-cell">{{p.c.cargo}}</div>
+            <div class="span3" style="display: table-cell">{{jurisdiccionPorId(p.c.organigrama).sigla}}</div>
+            <div class="span3" style="display: table-cell">{{buscarCorreo('Email oficial', p.c)}}</div>
+            <a class="btn btn-link" ng-click="eliminarLlamado(p.p)" style="padding-left: 0px; padding-right: 0px;" ng-show="editando">
+                <i class="icon-trash"></i>
+            </a>
+            <a class="btn btn-link" ng-click="subirLlamado(p.p)" style="padding-left: 0px; padding-right: 0px;" ng-show="editando">
+                <i class="icon-chevron-up"></i>
+            </a>
+        </div>
+    </tbody>
+</table>
+
+<div class="card-actions" ng-if="editando" style="padding-left: 0px;">
+    <select ui-select2 type="text" ng-model="buscador2">
+        <option value=""></option>
+        <option ng-repeat="c in contactos" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+    </select>
+    <a ng-click="agregarLlamado(buscador2)" ng-disabled="!buscador2 && editando" type="button"
+    class="btn" ng-class="{'btn-success': buscador2}">Agregar</a>
+    
+    <a class="btn" ng-click="crearContacto()">
+        <i class="icon-plus"></i>&nbsp;Crear nuevo contacto
+    </a>
+</div>

@@ -1,0 +1,30 @@
+<div ng-controller="JurisdiccionesCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="well span3">
+                <!-- Panel izquierdo -->
+                <div class="control-group" style="display: block; margin-top:15px">
+                    <div class="controls">
+                        <input placeholder="Buscar por..." type="text" class="input-large search-query span3" ng-model="filtro.nombre"/>
+                    </div>
+                </div>
+                <a class="btn no-print span2" style="margin-top: 10px;" href="/jurisdicciones/nueva" ng-hide="!puedeModificar()"><i class="icon-plus"></i> Nueva jurisdiccion</a>
+            </div>
+            <div class="well span8">
+                <div class="row-fluid" style="margin-bottom: 10px;"
+                	ng-repeat="j in jurisdicciones | orderBy:'sigla' | filter:filtro">
+            		<div class="span2">
+            			{{j.sigla}}
+            		</div>
+            		<div class="span7">
+            			{{j.nombre}}
+            		</div>
+            		<a href="/jurisdicciones/{{j._id}}" class="btn btn-link pull-right"><i class="icon-zoom-in"></i> Ver detalle</a>
+            	</div>
+            	<div class="row-fluid" ng-show="!jurisdicciones.length">
+            		No hay ninguna jurisdiccion
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>

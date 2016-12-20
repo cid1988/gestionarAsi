@@ -1,0 +1,40 @@
+<div ng-model="instancia" changes-watch="temas,suspendida,comentarios"
+edit-model="live" ng-controller="ORMCalendarioTabEventoCtrl" class="well">
+    <table>
+        <tbody>
+            <tr ng-hide="!p.star" ng-repeat="(pId, p) in instancia.participantes"
+            ng-controller="ORMParticipanteInstanciaCtrl">
+                <td style="width: 100%">
+                    <i ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+                    <img style="width: 30px; height: 30px; margin-left: 10px;" ng-show="contacto.foto"
+                    ng-src="/api/upload/{{contacto.foto}}" class="img-circle">
+                    <button style="padding: 0;" ng-click="verContacto()" type="button" class="btn btn-link ng-binding">{{contacto.nombre}} {{contacto.apellido}}</button>
+                </td>
+                <td>{{tiposAsistenciaPorKey[p.asistencia].nombre}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="control-group ng-binding" style="vertical-align: middle; margin-top: 20px; margin-bottom: 20px">
+        <span style="margin-bottom: 0;position: relative;top: -3px;background-color: {{reunion.color}}; width: 24px; height: 24px; display: inline-block">&nbsp;</span>&nbsp; {{reunion.nombre}}</div>
+    <div class="control-group">
+        <button ng-disabled="!editando" ng-click="live.suspendida = !live.suspendida"
+        type="button" class="btn btn-block" ng-class="{'btn-inverse active': live.suspendida, 'btn-info active': !live.suspendida}">{{live.suspendida && 'Suspendida' || 'Vigente'}}</button>
+    </div>
+    <div class="control-group">
+        <label>Comentarios:</label>
+        <textarea rows="4" ng-disabled="!editando" ng-model="live.comentarios"
+        style="width: 100%;padding-right: 0px;padding-left: 0px;"></textarea>
+    </div>
+    <div class="toolbar" style="text-align: right; display: none;" ng-show="editando">
+        <div class="btn-group">
+            <button type="button" ng-click="returnToOriginal()" class="btn" ng-disabled="!changes"
+            disabled="disabled">
+                <i class="icon-undo"></i>
+            </button>
+            <button type="button" ng-click="guardarCambios()" class="btn btn-primary"
+            ng-disabled="!changes" disabled="disabled">
+                <i class="icon-ok"></i>
+            </button>
+        </div>
+    </div>
+</div>

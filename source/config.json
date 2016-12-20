@@ -1,0 +1,46 @@
+{
+    "http": {
+        "port": 8080
+    },
+    "email": {
+        "smtp": {
+            "username": "temarios@buenosaires.gob.ar",
+            "password": "sWg6DbeL!",
+            "host": "smtp.buenosaires.gob.ar",
+            "port": 25,
+            "useSsl": false
+        }
+    },
+    "restApi": {
+        "angularModuleName": "bag2.restApi"
+    },
+    "api": {
+        "prefix": "/api"  
+    },
+    "mongo": {
+        "database": "bag2",
+        "hostname": "127.0.0.1",
+        "auth": false,
+        "username": "",
+        "password": "",
+        "autoreconnect": true,
+        "port": 27017
+    },
+    "cookies": {
+        "secret": "1234567890"
+    },
+    "session": {
+        "secret": "1234567890",
+        "key": "express.sid"
+    },
+    "temarios": {
+        "email": {
+            "from": "temarios@buenosaires.gob.ar"
+        }
+    },
+    "citas": {
+        "email": {
+            "from": "agenda.gestion@buenosaires.gob.ar"
+        }
+    }
+}

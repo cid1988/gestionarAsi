@@ -1,0 +1,23 @@
+<div class="container-fluid" ng-controller="ORMReunionAsistPartiCtrl">
+    <div class="card">
+        <h3 class="card-heading simple" style=" margin-bottom: 15px;padding-bottom: 5px;">Participantes a reuniones de Seguimiento (en los ultimos 3 meses)
+            <div class="card-actions pull-right" ng-hide="editando" style="margin-right:15px">
+                <input placeholder="Participante..." type="text" class="span3" ng-model="filtro.nombre"/>
+            </div>
+        </h3>
+        <table border="1" class="table table-bordered">
+            <tr bgcolor= "#FFFFFF">
+                <th><a ng-click="orden = 'nombre'"  href="#" style="display: inline-block; color:#404040;">Nombre</a></th>
+                <th><a ng-click="orden = '-si'"  href="#" style="display: inline-block; color:#404040;">Asistencia</a></th>
+                <th><a ng-click="orden = '-no'"  href="#" style="display: inline-block; color:#404040;">Inasistencia</a></th>
+                <th><a ng-click="orden = 'clasificacion'"  href="#" style="display: inline-block; color:#404040;">Clasificación</a></th>
+            </tr>
+            <tr ng-repeat="h in participantes | orderBy:orden | filter:filtro" bgcolor= "#FFFFFF">
+                <td><div style="width: 250px;">{{h.nombre}}</div></td>
+                <td>{{h.si}}</td>
+                <td>{{h.no}}</td>
+                <td>{{h.clasificacion}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

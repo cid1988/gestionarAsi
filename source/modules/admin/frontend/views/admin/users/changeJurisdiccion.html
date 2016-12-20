@@ -1,0 +1,23 @@
+<script>
+    $(document).ready(function() { $("#e1").select2(); });
+</script>
+
+<div class="well" ng-controller="ChangeJurisdiccionCtrl">
+    <h3>Cambiar jurisdiccion</h3>
+    <form ng-submit="save()">
+        <div class="controls-group">
+            <label>Usuario:</label>
+            <input type="text" disabled class="input-large" value="{{user.username}}"
+            />
+        </div>
+        <div class="control-group">
+            <label>Jurisdiccion:</label>
+            <select class="input-block-level" id="e1" type="text" ng-model="user.jurisdiccion" style="width: 400px;">
+                <option value="" ng-disabled="true">{{organigramaPorId(user.jurisdiccion).nombreCompleto}}</option>
+                <option value=""></option>
+                <option ng-repeat="e in organigrama | filter:{ministerio:true} | orderBy:'nombreCompleto'" value="{{e._id}}">{{e.nombreCompleto}} ({{e.sigla}})</option>
+            </select>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Cambiar jurisdiccion" />
+    </form>
+</div>

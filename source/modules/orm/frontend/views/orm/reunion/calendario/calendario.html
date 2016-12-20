@@ -1,0 +1,54 @@
+<style type="text/css">
+    .referencia {
+        list-style-type: none;
+    }
+</style>
+<div ng-controller="ORMCalendarioCtrl" edit-model="live" ng-model="temario" changes-watch="html">
+    <div class="container-fluid">
+        <div class="well span4">
+            <div class="calendar" fullcalendar calendar-object="calendar" ng-model="calendar"></div>
+            <div class="toolbar" style="margin-top: 20px" ng-show="editando">
+                <div class="btn-group pull-right">
+                    <button ng-click="cancelarReprogramacion()" type="button" class="btn" ng-disabled="!huboReporogramacion()">
+                        <i class="icon-undo"></i>
+                    </button>
+                    <button ng-click="applyChanges();guardarReporogramacion()" type="button"
+                    class="btn btn-primary" ng-disabled="!huboReporogramacion()">
+                        <i class="icon-ok icon-white"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <ul class="nav nav-tabs" style="margin-bottom: 0; margin-left: 10px;">
+                <li ng-class="{active:tab=='referencia'}" ng-class="{active:tab=='referencia'}"
+                ng-class="{active:tab=='referencia'}">
+                    <a ng-click="tab='referencia'">Referencia</a>
+                </li>
+                <li ng-show="instanciaSeleccionada" ng-class="{active:tab=='evento'}"
+                ng-class="{active:tab=='evento'}">
+                    <a ng-click="tab='evento'">Evento</a>
+                </li>
+                <li ng-show="instanciaSeleccionada" ng-class="{active:tab=='participantes'}"
+                ng-class="{active:tab=='participantes'}">
+                    <a ng-click="tab='participantes'">Participantes</a>
+                </li>
+                <li ng-show="instanciaSeleccionada" ng-class="{active:tab=='temario'}"
+                ng-class="{active:tab=='temario'}">
+                    <a ng-click="tab='temario'">Temario</a>
+                </li>
+                <li ng-show="instanciaSeleccionada" ng-class="{active:tab=='temas'}"
+                ng-class="{active:tab=='temas'}">
+                    <a ng-click="tab='temas'">Temas</a>
+                </li>
+            </ul>
+
+            <div ng-show="tab=='referencia'" ng-include src="'/views/orm/calendario/referencia.html'"></div>
+            <div ng-show="tab=='participantes'" ng-include src="'/views/orm/calendario/participantes.html'"></div>
+
+            <div ng-show="tab=='evento'" ng-include src="'/views/orm/calendario/evento.html'"></div>
+            <div ng-show="tab=='temario'" ng-include src="'/views/orm/calendario/temario.html'"></div>
+            <div ng-show="tab=='temas'" ng-include src="'/views/orm/calendario/temas.html'"></div>
+        </div>
+    </div>
+</div>

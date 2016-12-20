@@ -1,0 +1,114 @@
+<style type="text/css">
+    .participantes td {
+        line-height: 30px;
+        vertical-align: middle;
+    }
+    .no-border td {
+        border: 0 none transparent;
+    }
+</style>
+
+<!--Roles de los paticipantes-->
+<em ng-if="!reunion.participantes.length">No hay participantes definidos</em>
+<table class="table participantes" ng-if="reunion.participantes.length">
+    <thead>
+        <tr>
+            <div class="span3" style="display: table-cell;margin-left: 0px;" ng-if="reunion.participantes.length">Nombre</div>
+            <div class="span2" style="display: table-cell" ng-if="reunion.participantes.length">Cargo</div>
+            <div class="span2" style="display: table-cell" ng-if="reunion.participantes.length">Jurisdiccion</div>
+            <div class="span3" style="display: table-cell" ng-if="reunion.participantes.length">Email Oficial</div>
+            <div class="span1" style="display: table-cell" ng-if="reunion.participantes.length">Rol</div>
+            <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/participantesPrint" ng-hide="editando" ng-if="reunion.participantes.length" style="padding-left: 0px; padding-right: 0px;">
+                <i class="icon-print"></i>
+            </a>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="vistaParticipantes.responsable.length">
+            <th colspan="3">
+                Responsables
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.responsable" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.jefeGabinete.length">
+            <th colspan="3">
+                Jefe de Gabinete
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.jefeGabinete" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.ejecutivo.length">
+            <th colspan="3">
+                Ejecutivos
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.ejecutivo" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.participante.length">
+            <th colspan="3">
+                Participantes
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.participante" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.legislador.length">
+            <th colspan="3">
+                Legislador
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.legislador" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.privada.length">
+            <th colspan="3">
+                Privada
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.privada" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.gestion.length">
+            <th colspan="3">
+                Gestión
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.gestion" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.exclusivo.length">
+            <th colspan="3">
+                Eventuales
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.exclusivo" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+
+        <tr ng-if="vistaParticipantes.otros.length">
+            <th colspan="3">
+                Otros
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.otros" ng-include="'/views/orm/reunion/filaParticipantes.html'">
+        </tr>
+    </tbody>
+</table>
+<div class="card-actions" ng-if="editando" style="padding-left: 0px;">
+    <select ui-select2 type="text" ng-model="buscador">
+        <option value=""></option>
+        <option ng-repeat="c in contactos | filter:puedeAgregar" value="{{c._id}}">{{c.apellidos}}, {{c.nombre}}</option>
+    </select>
+    <a ng-click="agregarParticipante(buscador)" ng-disabled="!buscador && editando" type="button"
+    class="btn" ng-class="{'btn-success': buscador}">Agregar</a>
+    
+    <a class="btn" ng-click="crearContacto()">
+        <i class="icon-plus"></i>&nbsp;Crear nuevo contacto
+    </a>
+</div>

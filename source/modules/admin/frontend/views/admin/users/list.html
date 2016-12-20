@@ -1,0 +1,83 @@
+<style type="text/css">
+	.usuarioEnLista{
+		padding: 10px;
+	}
+</style>
+<div ng-controller="UsersCtrl">
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="card span9">
+				<div class="card-heading simple clearfix">
+					<span class="span6">
+						<h3>Usuario</h3>
+					</span>
+					<span class="span3 offset3 clearfix">
+						<input type="text" placeholder="Buscar por Usuario..." ng-model="filtro.username" class="pull-right input-block-level" autofocus style="margin-top:10px">
+					</span>
+				</div>
+				<div class="card-body">
+					<div class="container-fluid">
+						<div class="row-fluid clearfix usuarioEnLista" ng-repeat="user in users | orderBy: 'username' | filter: filtro">
+							<div class="pull-left">
+								<b>{{ user.username }}</b>
+							</div>
+							<div class="pull-right clearfix">
+								<div class="pull-right">
+									<div class="btn-group" style="text-align: center;">
+										<a class="btn" href="/admin/users/{{user.username}}"><i class="icon-edit icon-white"></i> Permisos</a>
+										<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+										<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="text-align: left;">
+											<li><a href="/admin/users/{{user.username}}/changePassword"><i class="icon-lock"></i>&nbsp;Cambiar Contraseña</a></li>
+											<li><a href="#" ng-click="user.importante = !user.importante; user.$save()"><i class="icon-star" ng-show="user.importante"></i><i class="icon-star-empty" ng-hide="user.importante"></i>&nbsp;Importante</a></li>
+											<li class="divider"></li>
+											<li><a href="#" ng-click="eliminar(false, user)"><i class="icon-trash icon-white"></i>&nbsp;Eliminar</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card span3" ng-controller="NewUserCtrl">
+				<div class="container-fluid" style="padding: 0;">
+					<div class="row-fluid">
+						<div class="card-heading simple clearfix">
+							<h3>Agregar un Usuario</h3>
+						</div>
+						<div class="card-body">
+							<form ng-submit="save()">
+								<div class="container-fluid" style="padding: 0;">
+									<div class="row-fluid">
+										<div class="control-group">
+											<label for="inputUsuario">Usuario:</label>
+											<input type="text" ng-model="user.username" class="input-block-level" id="inputUsuario" minlength="3" maxlength="20" required>
+										</div>
+										<div class="control-group">
+											<input type="submit" value="Crear" class="btn" title="Crear Usuario" style="width: 100%;">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="confirmarEliminar" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>Eliminar Usuario</h3>
+		</div>
+		<div class="modal-body">
+			<p>Está a un paso de eliminar el usuario.<br>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-info" data-dismiss="modal">Conservar el registro</a>
+			<a href="#" class="btn btn-danger" data-dismiss="modal" ng-click="eliminar(true)">Eliminar</a>
+		</div>
+	</div>
+</div>

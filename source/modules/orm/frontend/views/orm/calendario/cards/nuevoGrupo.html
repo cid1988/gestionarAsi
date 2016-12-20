@@ -1,0 +1,37 @@
+<div ng-animate="'cards'" class="card" ng-controller="ORMNuevoGrupoReunionCardCtrl" ng-form ng-show="mostrar" style="padding-bottom: 65px;">
+	<div class="card-actions pull-right" style="margin: 0">
+		<div class="btn-group">
+			<a ng-click="cancelar()" class="btn btn-link"><i class="icon-remove"></i></a>
+			<a ng-click="guardar()" class="btn btn-link"><i class="icon-ok"></i></a>
+		</div>
+	</div>
+	<h3 class="card-heading simple">Nuevo grupo de reuniones</h3>
+    <form>
+	<div class="card-body" style="padding-bottom: 14px">
+	    <div class="control-group">
+            <span style="display: inline-block;width: 89%;"> Nombre:<br />
+                <input style="width:100%" type="text" ng-model="nuevoGrupo.nombre" />
+            </span>
+        </div>
+		<div class="span3" style="margin-left: 0px;">
+			<label>Tipo:</label>
+            <select ui-select2="tipoReunionSelect2" style="width:100%" type="text" ng-model="nuevoGrupo.tipo" placeholder="">
+                <option value="">Seleccionar</option>
+                <option ng-if=permiso("seguimiento") value="seguimiento">Seguimiento</option>
+                <option ng-if=permiso("transversales") value="transversales">Transversales</option>
+                <option ng-if=permiso("especificas") value="especificas">Específicas</option>
+                <option ng-if=permiso("planeamiento") value="planeamiento">Planeamiento</option>
+                <option ng-if=permiso("presupuesto") value="presupuesto">Presupuesto</option>
+                <option ng-if=permiso("coordinacion") value="coordinacion">Coordinación</option>
+                <option ng-if=permiso("planLargoPlazo") value="planLargoPlazo">Plan Largo Plazo</option>
+                <option ng-if=permiso("proyectosEspeciales") value="proyectosEspeciales">Proyectos Especiales</option>
+                <option ng-if=permiso("eventuales") value="eventuales">Eventuales</option>
+            </select>
+		</div>
+		<div class="span1" style="margin-left: 5px;">
+			<label>Orden:</label>
+			<input ng-disabled="!editando" type="text" ng-model="nuevoGrupo.orden" class="input-block-level" ng-required />
+		</div>
+	</div>
+	</form>
+</div>

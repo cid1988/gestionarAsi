@@ -1,0 +1,23 @@
+<div class="container" ng-controller="CGestionAdministracionCtrl">
+  <div class="row">
+    <div class="span12 card">
+      <h3 class="card-heading simple">CGestion - Administracion
+        <div class="card-actions pull-right">
+          <a href="#" ng-click="agregarImagen(false)" class="btn btn-primary">Agregar Imagen</a>
+        </div></h3>
+      <div class="card-body" style="padding-bottom: 40px;">
+        <div style="font-size: 18px;padding-top: 4px;padding-bottom: 4px;margin-bottom: 30px;margin-left: 22px;"><span class="span3">Fecha</span><span class="span8">Titulo</span></div>
+        <hr style="margin-bottom: 0px;">
+        <ul class="nav nav-list">
+          <li ng-repeat="p in cgestiones | orderBy:'-milisegundos'">
+            <a style="font-size: 18px;padding-top: 8px;padding-bottom: 8px;" href="/cgestion/{{p._id}}">
+            <span class="span3">{{p.fecha}}</span><span class="span7">{{p.titulo}}</span></a>
+          </li>
+          <li ng-if="!cgestiones.length" class="text-center">
+            <em>No hay cargas aún</em>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

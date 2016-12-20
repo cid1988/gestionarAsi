@@ -1,0 +1,349 @@
+<style type="text/css">
+	.referencia {
+		list-style-type: none;
+	}
+	.center-flex{
+	   width: 100%;
+	   display: flex;
+	   justify-content: center;
+	}
+	.span9{
+	   margin: 0;
+	}
+	.fc-event-title, .fc-event-time{
+		font-weight: bold;
+		color:black;
+	}
+	/*Problema con el ui-select2*/
+	.select2-offscreen {
+		display: none !important;
+	}
+	.selectHora {
+		width: 53px;
+	}
+	.advertencia{
+		text-align: center;
+		font-size: 1.4em;
+		color: #F44336;
+		font-weight: bold;
+	}
+	.botonSala{
+		text-align: left;
+		padding-right: 0px;
+		width: 277px;
+		padding-left: 0px;
+		margin-bottom: 4px;
+	}
+	.botonSala > span {
+		display: inline-block;
+		border-radius: 20px;
+		padding: 7px;
+		float: left;
+		border: 0px solid rgb(0, 0, 0);
+		margin-top: 8px;
+		margin-right: 5px;
+		margin-left: 5px;
+		background-color: rgb(180, 4, 95);
+	}
+</style>
+<div class="container-fluid" ng-controller="SalasReunionesConsultaCtrl">
+	<div class="row-fluid">
+		<div class="span8">
+			<div class="card">
+			<!--
+				<div class="card-actions pull-right" style="margin: 0px 20px 0  0 ; padding: 0">
+					<div class="controls" style="min-width: 250px; display: inline-block; margin-bottom: 7px; margin-right: 10px">
+						<select ui-select2="tipoSalaSelect2" style="width:100%" type="text" ng-model="filtro.tipo" placeholder="">
+							<option value="">Todas</option>
+							<option ng-repeat="i in salas | filter: filtroUsuarioPiso" value="{{i.tipo}}" ng-hide="i.apagado">{{i.nombre}}</option>
+						</select>
+					</div>
+				</div> -->
+				<h3 class="card-heading simple">Calendario de Aulas</h3>
+				<div style="margin-left: 20px; margin-right: 20px; margin-top: 16px" class="calendar" fullcalendar calendar-object="calendar" ng-model="calendar"></div>
+				<div style="margin: 20px">
+					<span style="background-color: {{salaResaltada && colorSala(salaResaltada)}}; width: 20px; height: 20px; display: inline-block">&nbsp;</span>
+					<span>{{salaResaltada.nombre}}</span><span ng-if="instanciaResaltada.titulo"> - {{instanciaResaltada.titulo}}</span>&nbsp;
+					<div class="pull-right">
+						<img ng-repeat="pId in instanciaResaltada.participantes | keysArray:star" ng-init="p = instanciaResaltada.participantes[pId]" class="img-circle" ng-show="contactosPorId[pId].foto" ng-class="{'gray-border': p.star}"
+						style="width: 25px; height: 25px" ng-src="/api/upload/{{contactosPorId[pId].foto}}"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span4" ng-controller="SalasDisponiblesCtrl as self">
+			<div class="card">
+				<h3 class="card-heading simple">Consulta de Aulas</h3>
+				<div class="card-body" style="margin-bottom: 14px;padding-right: 13px;">
+					<form>
+						<div class="row-fluid">
+							<div class="span6">
+								<label for="inputFecha">Fecha:</label>
+								<input type="text" id="inputFecha" date placeholder="Fecha" class="input-block-level" ng-model="busqueda.fecha"/>
+							</div>
+							<div class="span6" ng-init="busqueda.cantidad = 1">
+								<label>Cantidad de Personas:</label>
+								<input type="number" min="1" placeholder="Cantidad" class="input-block-level" ng-model="busqueda.cantidad"/>
+							</div>
+						</div>
+						<div class="row-fluid">
+							<!--
+							<div class="span6">
+								<label>Tiene Tv?</label>
+								<button type="button" class="btn input-block-level" ng-click="filtroTv=!filtroTv" ng-class="{'btn-info': filtroTv}">
+									<span ng-show="filtroTv">Si</span>
+									<span ng-hide="filtroTv">No</span>
+								</button>
+							</div>
+							-->
+							<div class="span12">
+								<label>Piso</label>
+								<select ng-model="filtroNuevo.piso" class="input-block-level">
+									<option value="">Todos los Pisos</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+								</select>
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span6">
+								<label>Desde (hh/mm):</label>
+								<div class="row-fluid">
+									<div class="span5">
+										<select type="text" class="input-block-level" ng-model="busqueda.horaDesde" placeholder="">
+											<option ng-repeat="i in horas" value="{{i}}">{{i}}</option>
+										</select>
+									</div>
+									<div class="span2">
+										<span style="font-size: 1.7em; font-weight: bold;">
+											<p class="text-center" style="margin-top:5px">:</p>
+										</span>
+									</div>
+									<div class="span5">
+										<select type="text" class="input-block-level" ng-model="busqueda.minutosDesde">
+											<option ng-repeat="h in minutos" value="{{h}}">{{h}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="span6">
+								<label>Hasta (hh/mm):</label>
+								<div class="row-fluid">
+									<div class="span5">
+										<select type="text" class="input-block-level" ng-model="busqueda.horaHasta">
+											<option ng-repeat="i in horas" value="{{i}}">{{i}}</option>
+										</select>
+									</div>
+									<div class="span2">
+										<span style="font-size: 1.7em; font-weight: bold;">
+											<p class="text-center" style="margin-top:5px">:</p>
+										</span>
+									</div>
+									<div class="span5">
+										<select type="text" class="input-block-level" ng-model="busqueda.minutosHasta">
+											<option ng-repeat="h in minutos" value="{{h}}">{{h}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<hr/>
+					<div style="overflow-y: scroll; overflow-x: hidden; height: 398px;">
+						<div ng-repeat="r in salasLibres | orderBy:'nombre' | filter: filtroNuevo | filter:filtroFunc | filter: filtroUsuarioPiso | filter:cantidadPers" ng-hide="r.apagado">
+							<a ng-class="{'disabled': programandoNuevaFecha == r}" ng-if=" username && hasPermission('salasreuniones.crearEditarReuniones')" class="btn btn-link pull-right" ng-click="self.programarNuevaFecha(r)" ng-show="self.sePuedeCrear()" style="padding-left: 0px; padding-right: 0px;">
+								<i class="icon-plus"></i>
+							</a>
+							<div style="text-align: left; margin: 0; padding: 0" title="{{r.capacidad}} Personas">
+								<a class="btn btn-link botonSala" ng-click="ver(r)">
+									<span ng-style="{'background-color': colorSala(r)}"></span>&nbsp;
+									<b>{{r.nombre}}</b>
+								</a>
+							</div>
+						</div>
+						<span ng-hide="salas.length">No hay aulas definidas aún</span>
+					</div>
+				</div>
+			</div>
+
+			<div id="modalReservar" class="modal hide fade">
+				<div class="modal-header">
+					<h3>Reserva de Aula</h3>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row-fluid">
+							<div class="span10">
+								<label for="inputTitulo">Título</label>
+								<input type="text" maxlength="50" id="inputTitulo" ng-model="reservarSala.titulo" class="input-block-level" placeholder="Título"/>
+							</div>
+							<div class="span2" ng-init="reservarSala.idClase = 1">
+								<label for="inputIDReunion">ID:</label>
+								<input type="number" id="inputIDReunion" class="input-block-level" placeholder="ID..." ng-model="reservarSala.idClase" required min="1" max="1000000"/>
+							</div>
+						</div>
+						<div class="row-fluid">
+
+						</div>
+						<div class="row-fluid">
+							<div class="span3">
+								<label for="inputFecha">Fecha</label>
+								<input type="text" id="inputFecha" date placeholder="Fecha" class="input-block-level" ng-model="reservarSala.fecha" disabled="disabled">
+							</div>
+							<div class="span3">
+								<label for="inputCantidadPersonas">Cantidad</label>
+								<input type="number" min="1" id="inputCantidadPersonas" placeholder="Cantidad de Personas" class="input-block-level" ng-model="reservarSala.asistentes" disabled="disabled">
+							</div>
+							<div class="span3">
+								<label>Desde (hh/mm):</label>
+								<select type="text" id="inputHora" class="selectHora" ng-model="reservarSala.consultaHora.horaDesde" disabled="disabled">
+									<option ng-repeat="i in horas" value="{{i}}">{{i}}</option>
+								</select>
+								<span style="font-size: 17px; font-weight: 600;"> :</span>
+								<select type="text" class="selectHora" ng-model="reservarSala.consultaHora.minutosDesde" disabled="disabled">
+									<option ng-repeat="h in minutos" value="{{h}}">{{h}}</option>
+								</select>
+							</div>
+							<div class="span3">
+								<label>Hasta (hh/mm):</label>
+								<select type="text" class="selectHora" ng-model="reservarSala.consultaHora.horaHasta" disabled="disabled">
+									<option ng-repeat="i in horas" value="{{i}}">{{i}}</option>
+								</select>
+								<span style="font-size: 17px; font-weight: 600;"> :</span>
+								<select type="text" class="selectHora" ng-model="reservarSala.consultaHora.minutosHasta" disabled="disabled">
+									<option ng-repeat="h in minutos" value="{{h}}">{{h}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span4">
+								<label for="selectFormato">Formato de Aula</label>
+								<select id="selectFormato" ng-model="reservarSala.formato" class="input-block-level">
+									<option value="0" selected></option>
+									<option value="1">Disposición en "U"</option>
+									<option value="2">Auditorio</option>
+									<option value="3">Aula</option>
+									<option value="4">Reunión</option>
+								</select>
+							</div>
+							<div class="span8">
+								<label for="inputComentarios">Observaciones</label>
+								<input id="inputComentarios" type="text" placeholder="Observaciones" class="input-block-level" ng-model="reservarSala.observaciones"/>
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span4">
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.notebook"> Notebook
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.lcd"> LCD
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.telefonoConferencia"> Telefono Conferencia
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.proyector"> Proyector
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.pantalla"> Pantalla
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.videoconferencia"> Videoconferencia
+								</label>
+							</div>
+							<div class="span4">
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.rotafolio"> Rotafolio
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.mesaAuxiliar"> Mesa Auxiliar
+								</label>
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.sillasAdicionales"/> Sillas adicionales
+								</label>
+								<input type="text" ng-show="reservarSala.sillasAdicionales" class="input-block-level" placeholder="Cantidad..." ng-model="reservarSala.cantSillasAdicionales"/>
+							</div>
+							<!--
+							<div class="span4">
+								<label class="checkbox">
+									<input type="checkbox" ng-model="reservarSala.catering"> Catering
+								</label>
+							</div>
+							-->
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="container-fluid">
+						<div class="row-fluid">
+							<div class="span8">
+								<p id="mensajeError" class="advertencia"></p>
+							</div>
+							<div class="span4 clearfix">
+								<div class="pull-right">
+									<a href="#" class="btn" data-dismiss="modal" title="Cerrar Modal">Cerrar</a>
+									<button type="button" class="btn btn-info" title="Reservar Aula" ng-click="reservarReunion(reservarSala)">Reservar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--MODAL De confirmacion de envio -->
+			<div id="mailEnviado" class="modal hide fade">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3>Mail Enviado</h3>
+				</div>
+				<div class="modal-body">
+					<p>Mail de "<b>{{tituloDelMail}}</b>" enviado con exito a los siguientes usuarios:</p>
+					<p>
+						<ul>
+							<li ng-repeat="cuenta in paraDelMail track by $index">
+								<b>
+									<span>{{cuenta}}</span>
+									<span ng-switch="$index">
+										<span ng-switch-when="0"> (Dueño)</span>
+										<span ng-switch-default> (Participante)</span>
+									</span>
+								</b>
+							</li>
+						</ul>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn btn-info" data-dismiss="modal">Cerrar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="detalleSala" class="modal hide fade" ng-controller="SRTabReservaCtrl" style="left: 600px;width: 700px;top: 30px;">
+		<div class="modal-header" style="padding-bottom: 15px;">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3><span style="display: inline-block; border-radius: 20px; padding: 13px; float: left; border: 0px solid rgb(0, 0, 0); margin-top: 2px; margin-right: 5px; margin-left: 5px; background-color: rgb(138, 75, 8);" ng-style="{'background-color': salaSeleccionada.color}"></span>&nbsp;
+			{{salaSeleccionada.nombre}}</h3>
+		</div>
+		<div class="modal-body">
+			<table class="table table-striped" style="margin-bottom: 0px;">
+				<tr>
+					<th>Capacidad</th>
+					<th>Interno</th>
+					<th>TV</th>
+				</tr>
+				<tr>
+					<td>{{salaSeleccionada.capacidad}}</td>
+					<td>{{salaSeleccionada.interno}}</td>
+					<td><span ng-show="salaSeleccionada.tv">Si</span><span ng-hide="salaSeleccionada.tv">No</span></td>
+				</tr>
+			</table>
+			<img ng-show="salaSeleccionada.image" ng-src={{salaSeleccionada.image}} />
+		</div>
+		<div class="modal-footer" style="padding-top: 10px;">
+			<a href="#" class="btn pull-right" data-dismiss="modal">Cerrar</a>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,83 @@
+<div ng-params="{'contacto': 'data.contacto'}">
+	<div ng-controller="ORMContactoCardCtrl" class="card" ng-params="{'c': 'contacto'}"  ng-animate="'cards'">
+		<div class="card-actions pull-right" style="margin: 0; padding-right: 0">
+			<a ng-show="editando" ng-click="cancelar()" data-tooltip="Cancelar cambios" class="btn btn-link no-underline"><i class="icon-undo"></i></a>
+			<a ng-show="editando" ng-click="guardar()" data-tooltip="Guardar cambios" class="btn btn-link no-underline"><i class="icon-ok"></i></a>
+			<a ng-show="!isCollapsed && !editando" ng-click="edit()" data-tooltip="Modificar" class="btn btn-link no-underline"><i class="icon-edit"></i></a>
+			<a ng-show="!isCollapsed && !editando" ng-click="collapse()" data-tooltip="Mostrar sólo nombre" class="btn btn-link no-underline"><i class="icon-collapse-alt"></i></a>
+			<a ng-show="isCollapsed && !editando" ng-click="expand()" data-tooltip="Mostrar todos los datos" class="btn btn-link no-underline"><i class="icon-expand-alt"></i></a>
+		</div>
+		<h3 class="card-heading simple">
+
+			<img style="position: relative; top: -10px; width: 50px; height: 50px; margin-right: 8px" ng-show="c.foto" ng-src="
+			/api/upload/{{c.foto}}" class="img-circle" />
+			{{c.nombre}} {{c.apellido}}</h3>
+			<div class="card-body" ng-hide="isCollapsed && !editando" ng-animate="'cards-fast'">
+				<div class="control-group" ng-show="editando">
+					<label>Nombre y apellido:</label>
+					<input type="text" class="span6" ng-model="c.nombre" placeholder="Nombre"/>
+					<input type="text" class="span6" ng-model="c.apellido" placeholder="Apellido"/>
+				</div>
+				<div class="control-group" ng-show="editando || c.email">
+					<label>email</label>
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-envelope"></i></span>
+						<input type="text" ng-model="c.email" ng-disabled="!editando" />
+					</div>
+				</div>
+				<div class="control-group" ng-show="editando || c.telefono">
+					<label>Teléfono</label>
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-phone"></i></span>
+						<input type="text" ng-model="c.telefono" ng-disabled="!editando"
+						/>
+					</div>
+				</div>
+				<div class="control-group" ng-show="editando || c.bbpin">
+					<label>Pin Blackberry</label>
+					<div class="input-prepend">
+						<span class="add-on"><i class="icon-blackberry"></i></span>
+						<input type="text" ng-model="c.bbpin" ng-disabled="!editando"
+						/>
+					</div>
+				</div>
+				<div class="control-group" ng-show="editando || c.oficina">
+					<label>Oficina</label>
+					<textarea type="text" ng-model="c.oficina" ng-disabled="!editando" class="input-block-level"
+					rows="4"></textarea>
+				</div>
+			</div>
+
+			<div class="card-actions" ng-show="editando">
+				<div class="control-group">
+					<div class="controls">
+						<form ng-upload method="post" action="/api/files/upload" >
+							<div class="fileupload fileupload-new" data-provides="fileupload">
+								<span class="btn btn-file"><span class="fileupload-new">Subir foto</span><span class="fileupload-exists">Cambiar archivo subido</span><input type="file" /></span>
+							</div>
+				     <!-- <input type="submit" class="btn btn-success" value="Subir" 
+				       upload-submit="results(content, completed)"></input>
+				   -->
+				   <a type="submit" class="btn btn-success"><i class="icon-ok"></i></a>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+   <div class="card-comments">
+      <div class="comments">
+         <div class="media">
+            <div class="media-body">
+               <h4 class="media-heading">Secretarias</h4>
+               <ul style="list-style-type: none; margin-left: 0">
+               	<li><strong class="pull-right">08:00 a 14:00</strong>&nbsp;<a href="">Naty</a></il>
+               	<li><strong class="pull-right">14:00 a 20:00</strong>&nbsp;<a href="">Otra</a></il>
+               	</ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+

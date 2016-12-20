@@ -1,0 +1,116 @@
+<style type="text/css">
+    .wysihtml5-sandbox {
+        border: 0 !important;
+        padding: 0 !important;
+    }
+
+    .temario {
+        font-size:24px !important;
+        font-family:Arial !important;
+        line-height: 150% !important;
+    }
+
+    .temario h6 {
+        font-size:18px !important;
+        line-height: 16px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .tablaTemarioPrint table {
+        border:1px solid #CACACA;
+    }
+    
+    
+    .temario ul {
+        line-height: 24px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-left: 15px;
+    }
+    
+    .temario  li {
+        line-height: 36px;
+    }
+    
+</style>
+
+<div class="modal hide fade in ng-scope" style="overflow-y: scroll; overflow-x: hidden; display: block;left: 0px;margin-left: 0px;width: 100%;height: 100%;padding-left: 0px;padding-right: 0px;top: 0px;">
+    <div class="modal-header" style="padding-bottom: 10px;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="card span10 offset1" style="margin-top: 0px; border-bottom-width: 0px; border-right-width: 0px; border-left-width: 0px; padding-top: 0px">
+        <div style="background-image: url('/views/orm/reunion/portadaTemario1.jpg') !important; background-repeat: no-repeat;
+            position: relative;font-family: Arial !important; color: rgb(0, 0, 0);width: 1150px;height: 352px;">
+            <div style="text-align: right; position: absolute; width: 500px; top: 55px; left: 610px">
+                <h3 style="font-size: 23px !important; margin-top: 0px; margin-bottom: 0px;">Reunión 
+                    <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento</span>
+                    <span ng-if="reunion.tipo == 'transversales'">Transversal</span>
+                    <span ng-if="reunion.tipo == 'especificas'">Especifica</span>
+                    <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento</span>
+                    <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto</span>
+                    <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación</span>
+                    <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo</span>
+                    <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales</span>
+                    <span ng-if="reunion.tipo == 'eventuales'">Eventual</span>
+                </h3>
+            </div>
+            <div style="text-align: right; position: absolute; width: 550px; top: 95px; left: 575px">
+                <h3 ng-style="set_size" style="font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{reunion.nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 480px; top: 215px; left: 40px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 280px; top: 215px; left: 520px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.ubicacion.nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 140px; top: 215px; left: 800px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.fecha}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 100px; top: 215px; left: 1030px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.desdeHora}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 100px; top: 240px; left: 1030px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.hastaHora}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 100px; top: 299px; left: 360px">
+                <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temario.proxima_reunion}}</h3>
+            </div>
+        </div>
+        <div ng-if="temario.prioridades" style="background-image: url('/views/orm/reunion/portadaTemario2.jpg') !important; background-repeat: no-repeat;
+            position: relative;font-family: Arial !important; color: rgb(0, 0, 0);width: 1150px;height: 87px;">
+        </div>
+            <div style="text-align: left; position: absolute; width: 490px; left: 650px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[1]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: relative; width: 510px; left: 85px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[0]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 490px; left: 650px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[3]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: relative; width: 510px; left: 85px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[2]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 490px; left: 650px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[5]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: relative; width: 510px; left: 85px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[4]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: absolute; width: 490px; left: 650px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[7]).nombre}}</h3>
+            </div>
+            <div style="text-align: left; position: relative; width: 510px; left: 85px">
+                <h3 style="font-size: 24px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{temaPorId(temario.prioridades[6]).nombre}}</h3>
+            </div>
+        <div style="background-image: url('/views/orm/reunion/portadaTemario3.jpg') !important; background-repeat: no-repeat;
+            position: relative;font-family: Arial !important; color: rgb(0, 0, 0);width: 1150px;height: 88px;">
+        </div>
+        
+        <div style="margin-left: 20px; margin-right: 20px;">
+            <div style="min-height: 500px;margin-left: 40px;margin-top: 10px;margin-right: 40px;" class="temario" compile="temario.html">
+            </div>
+        </div>
+    </div>
+</div>

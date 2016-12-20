@@ -1,0 +1,66 @@
+<div style="background-color:white" ng-controller="ORMReunionDetalleCtrl">
+<h3><a class="btn pull-right no-print" ng-click="imprimir()" ><i class="icon-print"></i> Imprimir</a>
+    <a class="btn pull-right no-print" href="/orm/reuniones/{{reunion._id}}" ><i class="icon-arrow-left"></i> Volver</a>
+    Llamados para revisión<br>
+    Reuniones de {{reunion.nombre}}
+    
+</h3>
+<h4>
+    Tipo: 
+        <span ng-if="reunion.tipo == 'seguimiento'">Seguimiento</span>
+        <span ng-if="reunion.tipo == 'transversales'">Transversales</span>
+        <span ng-if="reunion.tipo == 'especificas'">Especificas</span>
+        <span ng-if="reunion.tipo == 'planeamiento'">Planeamiento</span>
+        <span ng-if="reunion.tipo == 'presupuesto'">Presupuesto</span>
+        <span ng-if="reunion.tipo == 'coordinacion'">Coordinación</span>
+        <span ng-if="reunion.tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+        <span ng-if="reunion.tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+        <span ng-if="reunion.tipo == 'eventuales'">Eventuales</span><br>
+    Frecuencia:
+        <span ng-if="reunion.frecuencia == '2meses'">Cada dos meses</span>
+        <span ng-if="reunion.frecuencia == '1mes'">Todos los meses</span>
+        <span ng-if="reunion.frecuencia == '3semanas'">Cada tres semanas</span>
+        <span ng-if="reunion.frecuencia == '2semanas'">Cada dos semanas</span>
+        <span ng-if="reunion.frecuencia == '1semana'">Todas las semanas</span>
+        <span ng-if="reunion.frecuencia == 'aPedido'">A pedido</span><br>
+    Jurisdiccion: {{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}<br>
+</h4>
+
+<br>
+<!--Roles de los paticipantes-->
+<em ng-if="!reunion.llamados.length">No hay llamados definidos</em>
+<table class="table llamados" ng-if="reunion.llamados.length">
+    <thead>
+        <tr>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Nombre</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Cargo</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Jurisdiccion</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Teléfonos</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="no-border" ng-repeat="p in vistaLlamados">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <span ng-repeat="t in p.c.telefonos">
+                    {{t.nombre}}: {{buscarTelefono(t.nombre, p.c)}}<br></span>
+                <span ng-repeat="r in p.c.roles">
+                    <span ng-if=r.checkedTelefono>
+                        {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br>
+                        <span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                        &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{buscarTelefono(d.nombre, contactoPorId(r.valor))}}<br></span>
+                    </span>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

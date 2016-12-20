@@ -1,0 +1,28 @@
+<style>
+.resaltar {
+	background-color: #F5F7BE;
+}
+</style>
+
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Programar Recordatorio de Día Entero</h3>
+    </div>
+    <div class="modal-body" style="height: 150px;">
+        <div class="control-group">
+            <span style="display: inline-block;width: 350px;"> Fecha:<br />
+                <input style="width:30%; margin-right: 20px;" date type="text" ng-model="reunionEspecial.fecha" />
+            </span>
+        </div>
+        <div class="control-group">
+            <span style="display: inline-block;width: 450px;"> Titulo:<br />
+                <input style="width:100%; margin-right: 20px;" type="text" ng-model="reunionEspecial.nombre" />
+            </span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn pull-right" data-dismiss="modal">Cancelar</a>
+        <a href="#" class="btn btn-info pull-right" data-dismiss="modal" ng-click="programaFechaEspecial(true)" style="margin-right: 10px;">Guardar</a>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="navbar navbar-inverse">
+	<div class="navbar-inner">
+		<a class="brand" href="/salasreuniones"><img src="/views/BA_blanco.png" style="width:63px; margin-top:6px;"><span style="vertical-align: sub;">ISC</span></a>
+
+		<div class="pull-right span2" ng-include="'/views/auth/navbar-user.html'" />
+
+		<div ui-view="navbar-extra-left"></div>
+
+		<div class="pull-right" ui-view="navbar-extra-right"></div>
+	</div>
+</div>

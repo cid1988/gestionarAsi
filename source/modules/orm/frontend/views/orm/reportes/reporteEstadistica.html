@@ -1,0 +1,95 @@
+<div class="container-fluid" ng-controller="ORMReportePorcentajeCtrl">
+        <div class="control-group pull-right" style="display: block;">
+            <div class="controls">
+                <input placeholder="Hasta..." type="text" date class="span2 input-block-level" ng-model="fecha.hasta"/>
+            </div>
+        </div>
+        <div class="control-group pull-right" style="display: block;">
+            <div class="controls">
+                <input placeholder="Desde..." type="text" date class="span2 input-block-level" ng-model="fecha.desde"/>
+            </div>
+        </div><!--
+        <div class="control-group pull-right" style="display: block;">
+            <div class="controls">
+                <input placeholder="Reunion..." type="text" class="input-block-level search-query" ng-model="filtro.nombre"/>
+            </div>
+        </div>-->
+        <div class="card-actions pull-right" style="margin-right: 10px; padding: 0">
+            <select class="input-block-level" style="width:200px" ui-select2 type="text" ng-model="filtro.tipo">
+                <option value="">Todos los Tipos</option>
+                <option value="seguimiento">Seguimiento</option>
+                <option value="transversales">Transversales</option>
+                <option value="especificas">Especificas</option>
+                <option value="planeamiento">Planeamiento</option>
+                <option value="presupuesto">Presupuesto</option>
+                <option value="coordinacion">Coordinación</option>
+                <option value="planLargoPlazo">Plan Largo Plazo</option>
+                <option value="proyectosEspeciales">Proyectos Especiales</option>
+                <option value="eventuales">Eventuales</option>
+            </select>
+        </div>
+        <h3 class="card-heading simple">Reuniones 2014 (Porcentaje de participación segun rol)</h3>
+        <table border="1" class="table table-bordered">
+            <tr bgcolor= "#FFFFFF">
+                <th><a ng-click="orden = 'nombre'" href="#" style="display: inline-block; color:#404040;">NOMBRE</a></th>
+                <th style="text-align:center !important"><a ng-click="orden = '-cantReuniones'" href="#" style="display: inline-block; color:#404040;">TOTAL REUNIONES</a></th>
+                <th style="text-align:center !important"><a ng-click="orden = '-cantidad'" href="#" style="display: inline-block; color:#404040;">PARTIC. PROMEDIO</a></th>
+                <th style="text-align:center !important">PARTIC. UNICOS</th>
+                <th style="text-align:center !important">CITADOS PROMEDIO</th>
+                <th style="text-align:center !important">CITADOS FALTANTES</th>
+                <th style="text-align:center !important">RESPONSABLES FALTANTES</th>
+                <th style="text-align:center !important">TEMAS NO TRATADOS</th>
+                <th style="text-align:center !important">JURISDICCIÓN</th>
+                <th style="text-align:center !important">LEGISLADORES</th>
+                <th style="text-align:center !important">GESTIÓN</th>
+                <th style="text-align:center !important">ADICIONALES</th>
+            </tr>
+            <tr ng-repeat="r in estadisticas | orderBy:orden | filter:filtro" bgcolor= "#FFFFFF" ng-hide="(r.nombre == 'Maestro')">
+        		<td>
+        			<a href="/orm/reuniones/{{r.id}} | filter:filtro" style="color:#404040;">{{r.nombre}}</a> 
+                    <span ng-if="r.tipo == 'seguimiento'">(Seguimiento)</span>
+                    <span ng-if="r.tipo == 'transversales'">(Transversal)</span>
+                    <span ng-if="r.tipo == 'especificas'">(Especifica)</span>
+                    <span ng-if="r.tipo == 'planeamiento'">(Planeamiento)</span>
+                    <span ng-if="r.tipo == 'presupuesto'">(Presupuesto)</span>
+                    <span ng-if="r.tipo == 'coordinacion'">(Coordinación)</span>
+                    <span ng-if="r.tipo == 'planLargoPlazo'">(Plan Largo Plazo)</span>
+                    <span ng-if="r.tipo == 'proyectosEspeciales'">(Proyectos Especiales)</span>
+                    <span ng-if="r.tipo == 'eventuales'">(Eventual)</span>
+        		</td>
+                <td style="text-align:center !important">
+            		{{r.cantReuniones}}
+        		</td>
+                <td style="text-align:center !important">
+            		{{promedio(r.cantidad,r.cantReuniones)}}
+        		</td>
+                <td style="text-align:center !important">
+            		{{r.partiUnicos.length}}
+        		</td>
+                <td style="text-align:center !important">
+            		{{promedio(r.cantCitados,r.cantReuniones)}}
+        		</td>
+                <td style="text-align:center !important">
+            		{{porcentaje(r.cantCitadosFalta, r.cantCitados)}}%
+        		</td>
+                <td style="text-align:center !important">
+            		{{r.cantResponsablesFalta}} ({{porcentaje(r.cantResponsablesFalta, r.cantResponsables)}}%)
+        		</td>
+                <td style="text-align:center !important">
+            		{{r.cantTemasNoTratados}} (Prom: {{promedio(r.cantTemasNoTratados,r.cantReuniones)}})
+        		</td>
+                <td style="text-align:center !important">
+            		{{porcentaje(r.jurisdiccionUnicos.length,r.partiUnicos.length)}}%
+        		</td>
+                <td style="text-align:center !important">
+            		{{porcentaje(r.legisladoresUnicos.length,r.partiUnicos.length)}}%
+        		</td>
+                <td style="text-align:center !important">
+            		{{porcentaje(r.controlUnicos.length,r.partiUnicos.length)}}%
+        		</td>
+                <td style="text-align:center !important">
+            		{{porcentaje((r.cantidad - r.cantCitados - r.control), r.cantidad)}}%
+        		</td>
+        	</tr>
+        </table>
+</div>

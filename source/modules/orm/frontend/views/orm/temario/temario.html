@@ -1,0 +1,31 @@
+<style>
+    .temas {
+        margin-left: 0;
+    }
+    .temas li {
+        list-style-type: none;
+        border-left: solid #444 4px;
+        padding-left: 8px;
+        margin-bottom: 8px;
+    }
+    /* .wysihtml5-toolbar {
+        display: none !important;
+    } */
+</style>
+<div ng-controller="ORMTemarioCtrl">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="span4">
+                    <div ng-include src="'/views/orm/temario/cards/estado.html'"></div>
+                    <div ng-include src="'/views/orm/temario/cards/temas.html'"></div>
+                </div>
+                <div class="span8">
+                    <div ng-include src="'/views/orm/temario/cards/listaDeEnvio.html'"></div>
+                    <div ng-include src="'/views/orm/temario/cards/nota.html'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

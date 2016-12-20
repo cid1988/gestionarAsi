@@ -1,0 +1,181 @@
+<style type="text/css">
+.wysihtml5-sandbox {
+    border: 0 !important;
+    padding: 0 !important;
+}
+.table-no-border tbody > tr:first-child > td, .table-no-border tbody > tr:first-child >th {
+    border: none !important;
+}
+.table th {
+    vertical-align: middle !important;
+}
+
+    .temario {
+        font-size:24px !important;
+        font-family:Arial !important;
+        line-height: 150% !important;
+    }
+
+    .temario ul {
+        line-height: 24px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-left: 15px;
+    }
+    
+    .temario  li {
+        line-height: 36px;
+    }
+
+</style>
+
+<div class="card animated" ng-controller="ORMTemarioListaEnvioCtrl" ng-show="mostrarEnviarTemario" ng-class="{'fadeInUp': mostrarEnviarTemario}">
+    <div class="card-actions pull-right" style="margin-top: 0; padding-top: 0">
+        <div class="btn-group">
+            <a ng-click="cancelarEnvio()" data-tooltip="Cancelar envío" ng-disabled="enviando"
+            type="button" class="btn btn-link">
+                <i class="icon-remove"></i>
+            </a>
+            <a ng-hide="enviando" ng-click="enviar()" data-tooltip="Enviar"
+            type="button" class="btn btn-link">
+                <i class="icon-envelope"></i>
+            </a>
+            <a ng-show="enviando" data-tooltip="Enviando"
+            type="button" class="btn btn-link" ng-disabled="!puedeEnviar()">
+                <i class="icon-spinner icon-spin icon-large"></i>
+            </a>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Enviar temario</h3>
+    <div class="card-body">
+        <table class="table table-condensed table-no-border">
+            <tr ng-if="temario.tipoTemario == 'final'">
+                <th>Para:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.temario.para">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.temario.para" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'final'">
+                <th>CC:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.temario.cc">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.temario.cc" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'final'">
+                <th>CCO:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.temario.cco">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.temario.cco" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'final'">
+                <th><a href="/orm/reuniones/{{instancia.reunion}}" style="color:#404040;"> Eventuales:</a></th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.temario.exclusivos">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.temario.exclusivos" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th>
+                    De:
+                </th>
+                <td colspan="2">
+                        <span ng-show="reunion.asistenteTablero">{{contactoPorId(reunion.asistenteTablero).apellidos}} {{contactoPorId(reunion.asistenteTablero).nombre}}</span>
+                        <span ng-hide="reunion.asistenteTablero">temarios@buenosaires.gob.ar</span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th>Para:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.propuestaTemario.para">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.propuestaTemario.para">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th>CC:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.propuestaTemario.cc">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.propuestaTemario.cc">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th>CCO:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.propuestaTemario.cco">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.propuestaTemario.cco">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th><a href="/orm/reuniones/{{instancia.reunion}}" style="color:#404040;"> Eventuales:</a></th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.propuestaTemario.exclusivos">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.propuestaTemario.exclusivos">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'final'">
+                <th>
+                    Asunto:
+                </th>
+                <td colspan="2">{{cancelacion}}{{asunto}}
+                </td>
+            </tr>
+            <tr ng-if="temario.tipoTemario == 'propuesta'">
+                <th>
+                    Asunto:
+                </th>
+                <td colspan="2">{{cancelacion}} Propuesta de {{asunto}}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Adjunto:
+                </th>
+                <td colspan="2">
+                    <div style="width: 300px" fine-uploader destination="'/upload/'"
+                    placeholder="'Examinar'" uploaded="uploadedFile"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <!--{{dias[fecha.getDay()]}} {{fecha.getDate()}} {{meses[fecha.getMonth()]}} {{hora}}hs ({{(instancia.hastaDate - instancia.desdeDate) / 60000}}min) {{instancia.ubicacion.nombre}}-->
+                    <div style="min-height: 450px;margin-top: 10px;margin-right: 20px;margin-left: 20px;" class="temario" compile="temario.html"></div>
+                    - {{temario.usuario}} ({{temario.fecha}})
+                </td>
+            </tr>
+        </table>    
+    </div>
+</div>

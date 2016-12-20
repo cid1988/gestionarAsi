@@ -1,0 +1,6 @@
+<ul class="nav">
+	<li ng-class="{'active': state.current.section == 'calendario'}" ng-show="username"><a href="/salasreuniones" style="line-height: 2em;">Salas de Reuniones</a></li>
+	<li ng-class="{'active': state.current.section == 'calendario'}" ng-hide="username"><a href="#" style="line-height: 2em;">Salas de Reuniones</a></li>
+	<!--<li ng-class="{'active': state.current.section == 'calendario.registrosalas'}" ng-show="username"><a href="/salasreuniones/registrosalas" style="line-height: 2em;">Registro</a></li>-->
+	<li ng-class="{'active': state.current.section == 'calendario.consulta'}"><a href="/salasreuniones/consulta" style="line-height: 2em;">Consulta</a></li>
+</ul>

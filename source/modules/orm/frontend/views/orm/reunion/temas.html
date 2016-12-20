@@ -1,0 +1,50 @@
+<style type="text/css">
+    .participantes td {
+        line-height: 30px;
+        vertical-align: middle;
+    }
+    .no-border td {
+        border: 0 none transparent;
+    }
+</style>
+
+<!--Roles de los paticipantes-->
+<em ng-if="!vistaTemas.length">No hay temas definidos</em>
+<table class="table calendario" ng-if="vistaTemas.length">
+    <thead>
+        <div>
+            <div class="span4" style="display: table-cell;margin-left: 0px;" ng-if="vistaTemas.length">Nombre</div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;" ng-if="vistaTemas.length">Jurisdicción</div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;" ng-if="vistaTemas.length">Prioridad</div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;" ng-if="vistaTemas.length">Orden de prioridad en Temario</div>
+        </div>
+    </thead>
+    <tbody>
+        <div class="no-border" ng-repeat="p in vistaTemas">
+            <div class="span4" style="display: table-cell;">
+                <button style="padding: 0;" type="button" class="btn btn-link">{{p.t.nombre}}</button>
+            </div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;">
+                <button style="padding: 0;" type="button" class="btn btn-link">{{jurisdiccionPorId(p.t.jurisdiccion).sigla}}</button>
+            </div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;">
+                <button style="padding: 0;" type="button" class="btn btn-link">{{p.t.prioridad}}</button>
+            </div>
+            <div class="span2" style="display: table-cell;margin-left: 0px;"><input style="width: 50px;margin-left: 50px;margin-bottom: 0px;" ng-disabled="!editando" type="text" ng-model="p.p.orden" /></div>
+            <div class="span1" style="display: table-cell;margin-left: 0px;">
+                <a class="btn btn-link" ng-click="eliminarTema(p.p)" style="padding-left: 0px; padding-right: 0px;" ng-show="editando">
+                    <i class="icon-trash"></i>
+                </a>
+            </div>
+        </div>
+    </tbody>
+</table>
+
+<div class="card-actions" ng-if="editando" style="padding-left: 0px;">
+    <select ui-select2 type="text" ng-model="buscador5">
+        <option value=""></option>
+        <option ng-repeat="t in temas | filter: mostrarTema" value="{{t._id}}">{{t.nombre}}</option>
+    </select>
+    <a ng-click="agregarTema(buscador5)" ng-disabled="!buscador5 && editando" type="button"
+    class="btn" ng-class="{'btn-success': buscador5}">Agregar</a>
+</div>

@@ -1,0 +1,50 @@
+<div class="modal-header" style="padding-bottom: 10px;">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Editar Compromiso
+        <div class="btn-group pull-right" data-toggle="buttons-radio" style="margin-left: 0px; margin-bottom: 10px; margin-right: 0px;">
+            <button class="btn active btn-info" ng-show="data.proyecto">POA</button>
+            <button class="btn active btn-info" ng-show="data.tema">Tema</button>
+            <button class="btn active btn-info" ng-show="data.titulo">Título</button>
+        </div>
+    </h3>
+</div>
+<div class="modal-body">
+    <div class="control-group span4" ng-show="data.proyecto" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+        <label style="margin-bottom: 1px;">Proyecto POA:</label>
+        <select class="input-block-level" ui-select2 type="text" ng-model="data.proyecto" ng-options="i._id as i.nombre for i in proyectos | orderBy:'nombre'">
+            <option ng-disabled="true" value="">{{data.proyecto.nombre}}</option>
+        </select>
+    </div>
+    <div class="control-group span4" ng-show="data.tema" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+        <label style="margin-bottom: 1px;">Tema:</label>
+        <select class="input-block-level" ui-select2 type="text" ng-model="data.tema" ng-options="i._id as i.nombre for i in temas | orderBy:'nombre' | filter: mostrarTema">
+            <option ng-disabled="true" value="">{{data.tema.nombre}}</option>
+        </select>
+    </div>
+    <span style="display: inline-block" ng-show="data.titulo"> Título:<br /> 
+        <input class="span4" type="text" placeholder="Si no existe tema" ng-model="data.titulo" />
+    </span>
+    <span style="display: inline-block"> Fecha:<br /> 
+        <input class="span2" type="text" date placeholder="Fecha" ng-model="data.fecha" />
+    </span>
+    <div class="control-group span" style="display:inline-block; margin-left: 0px; margin-bottom: 0px; margin-right: 0px; width: 100%;">
+        <label class="pull-left" style="display:inline-block;margin-bottom: 1px;margin-right: 14px;">Responsables:</label>
+        <select style="display:inline-block;" class="input-block-level span3" ui-select2 type="text" ng-model="responsable" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+            <option ng-disabled="true" value="">{{responsable.apellidos}} {{responsable.nombre}}</option>
+        </select>
+        <a href="#" class="btn" style="display:inline-block;" ng-click="data.responsables.push(responsable); responsable=''">Agregar</a>
+        <a class="btn btn-large btn-link pull-right" title="Compromiso Importante" ng-click="switchStar(data)" href="" style="margin-bottom: 0px;padding-top: 0px;padding-bottom: 10px;padding-left: 15px;padding-right: 15px;"><i ng-class="{'icon-star': data.importante, 'icon-star-empty': !data.importante}"></i></a>
+    </div>
+    <div ng-repeat="o in data.responsables" style="clear:both; margin-top: 0px; margin-bottom: 0px">
+        - {{contactoPorId(o).apellidos}} {{contactoPorId(o).nombre}}
+        <a class="btn btn-link" ng-click="eliminarElemento(data.responsables,o)" style="padding-left: 0px;padding-right: 0px;"><i class="icon-trash"></i></a>
+    </div>
+    <span style="display: inline-block;margin-top:10px;">Tarea:
+        <textarea style="height:150px; width:530px" type="text"
+        ng-model="data.tarea" placeholder="Tarea comprometida" />
+    </span>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancelar</a>
+    <a href="#" class="btn btn-info" data-dismiss="modal" ng-click="editarCompro(true, data)">Guardar</a>
+</div>

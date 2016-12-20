@@ -1,0 +1,1 @@
+exports = module.exports = ['/api/restApi.js'];

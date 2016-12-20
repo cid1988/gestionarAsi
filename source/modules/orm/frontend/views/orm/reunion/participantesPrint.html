@@ -1,0 +1,239 @@
+<div style="background-color:white" ng-controller="ORMReunionDetalleCtrl">
+<h3><a class="btn pull-right no-print" ng-click="imprimir()" ><i class="icon-print"></i> Imprimir</a>
+    <a class="btn pull-right no-print" href="/orm/reuniones/{{reunion._id}}" ><i class="icon-arrow-left"></i> Volver</a>
+    Participantes para revisión<br>
+    Reuniones de {{reunion.nombre}}
+    
+</h3>
+<h4>
+    Tipo: 
+        <span ng-if="reunion.tipo == 'seguimiento'">Seguimiento</span>
+        <span ng-if="reunion.tipo == 'transversales'">Transversales</span>
+        <span ng-if="reunion.tipo == 'especificas'">Especificas</span>
+        <span ng-if="reunion.tipo == 'planeamiento'">Planeamiento</span>
+        <span ng-if="reunion.tipo == 'presupuesto'">Presupuesto</span>
+        <span ng-if="reunion.tipo == 'coordinacion'">Coordinación</span>
+        <span ng-if="reunion.tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+        <span ng-if="reunion.tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+        <span ng-if="reunion.tipo == 'eventuales'">Eventuales</span><br>
+    Frecuencia:
+        <span ng-if="reunion.frecuencia == '2meses'">Cada dos meses</span>
+        <span ng-if="reunion.frecuencia == '1mes'">Todos los meses</span>
+        <span ng-if="reunion.frecuencia == '3semanas'">Cada tres semanas</span>
+        <span ng-if="reunion.frecuencia == '2semanas'">Cada dos semanas</span>
+        <span ng-if="reunion.frecuencia == '1semana'">Todas las semanas</span>
+        <span ng-if="reunion.frecuencia == 'aPedido'">A pedido</span><br>
+    Jurisdiccion: {{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}<br>
+</h4>
+
+<br>
+<!--Roles de los paticipantes-->
+<em ng-if="!reunion.participantes.length">No hay participantes definidos</em>
+<table class="table participantes" ng-if="reunion.participantes.length">
+    <thead>
+        <tr>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Nombre</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Cargo</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Jurisdiccion</td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">Email Oficial</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="vistaParticipantes.responsable.length">
+            <th colspan="3">
+                Responsables
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.responsable">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.jefeGabinete.length">
+            <th colspan="3">
+                Jefe de Gabinete
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.jefeGabinete">
+        
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.ejecutivo.length">
+            <th colspan="3">
+                Ejecutivos
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.ejecutivo">
+        
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.participante.length">
+            <th colspan="3">
+                Participantes
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.participante">
+        
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.legislador.length">
+            <th colspan="3">
+                Legislativos
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.legislador">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.privada.length">
+            <th colspan="3">
+                Privada
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.privada">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.gestion.length">
+            <th colspan="3">
+                Gestión
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.gestion">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.exclusivo.length">
+            <th colspan="3">
+                Eventuales
+            </th>
+        </tr>
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.exclusivo">
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+
+        <tr ng-if="vistaParticipantes.otros.length">
+            <th colspan="3">
+                Otros
+            </th>
+        </tr>
+
+        <tr class="no-border" ng-repeat="p in vistaParticipantes.otros">
+        
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                <i style="margin-right: 10px" ng-class="{'icon-star': p.p.star, 'icon-star-empty': !p.p.star}"></i>
+                {{p.c.apellidos}}, {{p.c.nombre}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{p.c.cargo}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{jurisdiccionPorId(p.c.organigrama).sigla}}
+            </td>
+            <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                {{buscarCorreo('Email oficial', p.c)}}
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

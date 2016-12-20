@@ -1,0 +1,168 @@
+<style type="text/css">
+	.card-heading{
+		padding: 10px 10px !important;
+	}
+	td, th{
+		vertical-align: middle !important;
+	}
+	.centrarTexto{
+		text-align: center !important;
+	}
+	.card {
+		padding: 10px;
+	}
+	.width100 {
+		width: 100% !important;
+	}
+</style>
+
+<div class="card clearfix" ng-controller="SalasReunionesPrint as controller">
+	<div class="card-heading no-print pull-right">
+		<a href="/salasreuniones" class="btn"><i class="icon-arrow-left"></i> Volver</a>
+		<button type="button" class="btn btn-success" ng-click="imprimir()"><i class="icon-print"></i> Imprimir</button>
+	</div>
+	<div class="card-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						<table>
+							<tbody>
+								<tr>
+									<td>
+										<img src="/views/orm/reunion/escudo.png" width="60px"/>
+									</td>
+									<td>
+										<h3> ISC </h3>
+										<h4> Suviria 64 </h4>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</th>
+					<th>
+						<div class="pull-right">
+							<h4> <b> Piso: </b> {{ sala.piso }} </h4>
+							<h4> <b> Aula: </b> {{ sala.nombre }} </h4>
+						</div>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th colspan="3" class="centrarTexto">
+						<h3> {{ instancia.titulo }} </h3>
+					</th>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table class="width100">
+							<thead>
+								<tr>
+									<th> Fecha </th>
+									<th> Hora Inicio </th>
+									<th> Hora Fin </th>
+									<th> Usuario </th>
+									<th> Interno </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> {{ instancia.fecha }} </td>
+									<td> {{ instancia.desdeHora }} </td>
+									<td> {{ instancia.hastaHora }} </td>
+									<td> {{ instancia.usuario }} </td>
+									<td> {{ instancia.interno }} </td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table class="width100">
+							<thead>
+								<tr>
+									<th> Dueño </th>
+									<th> Mail </th>
+									<th> Telefono Directo </th>
+									<th> Conmutador </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> {{ contactoPorId( instancia.duenio ).apellidos }}, {{ contactoPorId( instancia.duenio ).nombre }}</td>
+									<td> {{ valorCorreo( contactoPorId( instancia.duenio ) ) }} </td>
+									<td> {{ valorTelefono( contactoPorId( instancia.duenio ) ) }} </td>
+									<td> {{ valorConmutador( contactoPorId( instancia.duenio ) ) }} </td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<table class="width100">
+							<thead>
+								<tr>
+									<th> Cantidad de asistentes </th>
+									<th> Visitas Externas </th>
+									<th> Requerimientos </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> {{ instancia.asistentes }} </td>
+									<td>
+										<div ng-repeat=" t in instancia.visitasExternas ">
+											{{contactoPorId(t).apellidos}}, {{contactoPorId(t).nombre}}
+										</div>
+									</td>
+									<td>
+										<div ng-show=" instancia.notebook ">- Notebook<br></div>
+										<div ng-show=" instancia.lcd ">- LCD<br></div>
+										<div ng-show=" instancia.telefonoConferencia ">- Telefono Conferencia<br></div>
+										<div ng-show=" instancia.proyector ">- Proyector<br></div>
+										<div ng-show=" instancia.pantalla ">- Pantalla<br></div>
+										<div ng-show=" instancia.videoconferencia ">- Videoconferencia<br></div>
+										<div ng-show=" instancia.sillasAdicionales ">- Sillas Adicionales ( {{ instancia.cantSillasAdicionales }} )<br></div>
+										<div ng-show=" instancia.rotafolio ">- Rotafolio<br></div>
+										<div ng-show=" instancia.mesaAuxiliar ">- Mesa Auxiliar<br></div>
+										<div ng-show=" instancia.catering ">- Catering</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr ng-show=" instancia.observaciones ">
+					<td colspan="3">
+						<table class="width100">
+							<thead>
+								<tr>
+									<th> Observaciones </th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td> {{ instancia.observaciones }} </td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr colspan="3">
+					<td>
+						<h5> Ultima modificacion: {{ instancia.creada }}</h5>
+					</td>
+					<td>
+						<h5 class="pull-right"> Impreso el {{ hora }} hs</h5>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

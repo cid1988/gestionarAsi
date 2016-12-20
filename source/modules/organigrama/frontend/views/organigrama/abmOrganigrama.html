@@ -1,0 +1,49 @@
+<script type="text/javascript" src="views/organigrama/primitives/primitives.latest.js"></script>
+<link href="views/organigrama/primitives/primitives.latest.css" media="screen" rel="stylesheet" type="text/css" />
+<style>
+    :focus{
+        outline:none;
+    }
+</style>
+<script>
+    var contenedor=document.getElementById("centerpanel").offsetWidth+"px";
+    document.getElementById("contenedorRow").style.width = contenedor;
+</script>
+<div ng-controller="ORMOrganigrama">
+    <!--Listado de reparticiones-->
+    <div class="card">
+        <h3 class="card-heading simple"> Organigrama
+            <a class="btn pull-right" ng-class="{'btn-info': vistaGrafica}" ng-click="vistaGrafica = !vistaGrafica" style="margin-left: 20px;">Vista grafica</a>
+            <input type="text" style="margin-bottom:10px;" class="search-query pull-right" placeholder="Buscar por..." ng-model="filtro" />
+        </h3>
+        <div ng-show="!vistaGrafica" class="form-horizontal" name="form" style="margin-left:10px; padding-top: 16px; clear: both">
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="span6" style="display: table-cell;margin-left: 71px;"><a href="#" style="display: inline-block; color:#404040;">Reparticion:</a></div>
+                <div class="span2" style="display: table-cell"><a href="#" style="display: inline-block; color:#404040;">Sigla:</a></div>
+                <div class="span2" style="display: table-cell"><a href="#" style="display: inline-block; color:#404040;">Nivel:</a></div>
+                <div class="span2" style="display: table-cell"><a href="#" style="display: inline-block; color:#404040;">Categoria:</a></div>
+            </div>
+        </div>
+        <hr ng-show="!vistaGrafica" style="margin-bottom: 0px;margin-top: 0px;">
+        <ul ng-show="!vistaGrafica" class="nav nav-list">
+            <li ng-repeat="o in organi | orderBy: 'nombreCompleto' | filter:filtro">
+                <a style="font-size: 12px;padding-top: 8px;padding-bottom: 8px;" href="/organigrama/detalle/{{o._id}}">
+                    <span class="span6">{{o.nombreCompleto}}</span>
+                    <span class="span2">{{o.sigla}}</span>
+                    <span class="span2">{{o.nivel}}</span>
+                    <span class="span2">{{o.categoria}}</span>
+                </a>
+            </li>
+            <li ng-if="!organi.length" class="text-center">
+                <em>No hay cargas aún</em>
+            </li>
+        </ul>
+        <div ng-show="vistaGrafica">
+            <div ng-controller="myController" style="font-size: 12px;">
+                <div id="centerpanel" style="padding: 0px; margin: 0px; border: 0px;">
+                    <div bp-org-diagram data-options="myOptions" id="contenedorRow" data-on-highlight-changed="onMyHighlightChanged()" data-on-cursor-changed="onMyCursorChanged()" style="height:720px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

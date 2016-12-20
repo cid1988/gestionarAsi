@@ -1,0 +1,67 @@
+<div class="container-fluid" ng-controller="ORMReunionReportesCtrl">
+    <h3 class="card-heading simple">Reuniones (Todas)
+        <div class="control-group pull-right" style="display: block;">
+            <div class="controls">
+                <input placeholder="Reunion..." type="text" class="input-block-level search-query" ng-model="filtro.nombre"/>
+            </div>
+        </div>
+    </h3>
+    
+    <table border="1" class="table table-bordered">
+        <tr bgcolor= "#FFFFFF">
+            <th><a ng-click="orden = 'orden'" href="#" style="display: inline-block; color:#404040;">Orden</a></th>
+            <th><a ng-click="orden = 'nombre'" href="#" style="display: inline-block; color:#404040;">Nombre</a></th>
+            <th><a ng-click="orden = 'tipo'" href="#" style="display: inline-block; color:#404040;">Tipo</a></th>
+            <th><a ng-click="orden = 'jurisdiccion'" href="#" style="display: inline-block; color:#404040;">Jurisdicción</a></th>
+            <th><a ng-click="orden = 'segmento'" href="#" style="display: inline-block; color:#404040;">Segmento</a></th>
+            <th><a href="#" style="display: inline-block; color:#404040;">Ultima reunión</a></th>
+            <th><a ng-click="orden = 'frecuencia'" href="#" style="display: inline-block; color:#404040;">Frecuencia</a></th>
+            <th><a ng-click="orden = 'apagado'" href="#" style="display: inline-block; color:#404040;">Estado</a></th>
+        </tr>
+        <tr ng-repeat="i in reuniones | orderBy:orden | filter:filtro" bgcolor= "{{colorReunion(i.apagado)}}" ng-hide="i.nombre=='Maestro'">
+            <td><div>{{i.orden}}</div></td>
+            <td><div style="width: 250px;">{{i.nombre}}</div></td>
+            <td><span ng-if="i.tipo == 'seguimiento'">Seguimiento</span>
+                <span ng-if="i.tipo == 'transversales'">Transversal</span>
+                <span ng-if="i.tipo == 'especificas'">Especifica</span>
+                <span ng-if="i.tipo == 'planeamiento'">Planeamiento</span>
+                <span ng-if="i.tipo == 'presupuesto'">Presupuesto</span>
+                <span ng-if="i.tipo == 'coordinacion'">Coordinación</span>
+                <span ng-if="i.tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+                <span ng-if="i.tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+                <span ng-if="i.tipo == 'eventuales'">Eventual</span></td>
+            <td><div>{{jurisdiccionPorId(i.jurisdiccion).nombreCompleto}}</div></td>
+            <td><div>{{i.segmento}}</div></td>
+            <td><div>{{ultimaReunion(i._id)}}</div></td>
+            <td><div>{{i.frecuencia}}</div></td>
+            <td><span ng-if="i.apagado">Apagado</span><span ng-if="!i.apagado">Prendido</span></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <br>
+    <h3 class="card-heading simple">Instancias de Reuniones con Mes de realización</h3>
+    
+    <table border="1" class="table table-bordered">
+        <tr bgcolor= "#FFFFFF">
+            <th><a ng-click="orden = 'fecha'" href="#" style="display: inline-block; color:#404040;">Fecha</a></th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+        </tr>
+        <tr ng-repeat="i in reunionesInstancias | orderBy:orden" bgcolor= "#FFFFFF">
+            <td><div>{{fechaMes(i.desdeDate)}}</div></td>
+            <td><div style="width: 250px;">{{reunionPorId(i.reunion).nombre}}</div></td>
+            <td><span ng-if="reunionPorId(i.reunion).tipo == 'seguimiento'">Seguimiento</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'transversales'">Transversal</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'especificas'">Especifica</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'planeamiento'">Planeamiento</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'presupuesto'">Presupuesto</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'coordinacion'">Coordinación</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'planLargoPlazo'">Plan Largo Plazo</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'proyectosEspeciales'">Proyectos Especiales</span>
+                <span ng-if="reunionPorId(i.reunion).tipo == 'eventuales'">Eventual</span></td>
+            <td><span ng-if="reunionPorId(i.reunion).apagado">Apagado</span><span ng-if="!reunionPorId(i.reunion).apagado">Prendido</span></td>
+        </tr>
+    </table>
+</div>

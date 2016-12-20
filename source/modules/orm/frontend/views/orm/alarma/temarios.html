@@ -1,0 +1,119 @@
+<style>
+    .table {
+        border: 0;
+    }
+    .table th, .table td {
+        padding: 8px;
+        line-height: 20px;
+        text-align: left;
+        vertical-align: middle;
+        border: 0;
+    }
+    .table th {
+        background-color: #dddddd !important;
+    }
+    .temario {
+        font-size:24px !important;
+        font-family:Arial !important;
+        line-height: 150% !important;
+    }
+
+    .temario ul {
+        line-height: 24px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-left: 15px;
+    }
+    
+    .temario  li {
+        line-height: 36px;
+    }
+    
+    /* Scroller Box */
+    #scroller_container {
+     position: relative;
+     width: 60%;
+     overflow: hidden;
+    }
+    
+    #scroller p {
+     padding: 0;
+     height: auto;
+    }
+    
+</style>
+
+<script >
+ $(document).ready(function(){
+
+  // Add Scroller Object
+  $jScroller.add("#scroller_container","#scroller","up",3);
+  
+  setTimeout("$jScroller.start()", 3000);
+  // Start Autoscroller
+  //$jScroller.start();
+  
+  
+  
+ });
+ // Con está función se fija constantemente algo.
+ setInterval("verificar()", 0); 
+ 
+ // Está función tiene que verificar cuanto tiene de alto , para ver si lo obliga o no a subir devuelta.
+ function verificar(){
+      
+      var max = document.getElementById("scroller").offsetHeight ;
+      
+      max = max + "px";
+      
+      var alturaActual = document.getElementById("scroller").style.top;     alturaActual = alturaActual.substr(0 , (alturaActual.length - 2));
+      var alturaMaxima = max.substr(0, (max.length - 2));
+      
+      
+      alturaActual = alturaActual * -1 ;
+      
+      if(alturaActual >= alturaMaxima){
+          setTimeout(document.getElementById("scroller").style.top="20px",3000);
+          setTimeout("$jScroller.stop()", 0);
+          setTimeout("$jScroller.start()", 3000);
+        }
+  };
+</script>
+
+
+
+<div ng-controller="ORMAlarmaTemarioCtrl" >
+    <div  class="card" style="overflow-y: hidden; overflow-x: hidden;position: absolute;top: 65px;bottom: 12px;left:20px;width: 400px;margin-top: 0px;margin-bottom: 0px;padding-top: 10px;">
+        <h2 class="card-heading simple" style="font-size: 30px; padding-left: 15px;">Temario:</h2>
+        <div class="card-body">
+            <h1 style="font-size: 40px;font-weight: 600;line-height: 45px;"><center>{{reunionPorId(alerta.reunion).nombre}}</center></h1>
+            <hr>
+            <h1 style="margin-bottom: 0px;"><center>{{alerta.fecha}}</center></h1>
+            <h1 style="margin-bottom: 0px;margin-top: 0px;"><center><b>{{alerta.desdeHora}}hs</b></center></h1>
+            <h4 style="margin-bottom: 0px;font-size: 22px;line-height: 25px;"><center>{{alerta.ubicacion.nombre}}</center></h4>
+            <hr>
+            <div style="width:100%;height:390px;overflow: hidden">
+                <h3 style="margin-bottom: 0px; margin-top: 0px;">Próximos Temarios:</h3>
+                <div ng-repeat="i in instancias | orderBy:'desdeDate'">
+                    <div>
+                        <a class="btn btn-link" style="text-align: left;padding-right: 0px; width: 100%; overflow: hidden;" ng-show="tieneTemario(i._id)">
+                            {{i.fecha}} - {{i.desdeHora}} - {{reunionPorId(i.reunion).nombre}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card" id="scroller_container" style="overflow-x: hidden;position: absolute;top: 65px;bottom: 12px;right: 20px;left: 440px;margin-top: 0px;margin-bottom: 0px;">
+        
+        <div id="scroller" class="card-body" style="margin-top: 0px;">
+            <br><br>
+            <div > 
+                <p  id="miP" class="temario" compile="temarioPorId(alerta._id).html" style="height:100%"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

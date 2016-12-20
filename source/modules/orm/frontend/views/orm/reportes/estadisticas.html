@@ -1,0 +1,172 @@
+<style type="text/css">
+    A:visited {color: #3B3537;}
+    A:active {color: #3B3537;}
+    A:hover {color: #3B3537;}
+</style>
+<div class="container-fluid" ng-controller="ORMReunionEstadisticasCtrl">
+    <div class="control-group pull-right" style="display: block;">
+        <div class="controls">
+            <input placeholder="Hasta..." type="text" date class="span2 input-block-level" ng-model="fecha.hasta"/>
+        </div>
+    </div>
+    <div class="control-group pull-right" style="display: block;">
+        <div class="controls">
+            <input placeholder="Desde..." type="text" date class="span2 input-block-level" ng-model="fecha.desde"/>
+        </div>
+    </div>
+    <div class="control-group pull-right" style="display: block;margin-right: 10px;">
+        <div class="controls">
+            <input placeholder="Reunion..." type="text" class="input-block-level search-query" ng-model="filtro.nombre"/>
+        </div>
+    </div>
+    <div class="card-actions pull-right" style="margin-right: 10px; padding: 0">
+        <select class="input-block-level" style="width:200px" ui-select2 type="text" ng-model="filtro.tipo">
+            <option value="">Todos los Tipos</option>
+            <option value="seguimiento">Seguimiento</option>
+            <option value="transversales">Transversales</option>
+            <option value="especificas">Especificas</option>
+            <option value="planeamiento">Planeamiento</option>
+            <option value="presupuesto">Presupuesto</option>
+            <option value="coordinacion">Coordinación</option>
+            <option value="planLargoPlazo">Plan Largo Plazo</option>
+            <option value="proyectosEspeciales">Proyectos Especiales</option>
+            <option value="eventuales">Eventuales</option>
+        </select>
+    </div>
+    <h3 class="card-heading simple">Estadísticas de Reuniones</h3>
+    <table border="1" class="table table-bordered">
+        <tr bgcolor= "#FFFFFF">
+            <th><a ng-click="orden = 'nombre'" href="#" style="display: inline-block; color:#404040;">NOMBRE</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantidad'" href="#" style="display: inline-block; color:#404040;">CANT</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'participantes'" href="#" style="display: inline-block; color:#404040;">PARTIC</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'llamados'" href="#" style="display: inline-block; color:#404040;">LLAM</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantAsistencia'" href="#" style="display: inline-block; color:#404040;">CANT ASIST</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantLlamados'" href="#" style="display: inline-block; color:#404040;">CANT LLAM</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantTemarios'" href="#" style="display: inline-block; color:#404040;">CANT TEMA</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantTemas'" href="#" style="display: inline-block; color:#404040;">CANT TEMAS</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantMinutas'" href="#" style="display: inline-block; color:#404040;">CANT MINU</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantPresentaciones'" href="#" style="display: inline-block; color:#404040;">CANT PRES</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantCompromisos'" href="#" style="display: inline-block; color:#404040;">CANT COMPR</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantMm'" href="#" style="display: inline-block; color:#404040;">CANT MM</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantHrl'" href="#" style="display: inline-block; color:#404040;">CANT HRL</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantFm'" href="#" style="display: inline-block; color:#404040;">CANT FM</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantMev'" href="#" style="display: inline-block; color:#404040;">CANT MEV</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'cantPdl'" href="#" style="display: inline-block; color:#404040;">CANT PDL</a></th>
+            <th style="text-align:center !important"><a ng-click="orden = 'desvio'" href="#" style="display: inline-block; color:#404040;">FUERA HORA</a></th>
+        </tr>
+        <tr ng-repeat="r in filtrados = (estadisticas | orderBy:orden | filter:filtro)" bgcolor= "#FFFFFF" ng-hide="(r.nombre == 'Maestro')">
+    		<td>
+    			<a href="/orm/reuniones/{{r.id}}" >{{r.nombre}}</a> 
+                    <span ng-if="r.tipo == 'seguimiento'">(Seguimiento)</span>
+                    <span ng-if="r.tipo == 'transversales'">(Transversal)</span>
+                    <span ng-if="r.tipo == 'especificas'">(Especifica)</span>
+                    <span ng-if="r.tipo == 'planeamiento'">(Planeamiento)</span>
+                    <span ng-if="r.tipo == 'presupuesto'">(Presupuesto)</span>
+                    <span ng-if="r.tipo == 'coordinacion'">(Coordinación)</span>
+                    <span ng-if="r.tipo == 'planLargoPlazo'">(Plan Largo Plazo)</span>
+                    <span ng-if="r.tipo == 'proyectosEspeciales'">(Proyectos Especiales)</span>
+                    <span ng-if="r.tipo == 'eventuales'">(Eventual)</span>
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantidad}}
+    		</div>
+            <td style="text-align:center !important">
+        		{{r.participantes}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.llamados}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantAsistencia}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantLlamados}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantTemarios}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{eliminateDuplicates(r.cantTemas).length}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantMinutas}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantPresentaciones}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantCompromisos}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantMm}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantHrl}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantFm}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantMev}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.cantPdl}}
+    		</td>
+            <td style="text-align:center !important">
+        		{{r.desvio}} ({{porcentaje(r.desvio, r.cantidad)}}%)
+    		</td>
+    	</tr>
+        <tr bgcolor= "#FFFFFF">
+    		<td>
+    			<b>TOTALES:</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totalesCantidad(filtrados)}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        	</td>
+            <td style="text-align:center !important">
+        	</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantAsistencia}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantLlamados}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantTemarios}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{eliminateDuplicates(totales.cantTemas).length}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantMinutas}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantPresentaciones}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantCompromisos}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantMm}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantHrl}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantFm}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantMev}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.cantPdl}}</b>
+    		</td>
+            <td style="text-align:center !important">
+        		<b>{{totales.desvio}}</b>
+    		</td>
+    	</tr>
+    </table>
+</div>
+

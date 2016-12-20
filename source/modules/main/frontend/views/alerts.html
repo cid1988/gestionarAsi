@@ -1,0 +1,4 @@
+<div ng-controller="AlertsCtrl">
+    <alert class="fade in out" ng-repeat="alert in alerts" type="alert.type"
+    close="dismiss(alert)"><span compile="alert.htmlMessage"></span>{{alert.message}}</alert>
+</div>

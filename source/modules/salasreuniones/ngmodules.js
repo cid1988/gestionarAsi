@@ -1,0 +1,1 @@
+exports = module.exports = ["bag2.salasreuniones.calendario", "bag2.salasreuniones"]

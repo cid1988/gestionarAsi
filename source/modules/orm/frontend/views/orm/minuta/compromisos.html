@@ -1,0 +1,49 @@
+
+<div class="card" ng-controller="ORMListaCompromisosCtrl">
+    <div class="card-actions pull-right" style="margin-right: 10px; padding: 0">
+        <select class="input-block-level" style="width:320px" ui-select2 type="text" ng-model="filtro.reunion">
+            <option value=""></option>
+            <option value="">Todas las reuniones</option>
+            <option ng-repeat="e in reuniones" value="{{e._id}}">{{e.nombre}} ({{e.tipo}})</option>
+        </select>
+    </div>
+    <div data-toggle="multiselect buttons-radio" class="control-group pull-right span4" style="margin-left: 0px; width: 540px !important;margin-right: 0px;">
+        Estado:
+        <div class="btn-group">
+            <a style="min-width:21px; font-weight: 700" class="btn" ng-class="{'active btn-info': estadoVigente || todosEstados}" ng-click="estadoVigente = !estadoVigente">Vigente</a>
+            <a style="min-width:21px; font-weight: 700" class="btn" ng-class="{'active btn-info': estadoCumplido || todosEstados }" ng-click="estadoCumplido = !estadoCumplido">Cumplida</a>
+            <a style="min-width:21px; font-weight: 700" class="btn" ng-class="{'active btn-info': estadoVencido || todosEstados }" ng-click="estadoVencido = !estadoVencido">Vencida</a>
+            <a style="min-width:21px; font-weight: 700" class="btn" ng-class="{'active btn-info': estadoATema || todosEstados }" ng-click="estadoATema = !estadoATema">A Tema</a>
+            <a style="min-width:21px; font-weight: 700" class="btn" ng-class="{'active btn-info': todosEstados }" ng-click="todosEstados = !todosEstados">Todos</a>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Compromisos</h3>
+    <table border="0" class="table">
+        <tr bgcolor= "#FFFFFF">
+            <th><a ng-click="orden = 'fechaMili'"  href="#" style="display: inline-block; color:#404040;">FECHA</a></th>
+            <th><a ng-click="orden = 'tema'"  href="#" style="display: inline-block; color:#404040;">TEMA / TÍTULO</a></th>
+            <th><a ng-click="orden = 'tarea'"  href="#" style="display: inline-block; color:#404040;">TAREA</a></th>
+            <th><a ng-click="orden = 'responsable'"  href="#" style="display: inline-block; color:#404040;">RESPONSABLES</a></th>
+            <th><a ng-click="orden = 'estado'"  href="#" style="display: inline-block; color:#404040;">ESTADO</a></th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="h in compromisos | orderBy:orden | filter:filtro | filter:filtroEstados" bgcolor= "#FFFFFF">
+            <td>{{h.fecha}}</td>
+            <td><span ng-show="h.tema">{{temaPorId(h.tema).nombre}}</span><span ng-show="h.proyecto">{{proyectoPorId(h.proyecto).nombre}}</span><span ng-show="h.titulo">{{h.titulo}}</span></td>
+            <td>{{h.tarea}}</td>
+            <td><div ng-repeat="u in h.responsables" style="display:inline-block; margin-top: 0px; margin-bottom: 0px">
+                {{contactoPorId(u).apellidos}} {{contactoPorId(u).nombre}},&nbsp
+            </div></td>
+            <td><span ng-if="(h.estado=='') && (h.fechaMili > hoy)">Vigente</span>
+                <span ng-if="(h.estado=='') && (h.fechaMili < hoy)">Vencido</span>
+                <span ng-if="h.estado!=''">{{h.estado}}</span>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a type="button" ng-disabled="h.estado=='Cumplido'"  class="btn no-print" href="" ng-click="cambioEstado(h,'Cumplido')"><i class="icon-ok"></i></a>
+                    <a type="button" ng-disabled="h.estado=='A Tema'" class="btn no-print" href="" ng-click="cambioEstado(h,'A Tema')"><i class="icon-arrow-up"></i> A Tema</a>
+                    <a type="button"class="btn no-print" href="/orm/reuniones/{{h.instancia}}/minuta"><i class="icon-list-alt"></i> Minuta</a>
+                </div></td>
+        </tr>
+    </table>
+</div>

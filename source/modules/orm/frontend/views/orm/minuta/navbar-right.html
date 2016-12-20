@@ -1,0 +1,10 @@
+<div ng-controller="ORMMinutaNavbarCtrl">
+    <div class="btn-group pull-right" style="margin-right: 7px">
+        <a class="btn btn-link" ng-hide="editando || mostrarEnviarMinuta" ng-click="editar()">
+            <i class="icon-edit"></i>&nbsp;Activar edición</a>
+        <a class="btn btn-link" ng-show="editando" ng-click="cerrarEditar()">
+            <i class="icon-edit"></i>&nbsp;Cerrar edición</a>
+        <a class="btn btn-link" ng-if=hasPermission('orm.envioTemario') ng-hide="editando || mostrarEnviarMinuta" ng-click="enviar()">
+            <i class="icon-envelope"></i>&nbsp;Enviar Compromisos</a>
+    </div>
+</div>

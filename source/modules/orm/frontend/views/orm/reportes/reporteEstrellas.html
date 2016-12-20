@@ -1,0 +1,31 @@
+<div class="container-fluid" ng-controller="ORMReunionReporteEstrellasCtrl">
+    <div class="row-fluid">
+        <h3 class="card-heading simple">Participantes Estrella con su personal auxiliar</h3>
+        <table border="1" class="table table-bordered">
+            <tr bgcolor= "#FFFFFF">
+                <th>NOMBRE</th>
+                <th>PERSONAL AUXILIAR / TELÉFONO</th>
+            </tr>
+            <tr ng-repeat="e in estrellas" bgcolor= "#FFFFFF">
+                <td>
+                    {{contactoPorId(e.id).apellidos}} {{contactoPorId(e.id).nombre}}
+        		</td>
+                <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
+                    <table border="0" class="table table-bordered">
+                        <tr ng-repeat="r in contactoPorId(e.id).roles">
+                            <td width="25%">
+                            {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br></td>
+                            <td width="25%"><span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{d.valor}} <span ng-show="d.interno">Int: {{d.interno}}</span><!--{{buscarTelefono(d.nombre, contactoPorId(r.valor))}}--><br></span></td>
+                        
+                            <td width="25%"><span ng-repeat="d in contactoPorId(r.valor).correos">
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{d.valor}}<br></span></td>
+                        
+                        </tr>
+                    </table>
+                </td>
+        	</tr>
+        </table>
+        <div class="row-fluid" ng-show="!estrellas.length">No hay ningun participante estrella</div>
+    </div>
+</div>

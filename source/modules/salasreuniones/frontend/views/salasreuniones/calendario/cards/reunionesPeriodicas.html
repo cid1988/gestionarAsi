@@ -1,0 +1,73 @@
+<style>
+.resaltar {
+	background-color: #F5F7BE;
+}
+</style>
+
+<div class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Programar Clase Semanal</h3>
+    </div>
+    <div class="modal-body" style="height: 360px;">
+        <div class="controls" style="min-width: 500px; display: inline-block; margin-bottom: 20px; margin-right: 10px">
+            <span style="display: inline-block;width: 100%;"> Aula:<br />
+                <select ui-select2 style="width:100%" type="text" ng-model="reservaPeriodica.idSala" placeholder="">
+                    <option value=""></option>
+                    <option ng-repeat="h in salas | orderBy:'nombre'" value="{{h._id}}">{{h.nombre}}</option>
+                </select>
+            </span>
+        </div>
+        <div class="control-group">
+            <span style="display: inline-block;width: 350px;"> Titulo:<br />
+                <input style="width:100%;" type="text" placeholder="Titulo" ng-model="reservaPeriodica.titulo" />
+            </span>
+            <span style="display: inline-block;width: 70px;margin-left: 20px;"> Interno:<br />
+                <input style="width:100%;" placeholder="Interno" type="text" ng-model="reservaPeriodica.interno" />
+            </span>
+        </div>
+        <div class="control-group">
+            <span>Dueño de la clase:</span>
+            <select ui-select2 type="text" ng-model="reservaPeriodica.duenio" style="width: 83%;" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+            </select>
+        </div>
+        <div class="control-group">
+            <span style="display: inline-block;width: 250px;"> Entre Fechas:<br />
+                <input style="width:30%; margin-right: 10px;" date type="text" ng-model="reservaPeriodica.fecha1" /> Y
+                <input style="width:30%; margin-left: 10px;" date type="text" ng-model="reservaPeriodica.fecha2" />
+            </span>
+            <span style="display: inline-block;width: 140px;"> Hora Desde:<br />
+                <input style="width:20%; margin-right: 5px;" placeholder="hh" type="text" ng-model="reservaPeriodica.horaDesde" /> :
+                <input style="width:20%; margin-left: 5px;" placeholder="mm" type="text" ng-model="reservaPeriodica.minutosDesde" />
+            </span>
+            <span style="display: inline-block;width: 140px;"> Hora Hasta:<br />
+                <input style="width:20%; margin-right: 5px;" placeholder="hh" type="text" ng-model="reservaPeriodica.horaHasta" /> :
+                <input style="width:20%; margin-left: 5px;" placeholder="mm" type="text" ng-model="reservaPeriodica.minutosHasta" />
+            </span>
+        </div>
+		<div class="span2" style="width:100px;margin-left: 5px;">
+			<label>Lunes</label>
+			<input type="checkbox" ng-model="reservaPeriodica.lunes" style="margin-left: 20px;" />
+		</div>
+		<div class="span2" style="width:100px;margin-left: 5px;">
+			<label>Martes</label>
+			<input type="checkbox" ng-model="reservaPeriodica.martes" style="margin-left: 20px;" />
+		</div>
+		<div class="span2" style="width:100px;margin-left: 5px;">
+			<label>Miercoles</label>
+			<input type="checkbox" ng-model="reservaPeriodica.miercoles" style="margin-left: 20px;" />
+		</div>
+		<div class="span2" style="width:100px;margin-left: 5px;">
+			<label>Jueves</label>
+			<input type="checkbox" ng-model="reservaPeriodica.jueves" style="margin-left: 20px;" />
+		</div>
+		<div class="span2" style="width:100px;margin-left: 5px;">
+			<label>Viernes</label>
+			<input type="checkbox" ng-model="reservaPeriodica.viernes" style="margin-left: 20px;" />
+		</div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn pull-right" data-dismiss="modal">Cancelar</a>
+        <a href="#" class="btn btn-info pull-right" data-dismiss="modal" ng-click="programaReservaPeriodica(true)" style="margin-right: 10px;">Guardar</a>
+    </div>
+</div>

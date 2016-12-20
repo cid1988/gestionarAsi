@@ -1,0 +1,4 @@
+<div ng-controller="ORMOrganigrama" class="btn-group pull-right" style="margin-right: 7px">
+    <a class="btn btn-link" ng-hide="editando" href="/organigrama/nuevo" ng-if="hasPermission('organigrama.editar')" ng-click="mostrarNuevo()"><i class="icon-plus"></i>&nbsp;Nueva Repartición</a>
+    <a class="btn btn-link" target="_blank" style="margin-left: 10px" href="/api/organigrama-csv/download"><i class="icon-download-alt"></i> CSV</a>
+</div>

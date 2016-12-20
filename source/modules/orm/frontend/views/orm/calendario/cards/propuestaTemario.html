@@ -1,0 +1,17 @@
+<div ng-controller="ORMCalendarioTemarioCtrl" class="card" ng-class="{'animated fadeInDown': instancia}" ng-show="instancia"
+style="padding-bottom:14px;padding-top: 10px;">
+    <div class="card-actions pull-right" style="margin: 0">
+        <a type="button" class="btn btn-link">
+            <i class="icon-external-link"></i></a>
+    </div>
+    <h3 class="card-heading simple">Propuesta de Temario</h3>
+    <div class="card-body">
+        <div class="control-group">
+            <div ng-switch on="temario.enviado.version">
+                <button ng-switch-default type="button" style="margin-bottom: 10px" class="btn btn-block disabled" disabled="disabled">Nunca enviado</button>
+                <button ng-switch-when="propuesta" type="button" style="margin-bottom: 10px" class="btn btn-block btn-info disabled" disabled="disabled">Temario enviado</button>
+                <button ng-switch-when="final" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Final enviado</button>
+            </div>
+        </div>
+    </div>
+</div>

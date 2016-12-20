@@ -1,0 +1,42 @@
+<div class="card animated fadeInDown" ng-controller="ORMNotaMinutaCtrl" ng-hide="mostrarEnviarMinuta">
+    <div class="card-actions pull-right" style="padding: 0; margin: 0; margin-right: 10px" ng-show="editando">
+        <div class="btn-group">
+         <a ng-click="agregarCompromiso(false)"
+            type="button" class="btn btn-link">
+                <i class="icon-plus"></i>
+            </a>
+        </div>
+    </div>
+	<h3 class="card-heading simple">Compromisos</h3>
+	<div class="card-body">
+		<div ng-hide="minuta.compromisos.length" style="margin-bottom: 15px;">No se ha cargardo ningun compromiso aún</div>
+        <div ng-repeat="o in minuta.compromisos"
+        style="clear:both; min-height: 40px; margin-top: 10px; margin-bottom: 10px" ng-show="minuta.compromisos.length">
+            <div class="btn-group pull-right" style="display: inline-block; margin-right: 0px; margin-bottom: 0px">
+                <a class="btn btn-link" title="Compromiso Importante" ng-if="o.importante" style="padding-left: 0px; padding-right: 10px;"><i ng-class="{'icon-star': o.importante, 'icon-star-empty': !o.importante}"></i></a>
+                <a class="btn btn-link" ng-click="editarCompro(false, o)" style="padding-left: 0px; padding-right: 0px;" ng-if="editando"><i class="icon-edit"></i></a>
+                <a class="btn btn-link" ng-click="eliminarElemento(minuta.compromisos,o)" style="padding-left: 0px;padding-right: 0px;" ng-if="editando"><i class="icon-trash icon-white"></i></a>
+                <a class="btn btn-link" ng-click="subir(o)" style="padding-left: 0px; padding-right: 0px;" ng-if="editando"><i class="icon-chevron-up"></i></a>
+                <a class="btn btn-link" ng-click="bajar(o)" style="padding-left: 0px; padding-right: 0px;" ng-if="editando"><i class="icon-chevron-down"></i></a>
+            </div>
+            <span style="display: inline-block;margin-right: 20px;margin-bottom: 5px;" ng-show="o.tema"> <b>Tema:</b> {{temaPorId(o.tema).nombre}}
+            </span>
+            <span style="display: inline-block;margin-right: 20px;margin-bottom: 5px;" ng-show="o.proyecto"> <b>Proyecto POA:</b> {{proyectoPorId(o.proyecto).nombre}}
+            </span>
+            <span style="display: inline-block;margin-right: 20px;margin-bottom: 5px;" ng-show="o.titulo"> <b>Título:</b> {{o.titulo}}
+            </span>
+            <span style="display: inline-block"> <b>Fecha:</b> {{o.fecha}}
+            </span>
+            <br>
+            <span style="display: inline-block;margin-right: 20px;margin-bottom: 5px;"> <b>Responsables:</b>
+                <div ng-repeat="u in o.responsables" style="display:inline-block; margin-top: 0px; margin-bottom: 0px">
+                    {{contactoPorId(u).apellidos}} {{contactoPorId(u).nombre}},&nbsp
+                </div>
+            </span>
+            <br>
+            <span style="display: inline-block"> <b>Tarea:</b> {{o.tarea}}
+            </span>
+            <hr style="margin-top: 10px; margin-bottom: 10px;" />
+        </div>
+	</div>
+</div>

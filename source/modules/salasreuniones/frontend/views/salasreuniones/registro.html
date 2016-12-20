@@ -1,0 +1,128 @@
+<style type="text/css">
+	table td { width:1%; }
+	.navbar { display: none; }
+	.navbarEstilo{
+		background-color: #222;
+		color:#9d9d9d;
+		padding: 5px 0 !important;
+		margin: 0;
+	}
+	.navbarEstilo > h1 { margin: 0; }
+	.navbarEstilo > h1 > span {
+		font-size: 0.7em;
+		padding-left: 10px;
+	}
+	.container-fluid{ padding: 0; }
+	body{ background-image: none; }
+	#container{
+		background-color:white;
+		height:100vh;
+	}
+	#redireccionMain{
+		color: #9d9d9d;
+	}
+	#redireccionMain:hover{
+		color: #bbbcbd;
+		text-decoration: none;
+	}
+	.bordeTop1{ border-top: 1px solid black; }
+	.hrF{ margin-top: 5px;	}
+	.aula{
+		text-align:center;
+		vertical-align: top;
+		padding: 0 10px;
+	}
+	.aula > div {
+		border-radius: 5px;
+		padding: 5px;
+		border: 1px solid black;
+	}
+	.nombreAula{
+		background-color: #017582;
+		padding:30px 0;
+	}
+	.nombreAula > h3 {
+		color: white;
+		font-weight: bold;
+		font-size:3.5em;
+		margin: 0;
+	}
+	#footer {
+		color: #333;
+		text-align: center;
+		padding-bottom: 10px;
+	}
+	.columnas{ padding:10px 10px; }
+	.columnas > div > h4 { font-size:1.2em; }
+	.tituloPiso{ background-color:#eeeff1; }
+	.tituloPiso > td {
+		text-align:center;
+		padding: 5px 0;
+	}
+	.tituloPiso > td > h1 { font-size:3.5em }
+	.tituloPiso b {
+		color: #008080;
+		text-transform: capitalize;
+	}
+</style>
+<div ng-controller="SalasRegistroCtrl">
+	<div id="container" ng-hide="reproduciendo">
+		<div class="navbarEstilo">
+			<h1>
+				<span>
+					<a id="redireccionMain" href="/salasreuniones">ISC | Instituto Superior de la Carrera</a>
+				</span>
+			</h1>
+		</div>
+		<div style="padding: 20px" ng-hide="reproduciendo">
+			<table width="100%">
+				<tr class="tituloPiso">
+					<td colspan="100%">
+						<h1 style="cursor:pointer" ng-click="cambiarPiso()">
+							<span>
+								<b>{{dia}} |</b> <span>{{pisoAula}}</span>
+							</span>
+						</h1>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="100%">
+						<hr class="bordeTop1" />
+					</td>
+				</tr>
+				<tr>
+					<td class="aula" ng-repeat="s in salas | filter:filtroSala  | orderBy: 'nombre' ">
+						<div >
+							<div class="nombreAula">
+								<h3>{{s.nombre}}</h3>
+							</div>
+							<div class="columnas">
+								<div ng-repeat="r in s.reuniones | filter:filtroHora | orderBy: 'desdeHora' ">
+									<h4><b>{{r.titulo}}</b></h4>
+									<h5>{{r.desdeHora}} a {{r.hastaHora}} hs.</h5>
+									<hr class=" bordeTop1 " />
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<div>
+				<hr class="bordeTop1 hrF" />
+				<hr class="bordeTop1 hrF" />
+				<p id="footer">
+					<b>Instituto Superior de la Carrera | Secretaría de Cultura Ciudadana y Función Pública - Jefatura de Gabinete de Ministros
+					</b>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div ng-show="reproduciendo" style="text-align: center">
+		<video preload="auto" id="reproductorVideo" style="height:100vh">
+			<source src="../../video.mp4" type="video/mp4;">
+				Tu navegador no implementa el elemento <code>video</code>.
+		</video>
+	</div>
+</div>

@@ -1,0 +1,95 @@
+<div ng-controller="ORMNuevoOrganigrama" class="card">
+    <h3 class="card-heading simple">Organigrama - Nueva repartición
+        <div class="card-actions pull-right" style="margin: 0; padding-right: 0">
+        	<a ng-click="guardar()" class="btn btn-link no-underline"><i class="icon-ok"></i></a>
+        </div>
+    </h3>
+    <!--Reparticion-->
+    <div class="card-body" style="padding-left: 40px">
+        <div style="display: inline-block">Nombre largo:<br />
+            <input style="width:400px; margin-bottom: 1px" type="text" ng-model="organi.nombreCompleto"/>
+        </div>
+        <div style="display: inline-block; margin-bottom:5px">Sigla:<br />
+            <input style="margin-bottom: 1px" type="text" ng-model="organi.sigla"/>
+        </div>
+        <br>
+        <div style="display: inline-block">Nombre corto de organigrama:<br />
+            <input style="width:400px; margin-bottom: 1px" type="text" ng-model="organi.nombreCortoOrganigrama"/>
+        </div>
+        <div style="display: inline-block">Nombre corto de jurisdicción:<br />
+            <input style="margin-bottom: 1px" type="text" ng-model="organi.nombreCortoJurisdiccion"/>
+        </div>
+        <h4>Período:</h4>
+        <div class="control-group">
+            <div class="input-prepend display:inline-block">
+                <label style="margin-bottom: -1px">Desde:</label>
+                <!--FECHA-->
+                <input type="text"
+                ng-model="organi.periodoDesde" />
+                <i class="icon-calendar"></i>
+                <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title">
+                    <i class="icon-calendar"></i>
+                </button>
+            </div>
+            <div class="input-append display:inline-block">
+                <label style="margin-bottom: -1px">Hasta:</label>
+                <!--FECHA-->
+                <input type="text" ng-model="organi.periodoHasta"/><i class="icon-calendar"></i>
+                <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title"><i class="icon-calendar"></i></button>
+            </div>
+        </div>
+        <div class="input-prepend input-block-level">
+            <label style="span4; margin-bottom: -1px">Superior inmediato:</label>
+            <select ui-select2 type="text" style="width:430px" ng-model="organi.superiorInmediato" ng-options="i._id as i.nombreCompleto for i in organigrama">
+                <option>{{i.nombreCompleto}}</option>
+            </select>
+            <button type="submit" class="btn" data-trigger="click" bs-tooltip="tooltip.title"><i class="icon-book"></i></button>
+        </div>
+        <hr>
+        <div class="control-group" style="display: inline-block; margin-bottom: 8px">Nivel:
+            <br/>
+            <select ui-select2 ng-model="organi.nivel">
+                <option></option>
+                <option style="padding-left: 26px; padding-right: 26px" ng-repeat="l in listaNiveles" value="{{l.nombre}}">{{l.nombre}}</option>
+            </select>
+        </div>
+        <div class="control-group" style="display: inline-block; margin-bottom: 8px">Categoria:<br/>
+            <select ui-select2 ng-model="organi.categoria">
+                <option></option>
+                <option style="padding-left: 26px; padding-right: 26px" ng-repeat="l in listaCategorias" value="{{l.nombre}}">{{l.nombre}}</option>
+            </select>
+        </div>
+        <div style="display: inline-block">Orden:<br />
+            <input style="margin-bottom: 1px" type="text" ng-model="organi.orden"/>
+        </div>
+        <hr>
+        <div style="display: inline-block;">Cantidad Empleados:<br/> 
+            <input type="text" ng-model="data.cantidad"/>
+        </div>
+        <div style="display: inline-block;">Presupuesto Empleados:<br /> 
+            <input type="text" ng-model="data.presupuesto" />
+        </div>
+        <div style="display: inline-block"> Fecha:<br /> 
+            <input type="text" date ng-model="data.fecha" />
+        </div>
+        <a class="btn" ng-click="agregar()" style="margin-bottom: 10px; padding-left: 0px; padding-right: 0px;"><i class="icon-ok"></i></a>
+        <br>
+        <div ng-repeat="i in organi.empleados">
+            <div style="display: inline-block;">
+                <input ng-disabled="true" type="text" ng-model="i.cantidad"/>
+            </div>
+            <div style="display: inline-block;">
+                <input ng-disabled="true" type="text" ng-model="i.presupuesto" />
+            </div>
+            <div style="display: inline-block">
+                <input ng-disabled="true" type="text" date ng-model="i.fecha" />
+            </div>
+            <br>
+        </div>
+    </div>
+    <div style="padding-left: 15px" class="modal-footer">
+        <a href="#" class="btn" ng-click="cancelar()" data-dismiss="modal">Cancelar</a>
+        <a href="#" class="btn btn-info" data-dismiss="modal" ng-click="guardar()">Guardar</a>
+    </div>
+    <br>
+</div>

@@ -1,0 +1,19 @@
+<div ng-controller="ORMCalendarioNavbarCtrl">
+    <div class="btn-group pull-right" style="margin-right: 7px">
+        <a class="btn btn-link" href="/orm/reuniones/reportes">
+            <i class="icon-list-alt"></i>&nbsp;Reportes</a>
+        <a class="btn btn-link" ng-hide="editando" ng-if=hasPermission('orm.edicionReunion') ng-click="$root.$broadcast('start-edit')">
+            <i class="icon-edit"></i>&nbsp;Activar edición</a>
+        <a class="btn btn-link" ng-hide="!editando" ng-click="$root.$broadcast('stop-edit')">
+            <i class="icon-edit"></i>&nbsp;Cerrar edición</a>
+        <i class="icon-spinner icon-spin" ng-show="trabajando"></i>
+    </div>
+    <div class="btn-group input-prepend pull-right" style="margin-right: 7px; margin-bottom: 0">
+        <a class="btn btn-link disabled">
+            <i class="icon-calendar"></i><span style="margin-left: 0.5em">iCal</span>
+        </a>
+        <input type="text" disabled class="input-medium" value="{{appRootUrl}}/api/orm-ical/all.ics"
+        />
+    </div>
+
+</div>

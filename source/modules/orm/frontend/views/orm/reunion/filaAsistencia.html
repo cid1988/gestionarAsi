@@ -1,0 +1,32 @@
+<!--Lista de participantes-->
+<div class="row">
+    <div class="span3" style="display: table-cell; margin-left:30px">
+        <i ng-click="switchStar(p.p)" ng-class="{'icon-bookmark': p.p.importante, '': !p.p.importante}"></i>
+        <button style="padding: 0;" type="button" class="btn btn-link" ng-show="!controller.editando">{{p.c.apellidos}}, {{p.c.nombre}}</button>
+        <button style="padding: 0;" type="button" class="btn btn-link" ng-click="switchImportante(p.p)" ng-hide="!controller.editando">{{p.c.apellidos}}, {{p.c.nombre}}</button>
+    </div>
+    <div class="span2" style="display: table-cell">{{p.c.cargo}}</div>
+    <div class="span2" style="display: table-cell">{{jurisdiccionPorId(p.c.organigrama).sigla}}</div>
+    <div class="span2" style="display: table-cell">{{buscarCorreo('Email oficial', p.c)}}</div>
+    <div class="span1" style="display: table-cell">
+        <button type="button" class="btn" ng-click="p.p.confirmo = 'No'" ng-hide="p.p.confirmo == 'No'" ng-show="p.p.confirmo == 'Si'" ng-disabled="!controller.editando" ng-class="{'btn-info active': p.p.confirmo}">Si</button>
+        <button type="button" class="btn" ng-click="p.p.confirmo = 'Si'" ng-show="p.p.confirmo == 'No'" ng-disabled="!controller.editando">No</button>
+    </div>
+    <div class="span1">
+    <!--
+        <select  ui-select2 type="text" ng-model="p.p.asistio">
+            <option ng-disabled="true">{{p.p.asistio}}</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select>
+        -->
+   <!--     
+<button ng-class="{'btn-info active': instancia.mm}" ng-click="instancia.mm = !instancia.mm" ng-disabled="!controller.editando" style="padding-left: 4px; padding-right: 4px; width: 70px;">MM</button>
+        -->
+        <button type="button" class="btn" ng-click="p.p.asistio = 'No'" ng-hide="p.p.asistio == 'No'" ng-show="p.p.asistio == 'Si'" ng-disabled="!controller.editando" ng-class="{'btn-info active': p.p.asistio}">Si</button>
+        <button type="button" class="btn" ng-click="p.p.asistio = 'Si'" ng-show="p.p.asistio == 'No'" ng-disabled="!controller.editando">No</button>
+    </div>
+    <a class="btn btn-link" ng-click="eliminarParticipante(p.p)" style="padding-left: 0px; padding-right: 0px; float: right" ng-show="controller.editando">
+        <i class="icon-trash"></i>
+    </a>
+</div>

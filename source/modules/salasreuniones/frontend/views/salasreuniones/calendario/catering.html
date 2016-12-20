@@ -1,0 +1,42 @@
+<style type="text/css">
+    .referencia {
+        list-style-type: none;
+    }
+</style>
+<div ng-controller="SalasReunionesCateringCtrl">
+    <div class="span13">
+        <div class="card" style="margin-bottom: 10px;">
+            <div class="card-actions pull-right" style="margin: 0px 20px 0  0 ; padding: 0">
+                <div class="controls" style="min-width: 250px; display: inline-block; margin-bottom: 7px; margin-right: 10px">
+                    <select ui-select2="tipoSalaSelect2" style="width:100%" type="text" ng-model="filtro.tipo" placeholder="">
+                        <option value="">Todas</option>
+                        <option ng-repeat="i in salas" value="{{i.tipo}}">{{i.nombre}}</option>
+                    </select>
+                </div>
+        
+                <div class="btn-group" ng-show="editando">
+                    <a ng-click="revertToOriginal();cancelarReprogramacion()"
+                    type="button" class="btn btn-link" ng-disabled="!huboReporogramacion()">
+                        <i class="icon-undo"></i>
+                    </a>
+                    <a ng-click="applyChanges();guardarReporogramacion()" 
+                    type="button" class="btn btn-link" ng-disabled="!huboReporogramacion()">
+                        <i class="icon-ok icon-white"></i>
+                    </a>
+                </div>
+            </div>
+            <h3 class="card-heading simple">Calendario de Catering en Salas de Reuniones</h3>
+            <div style="margin-left: 20px; margin-right: 20px; margin-top: 16px" class="calendar"
+            fullcalendar calendar-object="calendar" ng-model="calendar"></div>
+            <div style="margin: 20px">
+                <span style="background-color: {{salaResaltada && colorSala(salaResaltada)}}; width: 20px; height: 20px; display: inline-block">&nbsp;</span>
+                <span>{{salaResaltada.nombre}}</span><span ng-if="instanciaResaltada.titulo"> - {{instanciaResaltada.titulo}}</span>&nbsp;
+                <div class="pull-right">
+                    <img ng-repeat="pId in instanciaResaltada.participantes | keysArray:star" ng-init="p = instanciaResaltada.participantes[pId]" class="img-circle" ng-show="contactosPorId[pId].foto" ng-class="{'gray-border': p.star}"
+                    style="width: 25px; height: 25px" ng-src="/api/upload/{{contactosPorId[pId].foto}}"
+                    />
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>

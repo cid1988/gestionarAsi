@@ -1,0 +1,90 @@
+<style>
+    .no-border, .no-border > th, .no-border > td {
+        border: none;
+    }
+    .tablaPrint th, .tablaPrint td {
+        padding-top:1px;
+        padding-bottom:1px;
+        border-bottom:1px solid #AAAAAA;
+        line-height: 25px;
+    }
+</style>
+
+<div class="card span12" style="border:0px" ng-controller="ORMReunionLlamadosCtrl as controller">
+<div style="background-image: url('/views/orm/reunion/portadaLlamados.jpg') !important; background-repeat: no-repeat;
+position: relative;font-family: Arial !important; color: rgb(0, 0, 0);width: 1100px;height: 385px;">
+    <a class="btn pull-right no-print" ng-click="imprimir()" ><i class="icon-print"></i> Imprimir</a>
+    <a class="btn pull-right no-print" href="/orm/calendario" ><i class="icon-arrow-left"></i> Volver</a>
+    <div style="text-align: right; position: absolute; width: 515px; top: 40px; left: 560px">
+        <h3 style="font-size: 23px !important; margin-top: 0px; margin-bottom: 0px;">Reunión 
+            <span ng-if="reunion.tipo == 'seguimiento'">de Seguimiento</span>
+            <span ng-if="reunion.tipo == 'transversales'">Transversal</span>
+            <span ng-if="reunion.tipo == 'especificas'">Especifica</span>
+            <span ng-if="reunion.tipo == 'planeamiento'">de Planeamiento</span>
+            <span ng-if="reunion.tipo == 'presupuesto'">de Presupuesto</span>
+            <span ng-if="reunion.tipo == 'coordinacion'">de Coordinación</span>
+            <span ng-if="reunion.tipo == 'planLargoPlazo'">de Plan Largo Plazo</span>
+            <span ng-if="reunion.tipo == 'proyectosEspeciales'">de Proyectos Especiales</span>
+            <span ng-if="reunion.tipo == 'eventuales'">Eventual</span>
+        </h3>
+    </div>
+    <div style="text-align: right; position: absolute; width: 550px; top: 75px; left: 525px">
+        <h3 ng-style="set_size" style="font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{reunion.nombre}}</h3>
+    </div>
+    <div style="text-align: right; position: absolute; width: 550px; top: 105px; left: 525px">
+        <h3 style="font-size: 23px !important; margin-top: 0px; margin-bottom: 0px;">{{instancia.subtitulo}}</h3>
+    </div>
+    <div style="text-align: left; position: absolute; width: 460px; top: 195px; left: 35px">
+        <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}</h3>
+    </div>
+    <div style="text-align: left; position: absolute; width: 285px; top: 195px; left: 495px">
+        <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.ubicacion.nombre}}</h3>
+    </div>
+    <div style="text-align: left; position: absolute; width: 140px; top: 195px; left: 790px">
+        <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.fecha}}</h3>
+    </div>
+    <div style="text-align: left; position: absolute; width: 100px; top: 195px; left: 990px">
+        <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.desdeHora}}</h3>
+    </div>
+    <div style="text-align: left; position: absolute; width: 100px; top: 220px; left: 990px">
+        <h3 style="font-size: 20px !important;font-weight: bold; margin-top: 0px; margin-bottom: 0px;">{{instancia.hastaHora}}</h3>
+    </div>
+</div>
+
+<table class="table tablaPrint" style="background-color: white;margin-bottom: 0px;margin-left: 35px;font-size: 19px !important;width: 1050px;">
+    <tbody>
+            <tr ng-repeat="p in controller.vistaLlamados">
+                <td style="width: 288px;padding-left: 0px;"><b>{{p.c.apellidos|uppercase}}</b>, {{p.c.nombre}}</td>
+                <td style="width: 198px;padding-left: 0px;">{{p.c.cargo}}</td>
+                <td style="width: 153px;padding-left: 0px;">{{jurisdiccionPorId(p.c.organigrama).sigla}}</td>
+                <td style="width: 388px;padding-left: 0px;"><span ng-repeat="t in p.c.telefonos">
+                    {{t.nombre}}: {{buscarTelefono(t.nombre, p.c)}}<br></span>
+                    <span ng-repeat="r in p.c.roles">
+                        <span ng-if=r.checkedTelefono>
+                            {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br>
+                            <span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{buscarTelefono(d.nombre, contactoPorId(r.valor))}}<br></span>
+                        </span>
+                    </span>
+                </td>
+                <td style="padding-left: 0px;"><div style="width:22px;height:22px;border:1px solid #AAAAAA;margin-top: 10px;">&nbsp;</div></td>
+            </tr>
+            <tr ng-repeat="p in controller.vistaMaestro">
+                <td style="width: 288px;padding-left: 0px;"><b>{{p.c.apellidos|uppercase}}</b>, {{p.c.nombre}}</td>
+                <td style="width: 198px;padding-left: 0px;">{{p.c.cargo}}</td>
+                <td style="width: 153px;padding-left: 0px;">{{jurisdiccionPorId(p.c.organigrama).sigla}}</td>
+                <td style="width: 388px;padding-left: 0px;"><span ng-repeat="t in p.c.telefonos">
+                    {{t.nombre}}: {{buscarTelefono(t.nombre, p.c)}}<br></span>
+                    <span ng-repeat="r in p.c.roles">
+                        <span ng-if=r.checkedTelefono>
+                            {{r.nombre}}: {{contactoPorId(r.valor).apellidos}} {{contactoPorId(r.valor).nombre}}<br>
+                            <span ng-repeat="d in contactoPorId(r.valor).telefonos">
+                            &nbsp;&nbsp;&nbsp;&nbsp;{{d.nombre}}: {{buscarTelefono(d.nombre, contactoPorId(r.valor))}}<br></span>
+                        </span>
+                    </span>
+                </td>
+                <td style="padding-left: 0px;"><div style="width:22px;height:22px;border:1px solid #AAAAAA;margin-top: 10px;">&nbsp;</div></td>
+            </tr>
+    </tbody>
+</table>
+</div>

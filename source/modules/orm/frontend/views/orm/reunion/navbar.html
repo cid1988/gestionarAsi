@@ -1,0 +1,16 @@
+<div ng-controller="ORMReunionNavbarCtrl">    
+
+    <div class="btn-group pull-right" style="margin-right: 7px">
+            
+        <a class="btn btn-link" ng-show="imprimiendo" type="button" ng-click="closePrint()">
+            <i class="icon-undo"></i>&nbsp;Volver</a>
+    </div>
+    <div class="btn-group input-prepend pull-right" style="margin-right: 7px; margin-bottom: 0">
+        <a class="btn btn-link disabled">
+            <i class="icon-calendar"></i><span style="margin-left: 0.5em">iCal</span>
+        </a>
+        <input type="text" disabled class="input-xlarge" value="{{appRootUrl}}/api/orm-ical/{{reunionId}}.ics"
+        />
+    </div>
+
+</div>

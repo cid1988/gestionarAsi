@@ -1,0 +1,90 @@
+<style type="text/css">
+	.al33{
+		width:33% !important;
+	}
+	.table td{
+		vertical-align:middle;
+	}
+	th,td{ text-align: center !important };
+</style>
+<ul class="nav" ng-controller="ORMCalendarioNavbarCtrl">
+	<li><a href="/salasreuniones/reporte" ng-if="hasPermission( 'salasreuniones.administrador' )"><i class="icon-table"></i> Reporte</a></li>
+
+	<li>
+		<a href="#editorUsuarios" data-toggle="modal" ng-if=" hasPermission( 'salasreuniones.administrador' ) "><i class="icon-user"></i> Gestionar pisos</a>
+
+		<div id="editorUsuarios" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="height:70%">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Asignar pisos Usuarios</h3>
+			</div>
+			<div class="modal-body" style="height:90%; overflow:hidden">
+				<div class="row-fluid">
+					<div class="span5">
+						<select ng-model="idUsuario" class="input-block-level">
+							<option value="">Cuenta de Usuario</option>
+							<option ng-repeat="usuario in usuarios | orderBy: 'username' | filter: filtroRepetidos" value="{{usuario}}">{{usuario.username}}</option>
+						</select>
+						<span class="help-block">Para seleccionar mas de un piso, presione "Ctrl" + "Click" </span>
+					</div>
+					<div class="span4">
+						<select ng-model="piso" multiple class="input-block-level">
+							<option value="2">2</option>
+							<option value="3">3</option>
+						</select>
+					</div>
+					<div class="span3">
+						<button type="button" class="btn btn-info input-block-level" ng-click="agregarUsuario(idUsuario, piso)" style="margin:0 0 10px 0;" title="Agregar Usuario"><i class="icon-user"></i> Agregar</button>
+
+						<button type="button" class="btn input-block-level" ng-click="piso=['2','3']" style="margin:0 0 10px 0;" title="Seleccionar todos los pisos"><i class="icon-plus"></i> Todos</button>
+					</div>
+				</div>
+				<div>
+					<table class="table table-striped" style="margin:0">
+						<thead style="background-color:#BDBDBD">
+							<tr>
+								<th class="al33">Usuario</th>
+								<th class="al33">Nombre y Apellido</th>
+								<th class="al33">Pisos</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div style="overflow-y:auto; height:70%">
+					<table class="table table-striped table-hover table-bordered">
+						<tbody>
+							<tr ng-repeat="usuario in usuariosPorPiso">
+								<td class="al33">{{usuario.username}} </td>
+								<td class="al33">{{usuario.apellido}} {{usuario.nombre}}</td>
+								<td class="al33 clearfix">
+									<div style="width:45%;" class="pull-left">
+										<select ng-model="usuario.piso" multiple style="margin:0" class="input-block-level">
+											<option value="2">2</option>
+											<option value="3">3</option>
+										</select>
+									</div>
+									<div style="width:45%;" class="pull-right">
+										<button class="btn pull-right" style="margin:0;" title="Guardar {{usuario.username}}" ng-click="guardarUsuario(usuario)">Guardar</button>
+
+										<button class="btn btn-primary pull-right" title="Eliminar {{usuario.username}}" ng-click="eliminarUsuario(usuario)"><i class="icon-trash"></i></button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</li>
+
+	<li><i class="icon-spinner icon-spin" ng-show="trabajando"></i></li>
+
+	<li>
+		<a href="#" ng-hide="editando" ng-click="$root.$broadcast('start-edit');" ng-show="( hasPermission('salasreuniones.crearEditarSalas') || hasPermission('salasreuniones.crearEditarReuniones') )" >
+			<i class="icon-edit"></i>&nbsp;Activar edición
+		</a>
+		<a href="#" ng-show="editando" ng-click="$root.$broadcast('stop-edit');" ng-show="( hasPermission('salasreuniones.crearEditarSalas') || hasPermission('salasreuniones.crearEditarReuniones') )">
+			<i class="icon-edit"></i>&nbsp;Cerrar edición
+		</a>
+	</li>
+</ul>

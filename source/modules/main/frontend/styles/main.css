@@ -1,0 +1,230 @@
+.tooltip {
+    border: none;
+}
+/* Will be compiled down to a single stylesheet with your sass files */
+.select2-container-multi .select2-choices {
+    border-radius: 4px 4px 4px 4px;
+    border: 1px solid #cccccc;
+}
+.select2-dropdown-open > .select2-choices {
+    border-radius: 4px 4px 0 0;
+}
+.select2-container {
+    background-color: white;
+}
+.select2-container-disabled {
+    background-color: rgb(245, 245, 245);
+}
+.nav-tabs > li {
+    cursor: pointer;
+}
+.rotate-90 {
+    -moz-transform:rotate(-90deg);
+    -moz-transform-origin: bottom left;
+    -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: bottom left;
+    -o-transform: rotate(-90deg);
+    -o-transform-origin: bottom left;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.rotate-30 {
+    -moz-transform:rotate(-30deg);
+    -moz-transform-origin: bottom left;
+    -webkit-transform: rotate(-30deg);
+    -webkit-transform-origin: bottom left;
+    -o-transform: rotate(-30deg);
+    -o-transform-origin: bottom left;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+.ellipsize {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ellipsize span {
+    float: left;
+}
+.bw {
+    -webkit-filter: grayscale(100%);
+}
+.glow-green {
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(62, 196, 37, .75);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(62, 196, 37, .75);
+    box-shadow: 0px 0px 15px 5px rgba(62, 196, 37, .75);
+}
+.glow-gray {
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(100, 100, 100, .75);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(100, 100, 100, .75);
+    box-shadow: 0px 0px 15px 5px rgba(100, 100, 100, .75);
+}
+.fc-view {
+    background-color: white;
+}
+.btn {
+    min-width: 36px;
+}
+.gray-border {
+    -moz-box-shadow: 0px 0px 0px 2px #333;
+    /* Firefox */
+    -webkit-box-shadow: 0px 0px 0px 2px #333;
+    /* Safari, Chrome */
+    box-shadow: 0px 0px 0px 2px #333;    /* CSS3 */
+}
+
+
+
+/* Calendario */
+
+.fc-button-next, .fc-button-prev {
+    -webkit-box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+    background-repeat: repeat-x;
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 0px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    box-shadow: none;
+    color: rgb(68, 68, 68);
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roboto, arial, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    height: 29px;
+    line-height: 29px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    min-height: 29px;
+    min-width: 36px;
+    padding-bottom: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 0px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 36px;
+}
+
+.icon-blackberry {
+    background-image: url(/img/blackberry.png);
+    background-position: 0 0;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+/*animaciones*/
+.fast-anim{-webkit-animation-duration:0.5s;-moz-animation-duration:0.5s;-ms-animation-duration:0.5s;-o-animation-duration:0.5s;animation-duration:0.5s;}
+
+.cards-enter, .cards-show {
+    -webkit-animation: cards-enter 600ms;
+    animation: cards-enter 600ms;
+}
+.cards-fast-enter, .cards-fast-show {
+    -webkit-animation: cards-enter 300ms;
+    animation: cards-enter 300ms;
+}
+@-webkit-keyframes cards-enter {
+    from {
+        opacity: 0;
+        max-height: 0px;
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+@keyframes cards-enter {
+    from {
+        opacity: 0;
+        max-height: 0px;
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+ 
+.cards-leave, .cards-hide {
+    -webkit-animation: cards-leave 600ms;
+    animation: cards-leave 600ms;
+}
+.cards-fast-leave, .cards-fast-hide {
+    -webkit-animation: cards-leave 300ms;
+    animation: cards-leave 300ms;
+}
+@-webkit-keyframes cards-leave {
+    to {
+        opacity: 0;
+        max-height: 0px;
+    }
+    from {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+@keyframes cards-leave {
+    to {
+        opacity: 0;
+        max-height: 0px;
+    }
+    from {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+
+.no-underline:hover {
+    text-decoration: none;
+}
+
+.card-body.collapse {
+margin-top: 0;
+}
+
+span.fileupload-exists,span.fileupload-new {
+    position: relative;
+    top: 0.5em;
+}
+
+.card-actions.pull-right {
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu > li > a.sugerido {
+    color: blue;
+}
+
+body {
+    background: url(/styles/background.png) ;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-position:center;
+    background-size: cover;
+}

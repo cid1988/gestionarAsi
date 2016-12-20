@@ -1,0 +1,20 @@
+<div ng-controller="NavbarAuthCtrl" class="clearfix">
+	<div class="clearfix" style="width:100%;">
+		<div class="btn-group" ng-hide="isLoggedIn" style="width:100%; text-align: center;">
+			<a href="/login" class="btn btn-link input-block-level"><i class="icon-user"></i>&nbsp;Login</a>
+		</div>
+
+		<div class="btn-group" ng-show="isLoggedIn" style="width: 100%; text-align: center; margin: 10px 0;">
+		  	<a class="btn btn-primary" href="#" style="width:75%;"><i class="icon-user icon-white"></i><b> {{username}}</b></a>
+		  	<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" style="width: auto;"><span class="caret"></span></a>
+		  	<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="text-align: left;">
+		  		<li><a href="/cambiarContrasenna"><i class="icon-lock"></i>&nbsp;Cambiar Contraseña</a></li>
+				<!--<li><a ng-if="hasPermission('admin.users')" href="/admin"><i class="icon-cog"></i>&nbsp;Zona de Administración</a></li>-->
+				<li><a ng-if="hasPermission('admin.users')" href="/admin/users"><i class="icon-cog"></i>&nbsp;Zona de Administración</a></li>
+				<li class="divider"></li>
+				<li><a href="#" ng-click="logout()" onclick="window.location.href='/'"><i class="icon-off icon-white"></i> Desconectarse</a></li>
+		  	</ul>
+		</div>
+
+	</div>
+</div>

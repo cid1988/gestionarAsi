@@ -1,0 +1,109 @@
+<style type="text/css">
+    .table-no-border tbody > tr:first-child > td, .table-no-border tbody > tr:first-child >th {
+        border: none !important;
+    }
+    .table th {
+        vertical-align: middle !important;
+    }
+    
+    .wysihtml5-sandbox {
+        border: 0 !important;
+        padding: 0 !important;
+    }
+    
+    ul.wysihtml5-toolbar li a[title="Insert image"] { display: none; }
+    ul.wysihtml5-toolbar li a[title="Insert link"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h1"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h2"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h3"] { display: none; }
+    ul.wysihtml5-toolbar li.dropdown ul.dropdown-menu li a[data-wysihtml5-command-value="h5"] { display: none; }
+    
+    .wysihtml5-toolbar:nth-child(n+2) 
+    {
+        display: none;
+    }
+
+</style>
+
+<div class="card animated fadeInDown" ng-controller="ORMCitaListaEnvioCtrl">
+    <div class="card-actions pull-right" style="margin-top: 0; padding-top: 0">
+        <div class="btn-group">
+            <a ng-click="cancelarEnvio()" data-tooltip="Cancelar envío" ng-disabled="enviando"
+            type="button" class="btn btn-link">
+                <i class="icon-remove"></i>
+            </a>
+            <a ng-hide="enviando" ng-if="hasPermission('orm.envioTemario')" ng-click="enviar()" data-tooltip="Enviar"
+            type="button" class="btn btn-link">
+                <i class="icon-envelope"></i>
+            </a>
+            <a ng-show="enviando" data-tooltip="Enviando"
+            type="button" class="btn btn-link" ng-disabled="!puedeEnviar()">
+                <i class="icon-spinner icon-spin icon-large"></i>
+            </a>
+        </div>
+    </div>
+    <h3 class="card-heading simple">Enviar Cita</h3>
+    <div class="card-body">
+        <table class="table table-condensed table-no-border">
+            <tr>
+                <th>Para:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.cita.para">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.cita.para" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>CC:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.cita.cc">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.cita.cc" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>CCO:</th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.cita.cco">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.cita.cco" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <th><a href="/orm/reuniones/{{instancia.reunion}}" style="color:#404040;"> Eventuales:</a></th>
+                <td style="width: 100%">
+                    <span ng-repeat="pId in reunion.cita.exclusivos">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                    <span ng-repeat="pId in maestro.cita.exclusivos" ng-hide="instancia.reunion == '531e45b0ee7b07a673df4e68'">
+                        {{contactoPorId(pId.contactoId).apellidos}} {{contactoPorId(pId.contactoId).nombre}},
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Asunto:
+                </th>
+                <td colspan="2">{{preAsunto}}{{asunto}}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-top: 15px;">
+                    <textarea rich-text-editor rows="4" style=" width: 100%; height: 300px" ng-model="textoCita"></textarea>
+                    <br><br><br>
+                    - {{username}}
+                </td>
+            </tr>
+        </table>    
+    </div>
+</div>

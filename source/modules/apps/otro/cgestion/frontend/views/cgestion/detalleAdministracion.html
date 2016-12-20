@@ -1,0 +1,36 @@
+
+<div ng-controller="DetalleCGestionAdministracionCtrl">
+    <div class="span9">
+        <div class="row-fluid">
+            <div class="card" style="margin-bottom: 10px;">
+                <h3 class="card-heading simple">{{cgestion.titulo}} ({{cgestion.fecha}})</h3>
+                <div style="margin: 20px">
+                    <img ng-src="/file/{{cgestion.imagen}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="card">
+            <h3 class="card-heading simple">Comentarios</h3>
+            <div class="card-body" style="margin-bottom: 14px;padding-right: 13px;">
+            <div>
+                <textarea type="text" placeholder="Comentario..." ng-model="data.comentario" rows="4" style="margin-top: 0px; width: 95%;margin-bottom: 0px;"> </textarea>
+                <div class="card-actions pull-right">
+                  <a href="#" ng-click="agregarComentario()" class="btn btn-primary">Enviar</a>
+                </div>
+                <hr style=" margin-top: 40px; margin-bottom: 5px;">
+                <div ng-repeat="r in reverse(cgestion.comentarios)">
+                    <div style="text-align: left;margin-top: 0px;margin-bottom: 0px;padding-top: 5px;">
+                        <span class="pull-right" style="font-size: 10px;">{{dameFecha(r.fecha)}}hs</span>
+                        <b>{{r.usuario}}</b> dijo:<br>
+                        {{r.comentario}}
+                        <hr style="margin-top: 5px; margin-bottom: 5px;">
+                    </div>
+                </div>
+                <span ng-hide="cgestion.comentarios.length">No hay comentarios aún</span>
+            </div>
+            </div>
+        </div>
+    </div> 
+</div>

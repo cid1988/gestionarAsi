@@ -1,0 +1,49 @@
+<style>
+
+.contacto-mini {
+    margin-left: 0;
+    margin-top: 0;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    display: inline-block;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    background-color: #f0f0f7;
+}
+
+.contacto-mini img {
+    width: 30px; height: 30px; margin-right: 7px;
+    float: left;
+}
+
+.contacto-mini .texto {
+    float: left;
+}
+.contacto-mini .texto strong {
+    display: block;
+}
+.contacto-mini a {
+    white-space: nowrap;
+}
+
+.contacto-mini .label {
+    display: inline;
+}
+
+.contacto-mini .close-button {
+    height: 100%;
+    width: 20px !important;
+    min-width: inherit;
+}
+
+</style>
+
+<span class="contacto-mini" ng-init="contacto = traerContacto(pId)">
+    <img ng-show="contacto.foto" ng-src="/api/upload/{{contacto.foto}}"  class="img-circle">
+    <span class="texto">
+        <strong><a href="javascript:;" ng-click="uiHelper.abrirTarjetaContacto(pId)">{{contacto.nombre}} {{contacto.apellido}}</a></strong>
+        <span ng-show="contacto.oficinaSigla" class="label">{{contacto.oficinaSigla}}</span>
+    </span>
+    <a ng-click="quitarContacto(pId)" class="close-button btn btn-mini btn-link" type="button"><i class="icon-remove"></i></a>
+</span>

@@ -1,0 +1,236 @@
+
+<script>
+    $(document).ready(function() { $("#e1").select2(); });
+    $(document).ready(function() { $("#e2").select2(); });
+    $(document).ready(function() { $("#e3").select2(); });
+</script>
+
+<div ng-controller="ORMReunionDetalleCtrl">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="card span12" style="padding-bottom: 10px;margin-top: 5px;padding-top: 5px;margin-bottom: 5px;">
+                <h3 class="card-heading simple">Detalles de la serie
+                    <a class="btn pull-right" ng-click="edit()" ng-if=hasPermission('orm.edicionReunion') ng-hide="editando"><i class="icon-edit"></i>&nbsp;Editar</a>
+                    <a class="btn pull-right" ng-click="save()" ng-if="editando"><i class="icon-hdd"></i>&nbsp;Guardar</a>
+                    <a class="btn pull-right" ng-click="importarDatos(false)" ng-if="editando" style="margin-right: 10px;"><i class="icon-download-alt"></i>&nbsp;Importar datos de ...</a>
+                </h3>
+                <div class="card-body" style="margin-top: 10px;">
+                    <span class="pull-left span4" style="display: inline-block; margin-right:4px"> Nombre <br />
+                        <input ng-disabled="!editando" class="input-block-level" ng-model="reunion.nombre" type="text" />
+                    </span>
+                    <div class="control-group span2" style="margin-left: 0px; margin-bottom: 10px; margin-right: 7px;">
+                        <label style="margin-bottom: 0px;">Tipo </label>
+                        <select id="e1" ng-disabled="!editando" class="input-block-level" type="text" ng-model="reunion.tipo" placeholder="">
+                            <option ng-disabled="true" value="">{{tipoPorValor(reunion.tipo)}}</option>
+                            <option ng-if=permiso("seguimiento") value="seguimiento">Seguimiento</option>
+                            <option ng-if=permiso("transversales") value="transversales">Transversales</option>
+                            <option ng-if=permiso("especificas") value="especificas">Específicas</option>
+                            <option ng-if=permiso("planeamiento") value="planeamiento">Planeamiento</option>
+                            <option ng-if=permiso("presupuesto") value="presupuesto">Presupuesto</option>
+                            <option ng-if=permiso("coordinacion") value="coordinacion">Coordinación</option>
+                            <option ng-if=permiso("planLargoPlazo") value="planLargoPlazo">Plan Largo Plazo</option>
+                            <option ng-if=permiso("proyectosEspeciales") value="proyectosEspeciales">Proyectos Especiales</option>
+                            <option ng-if=permiso("eventuales") value="eventuales">Eventuales</option>
+                        </select>
+                    </div>
+                    <div class="control-group span2" style="margin-left: 0px; margin-bottom: 10px; margin-right: 7px;">
+                        <label style="margin-bottom: 0px;">Frecuencia </label>
+                        <select id="e2" ng-disabled="!editando"  class="input-block-level" type="text" ng-model="reunion.frecuencia" placeholder="">
+                            <option ng-disabled="true" value="">{{frecuenciaPorValor(reunion.frecuencia)}}</option>
+                            <option value="1semana">Cada una semana</option>
+                            <option value="2semanas">Cada dos semanas</option>
+                            <option value="3semanas">Cada tres semanas</option>
+                            <option value="1mes">Cada un mes</option>
+                            <option value="2meses">Cada dos meses</option>
+                            <option value="aPedido">A pedido</option>
+                        </select>
+                    </div>
+                    <div class="control-group span2" style="margin-left: 0px; margin-bottom: 10px; margin-right: 7px;">
+                        <label style="margin-bottom: 0px;">Segmento </label>
+                        <select id="e3" ng-disabled="!editando" class="input-block-level" type="text" ng-model="reunion.segmento" placeholder="">
+                            <option ng-disabled="true" value="">{{segmentoPorValor(reunion.segmento)}}</option>
+                            <option value="infraestructura">Infraestructura</option>
+                            <option value="social">Social</option>
+                        </select>
+                    </div>
+                    <span class="span2" ng-hide="editando" style="display: inline-block; margin-right:4px; margin-left: 0px;"> Grupo <br />
+                        <input class="input-block-level" ng-disabled="!editando" ng-model="grupoPorId(reunion.grupo).nombre" type="text" />
+                    </span>
+                    <div class="control-group span2" ng-if="editando" style="margin-left: 0px; margin-bottom: 10px; margin-right: 4px;">
+                        <label style="margin-bottom: 0px;">Grupo </label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.grupo" ng-options="i._id as i.nombre for i in gruposReuniones | orderBy:'nombre' | filter:filtroGrupo">
+                            <option value="">{{grupoPorId(reunion.grupo).nombre}}</option>
+                        </select>
+                    </div>
+                    
+                    
+                    
+                    
+                    <span class="span4" ng-hide="editando" style="display: inline-block; margin-right:4px; margin-left: 0px;"> Jurisdicción <br />
+                        <input class="input-block-level" ng-disabled="!editando" ng-model="jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto" type="text" />
+                    </span>
+                    <div class="control-group span4" ng-if="editando" style="margin-left: 0px; margin-bottom: 10px; margin-right: 4px;">
+                        <label style="margin-bottom: 0px;">Jurisdicción </label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.jurisdiccion" ng-options="i._id as i.nombreCompleto for i in jurisdicciones | orderBy:'nombreCompleto'">
+                            <option value="">{{jurisdiccionPorId(reunion.jurisdiccion).nombreCompleto}}</option>
+                        </select>
+                    </div>
+                    
+                    <span class="span2" style="display: inline-block;margin-left: 0px;" ng-if="!editando"> Asistente Tablero<br /> 
+                        <input type="text" class="input-block-level" ng-disabled="!editando" value="{{contactoPorId(reunion.asistenteTablero).apellidos}} {{contactoPorId(reunion.asistenteTablero).nombre}}" />
+                    </span>
+                    <div class="control-group span2" ng-if="editando" style="margin-left: 0px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Asistente Tablero</label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.asistenteTablero" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(reunion.asistenteTablero).apellidos}} {{contactoPorId(reunion.asistenteTablero).nombre}}</option>
+                        </select>
+                    </div>
+                    
+                    <span class="span2" style="display: inline-block;margin-left: 4px;" ng-if="!editando"> Asistente Minuta<br /> 
+                        <input type="text" class="input-block-level" ng-disabled="!editando" value="{{contactoPorId(reunion.asistenteMinuta).apellidos}} {{contactoPorId(reunion.asistenteMinuta).nombre}}" />
+                    </span>
+                    <div class="control-group span2" ng-if="editando" style="margin-left: 4px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Asistente Minuta</label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.asistenteMinuta" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(reunion.asistenteMinuta).apellidos}} {{contactoPorId(reunion.asistenteMinuta).nombre}}</option>
+                        </select>
+                    </div>
+                    
+                    <span class="span2" style="display: inline-block;margin-left: 4px;" ng-if="!editando"> Toma Compromisos<br /> 
+                        <input type="text" class="input-block-level" ng-disabled="!editando" value="{{contactoPorId(reunion.tomaCompromisos).apellidos}} {{contactoPorId(reunion.tomaCompromisos).nombre}}" />
+                    </span>
+                    <div class="control-group span2" ng-if="editando" style="margin-left: 4px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Toma Compromisos</label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.tomaCompromisos" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(reunion.tomaCompromisos).apellidos}} {{contactoPorId(reunion.tomaCompromisos).nombre}}</option>
+                        </select>
+                    </div>
+                    
+                    <span class="span2" style="display: inline-block;margin-left: 4px;" ng-if="!editando"> Valida Temario<br /> 
+                        <input type="text" class="input-block-level" ng-disabled="!editando" value="{{contactoPorId(reunion.validaTemario).apellidos}} {{contactoPorId(reunion.validaTemario).nombre}}" />
+                    </span>
+                    <div class="control-group span2" ng-if="editando" style="margin-left: 4px; margin-bottom: 0px; margin-right: 0px; margin-bottom: 10px">
+                        <label style="margin-bottom: 0px;"> Valida Temario</label>
+                        <select class="input-block-level" ui-select2 type="text" ng-model="reunion.validaTemario" ng-options="i._id as i.apellidos + ' ' + i.nombre for i in contactos | orderBy:'apellidos'">
+                            <option value=""></option>
+                            <option ng-disabled="true" value="">{{contactoPorId(reunion.validaTemario).apellidos}} {{contactoPorId(reunion.validaTemario).nombre}}</option>
+                        </select>
+                    </div>
+                    <span class="span1" style="display: inline-block; margin-left: 4px; margin-bottom: 1px; margin-right:8px"> Orden <br />
+                        <input ng-disabled="!editando" class="input-block-level" ng-model="reunion.orden" type="text" />
+                    </span>
+                    
+                    
+                </div>
+            </div>
+            <div class="card span12" style="padding-left: 20px;padding-bottom: 20px;margin-left: 0px;">
+                <h3 class="card-heading simple" style="padding-left: 0px; font-size:14px;padding-right: 0px;height: 45px;margin-bottom: 10px;">
+                <ul class="nav nav-pills">
+                    <li ng-class="{'active': tab == 'participantes'}">
+                        <a ng-click="tab='participantes'" href="#" data-toggle="tab">Participantes</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'llamados'}">
+                        <a ng-click="tab='llamados'" href="#" data-toggle="tab">Llamados</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'calendario'}">
+                        <a ng-click="tab='calendario'" href="#" data-toggle="tab">Calendario</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'citas'}">
+                        <a ng-click="tab='citas'" href="#" data-toggle="tab">Citas</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'envioTemario'}">
+                        <a ng-click="tab='envioTemario'" href="#" data-toggle="tab">Envio de Temario</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'propuestaTemario'}">
+                        <a ng-click="tab='propuestaTemario'" href="#" data-toggle="tab">Propuesta de Temario</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'envioMinuta'}">
+                        <a ng-click="tab='envioMinuta'" href="#" data-toggle="tab">Envio de Compromisos</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'temas'}">
+                        <a ng-click="tab='temas'" href="#" data-toggle="tab">Temas</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'bitacora'}">
+                        <a ng-click="tab='bitacora'" href="#" data-toggle="tab">Bitácora</a>
+                    </li>
+                </ul></h3>
+                <div ng-if="tab == 'participantes'" class="card-body" ng-include src="'/views/orm/reunion/participantes.html'"></div>
+                <div ng-if="tab == 'llamados'" class="card-body" ng-include src="'/views/orm/reunion/llamados.html'"></div>
+                <div ng-if="tab == 'calendario'" class="card-body" ng-include src="'/views/orm/reunion/pestaniaCalendario.html'"></div>
+                <div ng-if="tab == 'citas'">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/citasPrint" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/mailsCitasPrint" title="Mails para copiar y pegar" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-envelope"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.cita.para" seleccionados-cc="reunion.cita.cc" seleccionados-cco="reunion.cita.cco" seleccionados-exclusivos="reunion.cita.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="citaParaLlamados"/>
+                    </div>
+                </div>
+                <div ng-if="tab == 'propuestaTemario'">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/propuestaPrint" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/mailsPropuestaPrint" title="Mails para copiar y pegar" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-envelope"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.propuestaTemario.para" seleccionados-cc="reunion.propuestaTemario.cc" seleccionados-cco="reunion.propuestaTemario.cco" seleccionados-exclusivos="reunion.propuestaTemario.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00"/>
+                    </div>
+                </div>
+                <div ng-if="tab == 'envioTemario'">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/envioTemarioPrint" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/mailsTemarioPrint" title="Mails para copiar y pegar" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-envelope"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.temario.para" seleccionados-cc="reunion.temario.cc" seleccionados-cco="reunion.temario.cco" seleccionados-exclusivos="reunion.temario.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00"/>
+                    </div>
+                </div>
+                <div ng-if="tab == 'envioMinuta'">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/envioMinutaPrint" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/mailsMinutaPrint" title="Mails para copiar y pegar" ng-hide="editando" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-envelope"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.minuta.para" seleccionados-cc="reunion.minuta.cc" seleccionados-cco="reunion.minuta.cco" seleccionados-exclusivos="reunion.minuta.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00"/>
+                    </div>
+                </div>
+                <div ng-if="tab == 'temas'" ng-include src="'/views/orm/reunion/temas.html'"></div>
+                <div ng-if="tab == 'bitacora'" ng-include src="'/views/orm/reunion/proximasReuniones.html'"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="importarReunion" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Importar Datos de Reunion</h3>
+        </div>
+        <div class="modal-body" style="height: 200px;">
+            <h4>Se importaran Participantes, Llamados, Citas y Listas de Envio de Temarios, Propuestas y Compromisos de la reunion seleccionada, reemplazando los datos que ya estan cargados, en caso de haberlos.</h4>
+            <br>
+            <div class="controls" style="min-width: 500px; display: inline-block; margin-bottom: 20px; margin-right: 10px">
+                <span style="display: inline-block;width: 100%;"> Reunión:<br />
+                    <select ui-select2 style="width:100%" type="text" ng-model="reunionImportar" placeholder="">
+                        <option value=""></option>
+                        <option ng-repeat="h in reuniones | orderBy:'orden'" ng-hide="h.apagado || (h.nombre =='Maestro')" ng-if=permiso(h.tipo) value="{{h._id}}">{{h.nombre}}&nbsp;({{h.tipo}})</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn pull-right" data-dismiss="modal">Cancelar</a>
+            <a href="#" class="btn btn-info pull-right" data-dismiss="modal" ng-click="importarDatos(true)" style="margin-right: 10px;">Importar</a>
+        </div>
+    </div>
+</div>

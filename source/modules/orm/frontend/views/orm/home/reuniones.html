@@ -1,0 +1,26 @@
+<div>
+    <div class="btn-group pull-right">
+        <a class="btn" href="/orm/reuniones/nueva">Nueva</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <th>Reunion</th>
+        <th>Ubicación</th>
+        <th>Próxima fecha</th>
+        <th>Frecuencia</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="r in reuniones">
+            <th>
+                <span style="margin-bottom: 4px; background-color: {{r.color}}; width: 24px; height: 24px; display: inline-block">&nbsp;</span>&nbsp;{{r.nombre}}</th>
+            <td>{{r.ubicacion}}</td>
+            <td>{{r.proximaFecha}}</td>
+            <td>{{Reunion.nombreFrecuencia(r.frecuencia)}}</td>
+            <td>
+                <button ng-click="Reunion.ver(r)" type="button" class="btn pull-right">Ver detalles</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,46 @@
+<div ng-controller="MiAgendaCtrl" class="container-fluid">
+	<h3><em>Mi agenda</em></h3>
+	<div class="row-fluid" ng-repeat="r in reuniones">
+		<div class="card span4">
+			<div class="card-heading simple">               
+               <quote style="font-size: 0.7em; margin: 0;position: relative;top: 7px;" class="pull-right ng-binding">{{formatoFecha(r.fecha)}} - {{r.desdeHora}}</quote><h3 style="margin: 0; position: relative; /* top: 14px */" class="ng-binding">{{seriesPorId[r.reunion].nombre}}</h3>
+            </div>
+
+			<div class="card-body" style="margin-bottom: 14px">
+		        <div ng-repeat="(pId, p) in r.participantes| filter:filtro | orderBy:orderByStar"
+		        style="clear:both; width: 100%">
+		            <div class="pull-right">
+		                <span ng-hide="editando" style="white-space: nowrap">{{tiposAsistenciaPorKey[p.asistencia].nombre}}</span>
+		                <span ng-show="editando">
+		                    <select ui-select2 type="text" ng-model="p.asistencia" style="width:130px">
+		                        <option ng-repeat="(k, v) in tiposAsistenciaPorKey" value="{{k}}">{{v.nombre}}</option>
+		                    </select>
+		                </span>
+		            </div>
+		            <div ng-init="contacto=traerContacto(pId)">
+		                <i ng-click="editando && (p.star = !p.star)" ng-class="{'icon-star': p.star, 'icon-star-empty': !p.star}"></i>
+		                <img style="width: 25px; height: 25px" ng-show="contacto.foto" ng-src="/api/upload/{{contacto.foto}}"
+		                class="img-circle" ng-class="{'gray-border': p.star}"/>
+		                <button style="padding: 0;" ng-click="verContacto(contacto._id)" type="button"
+		                class="btn btn-link">{{contacto.nombre}} {{contacto.apellido}}</button>
+		            </div>
+		        </div>
+		        <div class="input-append" style="display: block;width: 100%;margin-top: 14px" ng-show="editando">
+		            <select ui-select2 ng-change="agregarParticipante()" style="width:100%"
+		            type="text" ng-model="buscador" placeholder="Agregar a...">
+		                <option value=""></option>
+		                <option ng-repeat="c in contactos | filter:noRelacionado" value="{{c._id}}">{{c.nombre}} {{c.apellido}}</option>
+		            </select>
+		        </div>
+			</div>
+			<div class="card-actions">
+				<div class="btn-group pull-right">
+					<a ng-click="" class="btn btn-link">
+						<i class="icon-envelope"></i>&nbsp;Enviar invitaciones
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="span8" ng-include="'/views/orm/mi-agenda/listaDeEnvio.html'" />
+	</div>
+</div>

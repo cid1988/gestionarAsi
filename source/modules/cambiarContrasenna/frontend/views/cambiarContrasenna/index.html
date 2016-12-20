@@ -1,0 +1,40 @@
+<div class="card span6" ng-controller="cambiarContrasennaCtrl" style="margin: 0 auto !important; float: none !important;">
+	<h3 class="card-heading simple">
+		Cambiar Clave
+	</h3>
+	<div class="card-body">
+		<form ng-submit="save()">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="controls-group">
+							<label for="inputNombreUser">Usuario:</label>
+							<input type="text" id="inputNombreUser" class="input-block-level" value="{{usuario.username}}" disabled/>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="controls-group">
+							<label for="inputClave">Nueva Clave:</label>
+							<input type="password" id="inputClave" class="input-block-level" ng-model="nuevaContrasenna" minlength="5" required autofocus />
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="controls-group">
+							<label for="inputRepetirContras">Repita Clave:</label>
+							<input type="password" id="inputRepetirContras" class="input-block-level" ng-model="nuevaRepetidaContrasenna" minlength="5" required />
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid" style="padding-top:15px;">
+					<div class="span12">
+						<input type="submit" class="btn btn-primary" value="Cambiar Clave" title="Cambiar la Clave" style="width:100%;" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

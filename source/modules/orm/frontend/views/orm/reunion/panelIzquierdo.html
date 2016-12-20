@@ -1,0 +1,43 @@
+<div ng-controller="ORMReunionPanelIzquierdoCtrl" class="card" edit-model="live"
+ng-model="reunion" changes-watch="nombre,tipo,frecuencia,ubicacion,color">
+<div class="card-body">
+    <div class="control-group">
+        <label>Nombre:</label>
+        <input ng-disabled="!editando" type="text" ng-model="live.nombre" style="width:164px"
+        />
+    </div>
+    <div class="control-group">
+        <label>Tipo:</label>
+        <select ui-select2="tipoReunionSelect2" type="text" ng-model="live.tipo" ng-disabled="!editando">
+            <option value="gestion">Gestión</option>
+            <option value="seguimiento">Seguimiento</option>
+            <option value="especifica">Específica</option>
+            <option value="presupuesto">Presupuesto</option>
+        </select>
+    </div>
+    <div class="control-group">
+        <label>Frecuencia:</label>
+        <select ui-select2 type="text" ng-model="live.frecuencia"
+        ng-disabled="!editando">
+        <option value=""></option>
+        <option ng-repeat="f in frecuencias" value="{{f.key}}">{{f.nombre}}</option>
+    </select>
+    </div>
+    <div class="control-group">
+        <label>Ubicacion:</label>
+        <input type="text" ng-model="live.ubicacion" ng-disabled="!editando"
+        />
+    </div>
+    <div class="control-group" ng-show="editando" style="text-align: right">
+        <div class="btn-group">
+            <button ng-click="returnToOriginal()" type="button" class="btn" ng-disabled="!changes || !editando">
+                <i class="icon-undo"></i>
+            </button>
+            <button ng-click="applyChanges();guardarPanel()" type="button" class="btn btn-primary"
+            ng-disabled="!changes || !editando">
+            <i class="icon-ok icon-white"></i>
+        </button>
+    </div>
+    </div>
+</div>
+</div>

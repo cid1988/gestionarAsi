@@ -1,0 +1,66 @@
+<style type="text/css">
+	#contenedorCalendar{
+		padding:10px 5px 2px 5px;
+	}
+	.controles{
+		font-size:0.7em;
+	}
+	#contenedorInfoHover{
+		padding-left:20px;
+		padding-bottom:10px;
+		padding-top:10px;
+	}
+	.cuadrado{
+		 width: 20px;
+		 height: 20px;
+		 display:inline-block;
+	}
+	.fc-event-title, .fc-event-time{
+		font-weight: bold;
+		color:black;
+	}
+</style>
+<div class="card animated fadeInDown" style="padding-bottom:20px">
+	<div class="card-header">
+		<h3 class="card-heading simple clearfix">
+			<span class="span4">Calendario de Aulas</span>
+			<div class="pull-right controles span6">
+				<div class="row-fluid controls">
+					<div class="span6">
+						<select ui-select2 type="text" ng-model="filtro.piso" style="width: 100%">
+							<option value="">Todos los Pisos</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+						</select>
+					</div>
+					<div class="span6">
+						<select ui-select2="tipoSalaSelect2" type="text" ng-model="filtro.nombre" style="width: 100%">
+							<option value="">Todas</option>
+							<option ng-repeat="i in salas | orderBy:'nombre' | filter:funcionFiltro | filter:filtroUsuarioPiso" value="{{i.nombre}}" ng-hide="i.apagado">{{i.nombre}}</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</h3>
+	</div>
+	<div class="card-body">
+		<div id="contenedorCalendar">
+			<div class="calendar" fullcalendar calendar-object="calendar" ng-model="calendar"></div>
+		</div>
+	</div>
+	<div class="card-bottom">
+		<div id="contenedorInfoHover" class="clearfix">
+			<div class="pull-left" class="clearfix">
+				<span>
+					<div style="background-color: {{salaResaltada && colorSala(salaResaltada)}};" class="cuadrado">&nbsp;</div>
+					<b>{{salaResaltada.nombre}} <span ng-show="instanciaResaltada.titulo"> - {{instanciaResaltada.titulo}}&nbsp;</span></b>
+				</span>
+			</div>
+
+			<div class="pull-right">
+				<img ng-repeat="pId in instanciaResaltada.participantes | keysArray:star" ng-init="p = instanciaResaltada.participantes[pId]" class="img-circle" ng-show="contactosPorId[pId].foto" ng-class="{'gray-border': p.star}"
+				style="width: 25px; height: 25px" ng-src="/api/upload/{{contactosPorId[pId].foto}}"/>
+			</div>
+		</div>
+	</div>
+</div>

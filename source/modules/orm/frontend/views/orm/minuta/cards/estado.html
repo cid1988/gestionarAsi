@@ -1,0 +1,32 @@
+<div class="card animated fadeInDown">
+    <h3 class="card-heading simple">
+        <span style="white-space: nowrap">
+            <span style="margin-bottom: 0;background-color: {{colorReunion(reunion) || 'grey'}}; width: 1em; height: 1em; display: inline-block; ">&nbsp;</span>&nbsp;
+            <span>{{reunion.nombre}}</span>
+            <span class="pull-right">{{fechaDesde}}</span>
+        </span>
+    </h3>
+    <div class="card-body">
+        <div class="card-actions pull-right" style="padding: 0; margin: 0; margin-right: 10px" ng-show="editando">
+            <div class="btn-group">
+             <a ng-click="agregarPresentacion(false)" type="button" class="btn btn-link" title="Agregar presentacion de la reunion"><i class="icon-plus"></i></a>
+            </div>
+        </div>
+    	<h4><b>Presentaciones:</b>
+    		<span ng-hide="presentaciones.length" style="margin-bottom: 15px;">No se ha cargardo ninguna presentacion aún</span>
+            <span ng-repeat="i in presentaciones" style="display: block;margin-right: 20px;margin-bottom: 5px;margin-left: 30px;">- {{i.nombre}} (<a href="/file/{{i.archivoId}}" target="_blank">Descargar</a>) 
+                <a ng-click="editarPresentacion(false, i)" ng-show="editando" href="#" title="Editar presentacion de la reunion" style="margin-left: 5px; margin-right: 5px;"><i class="icon-edit"></i></a>
+                <a ng-click="eliminarListaElem(i, presentaciones)" ng-show="editando" href="#" title="Eliminar presentacion de la reunion" style="margin-left: 10px; margin-right: 5px;"><i class="icon-trash"></i></a>
+            </span>
+    	</h4>
+    	<hr style="margin-top: 15px; margin-bottom: 15px;">
+        <div class="control-group">
+            <div ng-switch on="minuta.enviado.version">
+                <button ng-switch-default type="button" style="margin-bottom: 10px" class="btn btn-block disabled" disabled="disabled">Nunca enviado</button>
+                <button ng-switch-when="final" type="button" style="margin-bottom: 10px" class="btn btn-block btn-success disabled" disabled="disabled">Compromisos enviados</button>
+                <button ng-switch-when="cancelado" type="button" style="margin-bottom: 10px" class="btn btn-block btn-danger disabled" disabled="disabled">Compromisos cancelado</button>
+            </div>
+            <button ng-if="(minuta.enviado.version == 'final') && hasPermission('orm.envioTemario')" type="button" style="margin-bottom: 10px" ng-click="cancelar()" class="btn btn-block btn-danger">Enviar Cancelación</button>
+        </div>
+    </div>
+</div>

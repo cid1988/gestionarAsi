@@ -1,0 +1,87 @@
+<div ng-controller="ORMMaestroReunionCtrl">
+    <div ng-show="imprimiendo" ng-include="'/views/orm/reunion/planillaAsistencia.html'"></div>
+    <div ng-hide="imprimiendo" class="container-fluid">
+        <div class="row-fluid">
+            <div class="card span12" style="padding-bottom: 10px;margin-top: 5px;padding-top: 5px;margin-bottom: 5px;">
+                <h3 class="card-heading simple" style="border-bottom-width: 0px;padding-top: 8px;"><span class="pull-left">Detalles del Maestro: </span>
+                <div class="control-group span3" style="margin-left: 20px; margin-bottom: 10px; margin-right: 7px;font-size: 13px !important;">
+                    <select class="input-block-level" ui-select2="tipoReunionSelect2" type="text" ng-model="tipoMaestro" placeholder="">
+                        <option value="">Seleccione...</option>
+                        <option ng-if=permiso("seguimiento") value="seguimiento">Seguimiento</option>
+                        <option ng-if=permiso("transversales") value="transversales">Transversales</option>
+                        <option ng-if=permiso("especificas") value="especificas">Específicas</option>
+                        <option ng-if=permiso("planeamiento") value="planeamiento">Planeamiento</option>
+                        <option ng-if=permiso("presupuesto") value="presupuesto">Presupuesto</option>
+                        <option ng-if=permiso("coordinacion") value="coordinacion">Coordinación</option>
+                        <option ng-if=permiso("planLargoPlazo") value="planLargoPlazo">Plan Largo Plazo</option>
+                        <option ng-if=permiso("proyectosEspeciales") value="proyectosEspeciales">Proyectos Especiales</option>
+                        <option ng-if=permiso("eventuales") value="eventuales">Eventuales</option>
+                    </select>
+                </div></h3>
+            </div>
+            <div class="card span12" ng-if="tipoMaestro" style="padding-left: 20px;padding-bottom: 20px;margin-left: 0px;">
+                <h3 class="card-heading simple" style="padding-left: 0px; font-size:14px;padding-right: 0px;height: 45px;margin-bottom: 10px;">
+                <ul class="nav nav-pills" style="display: inline-block;">
+                    <li ng-class="{'active': tab == 'participantes'}">
+                        <a ng-click="tab='participantes'" href="#" data-toggle="tab">Participantes</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'llamados'}">
+                        <a ng-click="tab='llamados'" href="#" data-toggle="tab">Llamados</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'calendario'}">
+                        <a ng-click="tab='calendario'" href="#" data-toggle="tab">Calendario</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'citas'}">
+                        <a ng-click="tab='citas'" href="#" data-toggle="tab">Citas</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'envioPropuesta'}">
+                        <a ng-click="tab='envioPropuesta'" href="#" data-toggle="tab">Envio de Propuesta</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'envioTemario'}">
+                        <a ng-click="tab='envioTemario'" href="#" data-toggle="tab">Envio de Temario</a>
+                    </li>
+                    <li ng-class="{'active': tab == 'envioCompromisos'}">
+                        <a ng-click="tab='envioCompromisos'" href="#" data-toggle="tab">Envio de Compromisos</a>
+                    </li>
+                </ul>
+                <a class="btn pull-right" ng-click="edit()" ng-hide="editando" ng-if=hasPermission('orm.edicionReunion') style="margin-right: 10px"><i class="icon-edit"></i>&nbsp;Editar</a>
+                <a class="btn pull-right" ng-click="save()" ng-if="editando" style="margin-right: 10px"><i class="icon-hdd"></i>&nbsp;Guardar</a></h3>
+                <div ng-if="tab == 'participantes'" class="card-body" ng-include src="'/views/orm/reunion/participantes.html'"></div>
+                <div ng-if="tab == 'llamados'" class="card-body" ng-include src="'/views/orm/reunion/llamados.html'"></div>
+                <div ng-if="tab == 'calendario'" class="card-body" ng-include src="'/views/orm/reunion/pestaniaCalendario.html'"></div>
+                <div ng-if="tab == 'citas'" class="card-body">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/citasPrint" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.cita.para" seleccionados-cc="reunion.cita.cc" seleccionados-cco="reunion.cita.cco" seleccionados-exclusivos="reunion.cita.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00" />
+                    </div>
+                </div>
+                <div ng-if="tab == 'envioPropuesta'" class="card-body">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/propuestaPrint" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.propuestaTemario.para" seleccionados-cc="reunion.propuestaTemario.cc" seleccionados-cco="reunion.propuestaTemario.cco" seleccionados-exclusivos="reunion.propuestaTemario.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00" />
+                    </div>
+                </div>
+                <div ng-if="tab == 'envioTemario'" class="card-body">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/envioTemarioPrint" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.temario.para" seleccionados-cc="reunion.temario.cc" seleccionados-cco="reunion.temario.cco" seleccionados-exclusivos="reunion.temario.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00" />
+                    </div>
+                </div>
+                <div ng-if="tab == 'envioCompromisos'" class="card-body">
+                    <div class="card-body">
+                        <a class="btn btn-link pull-right" href="/orm/reuniones/{{reunion._id}}/envioMinutaPrint" style="padding-left: 0px; padding-right: 0px;">
+                            <i class="icon-print"></i>
+                        </a>
+                        <lista-envio seleccionados-para="reunion.minuta.para" seleccionados-cc="reunion.minuta.cc" seleccionados-cco="reunion.minuta.cco" seleccionados-exclusivos="reunion.minuta.exclusivos" contactos="contactos" permiso-agregar="editando" contacto-agregado="00" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

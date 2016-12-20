@@ -1,0 +1,20 @@
+<div class="modal-header" style="padding-bottom: 10px;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Agregar Imagen</h3>
+    </div>
+    <div class="modal-body">
+        <span style="display: inline-block; margin-top: 15px;">
+            <span style="display: inline-block"> Titulo:<br /> 
+                <input class="span4" type="text" placeholder="Titulo de la imagen" ng-model="data.titulo" />
+            </span>
+            <span style="display: inline-block"> Fecha:<br /> 
+                <input class="span2" type="text" date placeholder="Fecha" ng-model="data.fecha" />
+            </span>
+            <div style="width: 300px" fine-uploader destination="'/upload/'"
+            placeholder="'Examinar'" uploaded="uploaded"></div>
+        </span>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancelar</a>
+        <a href="#" class="btn btn-info" data-dismiss="modal" ng-click="agregarImagen(true, data)">Agregar Imagen</a>
+    </div>

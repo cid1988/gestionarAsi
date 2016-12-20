@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html manifest="/offline.manifest" class="no-js" ng-controller="PageCtrl">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<title ng-bind-template="{{state.current.title}}"> BAG2 </title>
+		<meta name="description" content=""/>
+		<meta name="viewport" content="width=device-width"/>
+		<link rel="shortcut icon" href="/favicon.ico"/>
+		<link rel="stylesheet" type="text/css" href="/bootplus/docs/assets/css/bootplus.css"/>
+		<link rel="stylesheet" type="text/css" href="/bootplus/docs/assets/css/bootplus-responsive.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/font-awesome/css/font-awesome.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/angular-ui/build/angular-ui.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/fullcalendar/fullcalendar.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/fine-uploader/fineuploader-3.5.0.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/datetimepicker/datetimepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/bootstrap-datepicker/css/datepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/bootstrap-timepicker/css/bootstrap-timepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/select2/select2.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/bootstrap-select2.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/bootstrap-colorpicker/css/colorpicker.css"/>
+		<link rel="stylesheet" type="text/css" href="/components/ckeditor/skins/moono/editor.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/main.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/print.css" media="print"/>
+		<link rel="stylesheet" type="text/css" href="/styles/file-upload.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/animations.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/leaflet/leaflet.css"/>
+		<style>
+		  #menu{
+			position: fixed;
+			bottom: 0px;
+		  }
+		</style>
+	</head>
+	<body id="body">
+
+		<!--[if lt IE 9]>
+			<script src="components/es5-shim/es5-shim.js">
+			</script>
+			<script src="components/json3/lib/json3.min.js">
+			</script>
+		<![endif]-->
+		<!-- Barra normal -->
+		<div ng-include src="'/views/navbar.html'"></div>
+
+		<!-- Barra de carga -->
+		<div ng-if="false" class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<a class="brand" href="/"><img src="/views/BA_blanco.png" width="63">ISC</a>
+				<style type="text/css">
+					#padre{
+						height: 2em;
+						margin-top: 8px;
+						border-radius: 10px;
+						border: 1px solid white;
+						background-color:white;
+					}
+					#scripts_loaded{
+						margin-bottom: 0;
+						background-color: #60BF60;
+						height: 100%;
+						float: left;
+						border-radius: 10px;
+					}
+					#texto{
+						font-size: 1.2em;
+						color: white;
+						text-align: center;
+						margin-top:3px;
+						font-weight: bold;
+					}
+				</style>
+				<div  id="padre" class="span3 pull-right">
+					<div class="pull-right" id="scripts_loaded">
+						<p id="texto">0%</p>
+					</div>
+				</div>
+
+				<p class="navbar-text" style="color: #000">
+					<i class='icon-spinner icon-spin icon-large'></i>
+					&nbsp;
+					<span style="font-size: 1.3em">Cargando...</span>
+				</p>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div ng-include src="'/views/breadcrumb.html'">
+			</div>
+			<div ng-include src="'/views/alerts.html'">
+			</div>
+			<div ng-view>
+			</div>
+		</div>
+		<script src="/components/jquery/jquery.js">
+		</script>
+		<script src="/components/angular/angular.js">
+		</script>
+		<script src="/components/script.js/script.js">
+		</script>
+		<script type="application/javascript">
+
+			$.getJSON("/api/ui/allScriptsRoutes.js", function(data) { //Traer todos los scripts
+				var loaded = 0; //Cantidad de scripts cargados
+				var pending = data.length; //Cantidad de scripts a cargar
+				function loadNext() {
+					var t_loaded = Math.round((loaded / ((loaded + pending)) * 100));
+
+				$("#scripts_loaded").width(t_loaded+"%");
+				$("#texto").text(t_loaded+"%");
+
+					if (data.length == 0){
+						//Cuando termine de cargar todos los .js cargara todas las colecciones
+						$.getJSON("/api/ui/angular-modules", function(data) {
+							angular.bootstrap(document, data);
+						});
+					}else{
+						$script(data[0], function() {
+							data = data.splice(1);
+							loaded++;
+							pending--;
+
+							loadNext();
+						});
+					}
+				}
+				loadNext(); //Primer llamado a la funcion de carga
+
+			});
+		</script>
+	</body>
+</html>
+
+
